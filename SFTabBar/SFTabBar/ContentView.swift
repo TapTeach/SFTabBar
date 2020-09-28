@@ -23,15 +23,15 @@ class TabsViewModel: ObservableObject {
     @Published var tab5Label = "More"
     @Published var tab5Icon = "ellipsis"
     
-    @Published var tabItemColor = Color.white
+    @Published var tabItemColor = Color("defaultLabel")
+    @Published var tabTintColor = Color.white
 }
 
 struct ContentView: View {
         
     @State private var showingSheet = false
     
-    @State private var tintColor = Color.red
-    @State private var tbColor = Color.green
+    @State private var tbColor = Color.pink
     
     @State var isWhiteHomeIndicator = false
     @State var quantity: Int = 5
@@ -48,7 +48,7 @@ struct ContentView: View {
                             .fill(tbColor)
                         HStack(alignment: .top){
                             if quantity >= 1 {
-                                SFTabBar.tabItem(icon: tabs.tab1Icon, label: tabs.tab1Label, color: tabs.tabItemColor)
+                                SFTabBar.tabItem(icon: tabs.tab1Icon, label: tabs.tab1Label, color: tabs.tabTintColor)
                             }
                             if quantity >= 2 {
                                 SFTabBar.tabItem(icon: tabs.tab2Icon, label: tabs.tab2Label, color: tabs.tabItemColor)
@@ -92,7 +92,7 @@ struct ContentView: View {
                         HStack {
                             Text("Tint Color")
                             Spacer()
-                            ColorPicker("", selection: $tintColor, supportsOpacity: false)
+                            ColorPicker("", selection: $tabs.tabTintColor, supportsOpacity: false)
                                 .frame(width: 40, alignment: .center)
                         }
                         Stepper("Display \(quantity) Tabs ", value: $quantity, in: 1...5)
@@ -129,13 +129,12 @@ struct ContentView: View {
                     }
                     .sheet(isPresented: $showingSheet,
                                    content: {
-                                    ActivityView(activityItems: ["This is my tab bar"], applicationActivities: nil) })
+                                    ActivityView(activityItems: ["Let's use these SF Symbols for our Tab Bar: \(tabs.tab1Icon), \(tabs.tab2Icon), \(tabs.tab3Icon), \(tabs.tab4Icon), \(tabs.tab5Icon)"], applicationActivities: nil) })
 
                 )
             }
         }
         .accentColor(.pink)
-        
     }
 }
 
@@ -182,11 +181,11 @@ extension UINavigationController {
         super.viewDidLoad()
 
         let standardAppearance = UINavigationBarAppearance()
-        standardAppearance.backgroundColor = .black
+        standardAppearance.backgroundColor = UIColor(named: "slate")
         standardAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
         
         let scrollEdgeAppearance = UINavigationBarAppearance()
-        scrollEdgeAppearance.backgroundColor = .black
+        scrollEdgeAppearance.backgroundColor = UIColor(named: "slate")
         scrollEdgeAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
 
         navigationBar.standardAppearance = standardAppearance
@@ -197,5 +196,6 @@ extension UINavigationController {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .environment(\.colorScheme, .dark)
     }
 }
