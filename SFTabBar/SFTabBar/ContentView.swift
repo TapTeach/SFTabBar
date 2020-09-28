@@ -22,13 +22,14 @@ class TabsViewModel: ObservableObject {
     
     @Published var tab5Label = "More"
     @Published var tab5Icon = "ellipsis"
+    
+    @Published var tabItemColor = Color.white
 }
 
 struct ContentView: View {
+        
+    @State private var showingSheet = false
     
-    @State private var editMode = EditMode.inactive
-    
-    @State private var tabItemColor = Color.white
     @State private var tintColor = Color.red
     @State private var tbColor = Color.green
     
@@ -46,11 +47,21 @@ struct ContentView: View {
                         RoundedRectangle(cornerRadius: 0, style: .continuous)
                             .fill(tbColor)
                         HStack(alignment: .top){
-                            SFTabBar.tabItem(icon: tabs.tab1Icon, label: tabs.tab1Label)
-                            SFTabBar.tabItem(icon: tabs.tab2Icon, label: tabs.tab2Label)
-                            SFTabBar.tabItem(icon: tabs.tab3Icon, label: tabs.tab3Label)
-                            SFTabBar.tabItem(icon: tabs.tab4Icon, label: tabs.tab4Label)
-                            SFTabBar.tabItem(icon: tabs.tab5Icon, label: tabs.tab5Label)
+                            if quantity >= 1 {
+                                SFTabBar.tabItem(icon: tabs.tab1Icon, label: tabs.tab1Label, color: tabs.tabItemColor)
+                            }
+                            if quantity >= 2 {
+                                SFTabBar.tabItem(icon: tabs.tab2Icon, label: tabs.tab2Label, color: tabs.tabItemColor)
+                            }
+                            if quantity >= 3 {
+                                SFTabBar.tabItem(icon: tabs.tab3Icon, label: tabs.tab3Label, color: tabs.tabItemColor)
+                            }
+                            if quantity >= 4 {
+                                SFTabBar.tabItem(icon: tabs.tab4Icon, label: tabs.tab4Label, color: tabs.tabItemColor)
+                            }
+                            if quantity >= 5 {
+                                SFTabBar.tabItem(icon: tabs.tab5Icon, label: tabs.tab5Label, color: tabs.tabItemColor)
+                            }
                         }
                         .padding([.leading, .bottom, .trailing])
                         Image(isWhiteHomeIndicator ? "img_homeIndicator_white" : "img_homeIndicator_black" )
@@ -75,7 +86,7 @@ struct ContentView: View {
                         HStack {
                             Text("Label Color")
                             Spacer()
-                            ColorPicker("", selection: $tabItemColor, supportsOpacity: false)
+                            ColorPicker("", selection: $tabs.tabItemColor, supportsOpacity: false)
                                 .frame(width: 40, alignment: .center)
                         }
                         HStack {
@@ -111,11 +122,15 @@ struct ContentView: View {
                 .navigationBarTitle("SF TabBar")
                 .navigationBarItems(trailing:
                     Button(action: {
-                        print("Share Me!")
+                        self.showingSheet = true
                     }) {
                         Image(systemName: "square.and.arrow.up").imageScale(.large)
                             .foregroundColor(.pink)
                     }
+                    .sheet(isPresented: $showingSheet,
+                                   content: {
+                                    ActivityView(activityItems: ["This is my tab bar"], applicationActivities: nil) })
+
                 )
             }
         }
@@ -128,20 +143,37 @@ struct tabItem: View {
     
     var icon: String
     var label: String
-        
+    var color: Color
+                
     var body: some View {
         VStack{
             Image(systemName: icon)
                 .resizable()
                 .scaledToFit()
                 .frame(width: 16.0, height: 16.0)
-                .foregroundColor(Color.white)
+                .foregroundColor(color)
             Text(label)
-                .foregroundColor(Color.white)
+                .foregroundColor(color)
                 .font(.system(size: 9))
                 .lineLimit(1)
                
         } .frame(maxWidth: .infinity)
+    }
+}
+
+struct ActivityView: UIViewControllerRepresentable {
+
+    let activityItems: [Any]
+    let applicationActivities: [UIActivity]?
+
+    func makeUIViewController(context: UIViewControllerRepresentableContext<ActivityView>) -> UIActivityViewController {
+        return UIActivityViewController(activityItems: activityItems,
+                                        applicationActivities: applicationActivities)
+    }
+
+    func updateUIViewController(_ uiViewController: UIActivityViewController,
+                                context: UIViewControllerRepresentableContext<ActivityView>) {
+
     }
 }
 
