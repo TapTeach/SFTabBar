@@ -102,7 +102,7 @@ struct ContentView: View {
                     }
                     Section(header: Text("Tab 1")) {
                         TextField("Tab Label", text: $tabs.tab1Label)
-                        NavigationLink(destination: SymbolsListView(tab: "tab1Icon")) {
+                        NavigationLink(destination: SymbolsListView(tabLocation: "tab1Icon")) {
                             Image(systemName: tabs.tab1Icon)
                                 .opacity(0.5)
                             Text(tabs.tab1Icon)
@@ -110,7 +110,7 @@ struct ContentView: View {
                     }
                     Section(header: Text("Tab 2")) {
                         TextField("Tab Label", text: $tabs.tab2Label)
-                        NavigationLink(destination: SymbolsListView(tab: "tab2Icon")) {
+                        NavigationLink(destination: SymbolsListView(tabLocation: "tab2Icon")) {
                             Image(systemName: tabs.tab2Icon)
                                 .opacity(0.5)
                             Text(tabs.tab2Icon)
@@ -118,7 +118,7 @@ struct ContentView: View {
                     }
                     Section(header: Text("Tab 3")) {
                         TextField("Tab Label", text: $tabs.tab3Label)
-                        NavigationLink(destination: SymbolsListView(tab: "tab3Icon")) {
+                        NavigationLink(destination: SymbolsListView(tabLocation: "tab3Icon")) {
                             Image(systemName: tabs.tab3Icon)
                                 .opacity(0.5)
                             Text(tabs.tab3Icon)
@@ -126,7 +126,7 @@ struct ContentView: View {
                     }
                     Section(header: Text("Tab 4")) {
                         TextField("Tab Label", text: $tabs.tab4Label)
-                        NavigationLink(destination: SymbolsListView(tab: "tab4Icon")) {
+                        NavigationLink(destination: SymbolsListView(tabLocation: "tab4Icon")) {
                             Image(systemName: tabs.tab4Icon)
                                 .opacity(0.5)
                             Text(tabs.tab4Icon)
@@ -134,7 +134,7 @@ struct ContentView: View {
                     }
                     Section(header: Text("Tab 5")) {
                         TextField("Tab Label", text: $tabs.tab5Label)
-                        NavigationLink(destination: SymbolsListView(tab: "tab5Icon")) {
+                        NavigationLink(destination: SymbolsListView(tabLocation: "tab5Icon")) {
                             Image(systemName: tabs.tab5Icon)
                                 .opacity(0.5)
                             Text(tabs.tab5Icon)

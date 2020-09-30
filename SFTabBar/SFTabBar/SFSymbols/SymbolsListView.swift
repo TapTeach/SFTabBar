@@ -27,39 +27,46 @@ struct SymbolRow: View {
 
 struct SymbolsListView: View {
     
-    var tab: String
+    var tabLocation: String
     
     @ObservedObject var tabs = TabsViewModel()
     
+    @State private var searchText : String = ""
+    
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
+    
     var body: some View {
-        List {
-            ForEach(sflibrary) { section in
-                Section(header: Text(section.title)) {
-                    ForEach(section.items) { item in
-                        SymbolRow(name: item)
-                            .onTapGesture {
-                                presentationMode.wrappedValue.dismiss()
-                                //tabs.tab1icon = item
-                                print(tab)
-                                //need to pass name to form
-                            }
+        VStack {
+            SearchBar(text: $searchText)
+            List {
+                ForEach(sflibrary) { section in
+                    Section(header: Text(section.title)) {
+                        ForEach(section.items.filter {
+                            self.searchText.isEmpty ? true : $0.lowercased().contains(self.searchText.lowercased())
+                        }) { item in
+                            SymbolRow(name: item)
+                                .onTapGesture {
+                                    presentationMode.wrappedValue.dismiss()
+                                    tabs.tab1Icon = item
+                                    print("the tab I want to update" + tabLocation + " I just selected:" + item + " updated var value" + tabs.tab1Icon )
+                                }
+                        }
                     }
                 }
+                
             }
-            
+            .accentColor(.pink)
+            .listStyle(InsetGroupedListStyle())
+            .navigationBarTitle("Select SF Symbol")
         }
-        .accentColor(.pink)
-        .listStyle(InsetGroupedListStyle())
-        .navigationBarTitle("Select SF Symbol")
     }
 }
 
 
 struct SymbolsListView_Previews: PreviewProvider {
     static var previews: some View {
-        SymbolsListView(tab: "tab1Icon")
+        SymbolsListView(tabLocation: "tab1Icon")
             .environment(\.colorScheme, .dark)
     }
 }
