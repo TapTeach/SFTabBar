@@ -25,10 +25,12 @@ class TabsViewModel: ObservableObject {
     
     @Published var tabItemColor = Color("defaultLabel")
     @Published var tabTintColor = Color.white
+
+    
 }
 
 struct ContentView: View {
-        
+
     @State private var showingSheet = false
     
     @State private var tbColor = Color.pink
@@ -100,23 +102,47 @@ struct ContentView: View {
                     }
                     Section(header: Text("Tab 1")) {
                         TextField("Tab Label", text: $tabs.tab1Label)
-                        NavigationLink("Select a SF Symbol", destination: Text("Detail").navigationBarTitle(Text("Select SFSymbol")))
+                        NavigationLink(destination: SymbolsListView(tab: "tab1Icon")) {
+                            Image(systemName: tabs.tab1Icon)
+                                .opacity(0.5)
+                            Text(tabs.tab1Icon)
+                        }.navigationBarTitle(Text("Select SFSymbol"))
                     }
                     Section(header: Text("Tab 2")) {
                         TextField("Tab Label", text: $tabs.tab2Label)
-                        NavigationLink("Select a SF Symbol", destination: Text("Detail").navigationBarTitle(Text("Select SFSymbol")))
+                        NavigationLink(destination: SymbolsListView(tab: "tab2Icon")) {
+                            Image(systemName: tabs.tab2Icon)
+                                .opacity(0.5)
+                            Text(tabs.tab2Icon)
+                        }.navigationBarTitle(Text("Select SFSymbol"))
                     }
                     Section(header: Text("Tab 3")) {
                         TextField("Tab Label", text: $tabs.tab3Label)
-                        NavigationLink("Select a SF Symbol", destination: Text("Detail").navigationBarTitle(Text("Select SFSymbol")))
+                        NavigationLink(destination: SymbolsListView(tab: "tab3Icon")) {
+                            Image(systemName: tabs.tab3Icon)
+                                .opacity(0.5)
+                            Text(tabs.tab3Icon)
+                        }.navigationBarTitle(Text("Select SFSymbol"))
                     }
                     Section(header: Text("Tab 4")) {
                         TextField("Tab Label", text: $tabs.tab4Label)
-                        NavigationLink("Select a SF Symbol", destination: Text("Detail").navigationBarTitle(Text("Select SFSymbol")))
+                        NavigationLink(destination: SymbolsListView(tab: "tab4Icon")) {
+                            Image(systemName: tabs.tab4Icon)
+                                .opacity(0.5)
+                            Text(tabs.tab4Icon)
+                        }.navigationBarTitle(Text("Select SFSymbol"))
                     }
                     Section(header: Text("Tab 5")) {
                         TextField("Tab Label", text: $tabs.tab5Label)
-                        NavigationLink("Select a SF Symbol", destination: Text("Detail").navigationBarTitle(Text("Select SFSymbol")))
+                        NavigationLink(destination: SymbolsListView(tab: "tab5Icon")) {
+                            Image(systemName: tabs.tab5Icon)
+                                .opacity(0.5)
+                            Text(tabs.tab5Icon)
+                        }.navigationBarTitle(Text("Select SFSymbol"))
+                    }
+                    Section(header: Text("Documentation")) {
+                    Link("SF Symbols 2.0", destination: URL(string: "https://developer.apple.com/sf-symbols/")!)
+                    Link("Apple HIG Tab Bars", destination: URL(string: "https://developer.apple.com/design/human-interface-guidelines/ios/bars/tab-bars/")!)
                     }
                 }
                 .navigationBarTitle("SF TabBar")
@@ -129,7 +155,8 @@ struct ContentView: View {
                     }
                     .sheet(isPresented: $showingSheet,
                                    content: {
-                                    ActivityView(activityItems: ["Let's use these SF Symbols for our Tab Bar: \(tabs.tab1Icon), \(tabs.tab2Icon), \(tabs.tab3Icon), \(tabs.tab4Icon), \(tabs.tab5Icon)"], applicationActivities: nil) })
+                                    ActivityView(activityItems: [
+                                                    "Let's use these SF Symbols for our Tab Bar: \r \(tabs.tab1Icon) for \(tabs.tab1Label), \r\(tabs.tab2Icon) for \(tabs.tab2Label), \r\(tabs.tab3Icon) for \(tabs.tab3Label), \r\(tabs.tab4Icon) for \(tabs.tab4Label), \r\(tabs.tab5Icon) for \(tabs.tab5Label)"], applicationActivities: nil) })
 
                 )
             }
@@ -183,13 +210,17 @@ extension UINavigationController {
         let standardAppearance = UINavigationBarAppearance()
         standardAppearance.backgroundColor = UIColor(named: "slate")
         standardAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
-        
+        standardAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+
         let scrollEdgeAppearance = UINavigationBarAppearance()
         scrollEdgeAppearance.backgroundColor = UIColor(named: "slate")
         scrollEdgeAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
+        scrollEdgeAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
 
         navigationBar.standardAppearance = standardAppearance
         navigationBar.scrollEdgeAppearance = scrollEdgeAppearance
+    
+
     }
 }
 

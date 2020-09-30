@@ -13,6 +13,9 @@
 		FB1D0F1A2512824900A0B190 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB1D0F192512824900A0B190 /* Preview Assets.xcassets */; };
 		FB1D0F252512824A00A0B190 /* SFTabBarTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1D0F242512824A00A0B190 /* SFTabBarTests.swift */; };
 		FB1D0F302512824A00A0B190 /* SFTabBarUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1D0F2F2512824A00A0B190 /* SFTabBarUITests.swift */; };
+		FB1F6AD025237E22008C0BB7 /* SFData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1F6ACF25237E22008C0BB7 /* SFData.swift */; };
+		FB1F6AD525237E5D008C0BB7 /* SymbolsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1F6AD425237E5D008C0BB7 /* SymbolsListView.swift */; };
+		FB1F6ADD252386C0008C0BB7 /* SFModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1F6ADC252386C0008C0BB7 /* SFModel.swift */; };
 		FB504E7B251FDE60000BC03A /* sfsymbols.json in Resources */ = {isa = PBXBuildFile; fileRef = FB504E7A251FDE60000BC03A /* sfsymbols.json */; };
 /* End PBXBuildFile section */
 
@@ -46,6 +49,9 @@
 		FB1D0F2B2512824A00A0B190 /* SFTabBarUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SFTabBarUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB1D0F2F2512824A00A0B190 /* SFTabBarUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFTabBarUITests.swift; sourceTree = "<group>"; };
 		FB1D0F312512824A00A0B190 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FB1F6ACF25237E22008C0BB7 /* SFData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFData.swift; sourceTree = "<group>"; };
+		FB1F6AD425237E5D008C0BB7 /* SymbolsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolsListView.swift; sourceTree = "<group>"; };
+		FB1F6ADC252386C0008C0BB7 /* SFModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFModel.swift; sourceTree = "<group>"; };
 		FB504E7A251FDE60000BC03A /* sfsymbols.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = sfsymbols.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -98,6 +104,7 @@
 			isa = PBXGroup;
 			children = (
 				FB504E79251FDE24000BC03A /* Resources */,
+				FBFEE5F02523B1B700C2A41A /* SFSymbols */,
 				FB1D0F122512824600A0B190 /* SFTabBarApp.swift */,
 				FB1D0F142512824600A0B190 /* ContentView.swift */,
 				FB1D0F162512824900A0B190 /* Assets.xcassets */,
@@ -139,6 +146,16 @@
 				FB504E7A251FDE60000BC03A /* sfsymbols.json */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		FBFEE5F02523B1B700C2A41A /* SFSymbols */ = {
+			isa = PBXGroup;
+			children = (
+				FB1F6ACF25237E22008C0BB7 /* SFData.swift */,
+				FB1F6ADC252386C0008C0BB7 /* SFModel.swift */,
+				FB1F6AD425237E5D008C0BB7 /* SymbolsListView.swift */,
+			);
+			path = SFSymbols;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -271,7 +288,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FB1F6ADD252386C0008C0BB7 /* SFModel.swift in Sources */,
+				FB1F6AD525237E5D008C0BB7 /* SymbolsListView.swift in Sources */,
 				FB1D0F152512824600A0B190 /* ContentView.swift in Sources */,
+				FB1F6AD025237E22008C0BB7 /* SFData.swift in Sources */,
 				FB1D0F132512824600A0B190 /* SFTabBarApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
