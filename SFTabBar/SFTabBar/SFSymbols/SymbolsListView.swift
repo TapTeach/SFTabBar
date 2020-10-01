@@ -29,7 +29,7 @@ struct SymbolsListView: View {
     
     var tabLocation: String
     
-    @ObservedObject var tabs = TabsViewModel()
+    @ObservedObject var tabs: TabsViewModel
     
     @State private var searchText : String = ""
     
@@ -48,7 +48,7 @@ struct SymbolsListView: View {
                             SymbolRow(name: item)
                                 .onTapGesture {
                                     presentationMode.wrappedValue.dismiss()
-                                    tabs.tab1Icon = item
+                                    tabs.update(location: tabLocation, to: item)
                                     print("the tab I want to update" + tabLocation + " I just selected:" + item + " updated var value" + tabs.tab1Icon )
                                 }
                         }
@@ -66,7 +66,7 @@ struct SymbolsListView: View {
 
 struct SymbolsListView_Previews: PreviewProvider {
     static var previews: some View {
-        SymbolsListView(tabLocation: "tab1Icon")
+        SymbolsListView(tabLocation: "tab1Icon", tabs: TabsViewModel())
             .environment(\.colorScheme, .dark)
     }
 }
