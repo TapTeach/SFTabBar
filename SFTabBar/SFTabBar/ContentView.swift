@@ -55,6 +55,9 @@ struct ContentView: View {
     
     @ObservedObject var tabs = TabsViewModel()
     
+    let generator = UINotificationFeedbackGenerator()
+    
+    
     var body: some View {
         
         NavigationView {
@@ -167,16 +170,9 @@ struct ContentView: View {
                 }
                 .navigationBarTitle("SF TabBar")
                 .navigationBarItems(trailing:
-                    Button(action: {
-                        self.showingSheet = true
-                    }) {
-                        Image(systemName: "square.and.arrow.up").imageScale(.large)
-                            .foregroundColor(.pink)
-                    }
-                    .sheet(isPresented: $showingSheet,
-                                   content: {
-                                    ActivityView(activityItems: [
-                                                    "Let's use these SF Symbols for our Tab Bar: \r \(tabs.tab1Icon) for \(tabs.tab1Label), \r\(tabs.tab2Icon) for \(tabs.tab2Label), \r\(tabs.tab3Icon) for \(tabs.tab3Label), \r\(tabs.tab4Icon) for \(tabs.tab4Label), \r\(tabs.tab5Icon) for \(tabs.tab5Label)"], applicationActivities: nil) })
+                    NavigationLink(destination: Export()) {
+                        Image(systemName: "square.and.arrow.up")
+                        }
 
                 )
             }
