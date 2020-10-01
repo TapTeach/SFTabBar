@@ -16,12 +16,12 @@ struct SymbolRow: View {
                 .frame(width:40)
                 .padding(.trailing, 6.0)
                 .imageScale(.large)
-                
             Text(name)
                 .font(.subheadline)
+            Spacer()
         }
         .padding(.all, 6.0)
-        
+        .frame(maxWidth: .infinity)
     }
 }
 

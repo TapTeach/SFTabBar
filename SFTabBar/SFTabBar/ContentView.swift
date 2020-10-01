@@ -66,23 +66,28 @@ struct ContentView: View {
                         HStack(alignment: .top){
                             if quantity >= 1 {
                                 SFTabBar.tabItem(icon: tabs.tab1Icon, label: tabs.tab1Label, color: tabs.tabTintColor)
+                                    .animation(.easeOut)
                             }
                             if quantity >= 2 {
                                 SFTabBar.tabItem(icon: tabs.tab2Icon, label: tabs.tab2Label, color: tabs.tabItemColor)
+                                    .animation(.easeOut)
                             }
                             if quantity >= 3 {
                                 SFTabBar.tabItem(icon: tabs.tab3Icon, label: tabs.tab3Label, color: tabs.tabItemColor)
+                                    .animation(.easeOut)
                             }
                             if quantity >= 4 {
                                 SFTabBar.tabItem(icon: tabs.tab4Icon, label: tabs.tab4Label, color: tabs.tabItemColor)
+                                    .animation(.easeOut)
                             }
                             if quantity >= 5 {
                                 SFTabBar.tabItem(icon: tabs.tab5Icon, label: tabs.tab5Label, color: tabs.tabItemColor)
+                                    .animation(.easeOut)
                             }
                         }
                         .padding([.leading, .bottom, .trailing])
                         Image(isWhiteHomeIndicator ? "img_homeIndicator_white" : "img_homeIndicator_black" )
-                            .offset(y: 24.0)
+                            .offset(y: 28.0)
                     }
                     .frame(width: 315, height: 74)
                     .offset(y: 34.0)
@@ -121,7 +126,7 @@ struct ContentView: View {
                             Image(systemName: tabs.tab1Icon)
                                 .opacity(0.5)
                             Text(tabs.tab1Icon)
-                        }.navigationBarTitle(Text("Select SFSymbol"))
+                        }
                     }
                     Section(header: Text("Tab 2")) {
                         TextField("Tab Label", text: $tabs.tab2Label)
@@ -129,7 +134,7 @@ struct ContentView: View {
                             Image(systemName: tabs.tab2Icon)
                                 .opacity(0.5)
                             Text(tabs.tab2Icon)
-                        }.navigationBarTitle(Text("Select SFSymbol"))
+                        }
                     }
                     Section(header: Text("Tab 3")) {
                         TextField("Tab Label", text: $tabs.tab3Label)
@@ -137,7 +142,7 @@ struct ContentView: View {
                             Image(systemName: tabs.tab3Icon)
                                 .opacity(0.5)
                             Text(tabs.tab3Icon)
-                        }.navigationBarTitle(Text("Select SFSymbol"))
+                        }
                     }
                     Section(header: Text("Tab 4")) {
                         TextField("Tab Label", text: $tabs.tab4Label)
@@ -145,7 +150,7 @@ struct ContentView: View {
                             Image(systemName: tabs.tab4Icon)
                                 .opacity(0.5)
                             Text(tabs.tab4Icon)
-                        }.navigationBarTitle(Text("Select SFSymbol"))
+                        }
                     }
                     Section(header: Text("Tab 5")) {
                         TextField("Tab Label", text: $tabs.tab5Label)
@@ -153,7 +158,7 @@ struct ContentView: View {
                             Image(systemName: tabs.tab5Icon)
                                 .opacity(0.5)
                             Text(tabs.tab5Icon)
-                        }.navigationBarTitle(Text("Select SFSymbol"))
+                        }
                     }
                     Section(header: Text("Documentation")) {
                     Link("SF Symbols 2.0", destination: URL(string: "https://developer.apple.com/sf-symbols/")!)
