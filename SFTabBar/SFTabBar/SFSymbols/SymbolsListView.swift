@@ -20,6 +20,7 @@ struct SymbolRow: View {
                 .font(.subheadline)
             Spacer()
         }
+        .contentShape(Rectangle())
         .padding(.all, 6.0)
         .frame(maxWidth: .infinity)
     }
@@ -49,7 +50,7 @@ struct SymbolsListView: View {
                                 .onTapGesture {
                                     presentationMode.wrappedValue.dismiss()
                                     tabs.update(location: tabLocation, to: item)
-                                    print("the tab I want to update" + tabLocation + " I just selected:" + item + " updated var value" + tabs.tab1Icon )
+                                    print(item)
                                 }
                         }
                     }

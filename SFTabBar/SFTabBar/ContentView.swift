@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit
 
 class TabsViewModel: ObservableObject {
     @Published var tab1Label = "Dash"
@@ -58,7 +59,7 @@ struct ContentView: View {
     
     let generator = UINotificationFeedbackGenerator()
     
-    
+        
     var body: some View {
         
         NavigationView {
@@ -237,6 +238,7 @@ extension UINavigationController {
 
     }
 }
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
