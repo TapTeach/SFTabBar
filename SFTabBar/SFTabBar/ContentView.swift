@@ -94,7 +94,7 @@ struct ContentView: View {
                             .offset(y: 28.0)
                     }
                     .frame(width: 315, height: 74)
-                    .offset(y: 34.0)
+                    .offset(y: 18.0)
                     Image("device_iphone11")
                         .offset(y: -10.0)
                 }.clipped()
