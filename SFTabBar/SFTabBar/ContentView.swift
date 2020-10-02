@@ -70,23 +70,18 @@ struct ContentView: View {
                         HStack(alignment: .top){
                             if quantity >= 1 {
                                 SFTabBar.tabItem(icon: tabs.tab1Icon, label: tabs.tab1Label, color: tabs.tabTintColor)
-                                    .animation(.easeOut)
                             }
                             if quantity >= 2 {
                                 SFTabBar.tabItem(icon: tabs.tab2Icon, label: tabs.tab2Label, color: tabs.tabItemColor)
-                                    .animation(.easeOut)
                             }
                             if quantity >= 3 {
                                 SFTabBar.tabItem(icon: tabs.tab3Icon, label: tabs.tab3Label, color: tabs.tabItemColor)
-                                    .animation(.easeOut)
                             }
                             if quantity >= 4 {
                                 SFTabBar.tabItem(icon: tabs.tab4Icon, label: tabs.tab4Label, color: tabs.tabItemColor)
-                                    .animation(.easeOut)
                             }
                             if quantity >= 5 {
                                 SFTabBar.tabItem(icon: tabs.tab5Icon, label: tabs.tab5Label, color: tabs.tabItemColor)
-                                    .animation(.easeOut)
                             }
                         }
                         .padding([.leading, .bottom, .trailing])
@@ -97,6 +92,7 @@ struct ContentView: View {
                     .offset(y: 18.0)
                     Image("device_iphone11")
                         .offset(y: -10.0)
+                        
                 }.clipped()
                 Form {
                     Section(header: Text("Tab Bar Setting")) {
@@ -219,6 +215,7 @@ struct ActivityView: UIViewControllerRepresentable {
 
     }
 }
+
 
 extension UINavigationController {
     override open func viewDidLoad() {
