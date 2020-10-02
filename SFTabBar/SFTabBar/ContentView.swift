@@ -25,6 +25,7 @@ class TabsViewModel: ObservableObject {
     
     @Published var tabItemColor = Color("defaultLabel")
     @Published var tabTintColor = Color.white
+    
 
     func update(location: String, to value: String) {
         switch location {
@@ -170,7 +171,7 @@ struct ContentView: View {
                 }
                 .navigationBarTitle("SF TabBar")
                 .navigationBarItems(trailing:
-                    NavigationLink(destination: Export()) {
+                                        NavigationLink(destination: Export(tabCount: quantity)) {
                         Image(systemName: "square.and.arrow.up")
                         }
 

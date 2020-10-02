@@ -10,15 +10,11 @@ import MobileCoreServices
 
 struct Export: View {
     
+    var tabCount: Int
+    
     @ObservedObject var tabs = TabsViewModel()
     
     let generator = UINotificationFeedbackGenerator()
-    
-    init() {
-        UITabBar.appearance().isTranslucent = false
-        UITabBar.appearance().barTintColor = UIColor(named: "slate")
-        UITabBar.appearance().unselectedItemTintColor = UIColor.white
-        }
     
     var body: some View {
             List {
@@ -27,11 +23,22 @@ struct Export: View {
                     .padding(.top, 4.0)
                 Link("Learn about TabView()", destination: URL(string: "https://developer.apple.com/documentation/swiftui/tabview")!)
                     .padding(.top, 4.0)
+                //need to add if statements to exlude unused tabs
+                if tabCount >= 1 {
                 exportRow(tabTag: 1, tabIcon: tabs.tab1Icon, tabLabel: tabs.tab1Label)
+                }
+                if tabCount >= 2 {
                 exportRow(tabTag: 2, tabIcon: tabs.tab2Icon, tabLabel: tabs.tab2Label)
+                }
+                if tabCount >= 3 {
                 exportRow(tabTag: 3, tabIcon: tabs.tab3Icon, tabLabel: tabs.tab3Label)
+                }
+                if tabCount >= 4 {
                 exportRow(tabTag: 4, tabIcon: tabs.tab4Icon, tabLabel: tabs.tab4Label)
+                }
+                if tabCount >= 5 {
                 exportRow(tabTag: 5, tabIcon: tabs.tab5Icon, tabLabel: tabs.tab5Label)
+                }
             }
             .padding(.top)
             .listStyle(InsetGroupedListStyle())
@@ -73,7 +80,7 @@ struct exportRow: View {
 
 struct Export_Previews: PreviewProvider {
     static var previews: some View {
-        Export()
+        Export(tabCount: 5)
             //.environment(\.colorScheme, .dark)
     }
 }
