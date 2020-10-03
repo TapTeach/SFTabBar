@@ -233,7 +233,7 @@ struct ContentView: View {
                 }
                 .navigationBarTitle("SF TabBar")
                 .navigationBarItems(trailing:
-                                        NavigationLink(destination: Export(tabCount: quantity)) {
+                                        NavigationLink(destination: Export(tabCount: quantity, tabs: tabs)) {
                         Image(systemName: "square.and.arrow.up")
                         }
 

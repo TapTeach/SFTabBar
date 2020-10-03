@@ -23,7 +23,7 @@ struct WeightListView: View {
     
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
-    let generator = UINotificationFeedbackGenerator()
+    let selectionFeedback = UISelectionFeedbackGenerator()
     
     var body: some View {
         
@@ -44,7 +44,7 @@ struct WeightListView: View {
                     .onTapGesture {
                         presentationMode.wrappedValue.dismiss()
                         tabs.updateWeight(location: tabLocation, to: weight.name, font: weight.weight)
-                        self.generator.notificationOccurred(.success)
+                        selectionFeedback.selectionChanged()
                     }
             }
             .listStyle(InsetGroupedListStyle())

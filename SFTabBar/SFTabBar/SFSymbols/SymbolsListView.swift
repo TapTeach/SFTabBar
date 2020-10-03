@@ -34,7 +34,7 @@ struct SymbolsListView: View {
     
     @State private var searchText : String = ""
     
-    let generator = UINotificationFeedbackGenerator()
+    let selectionFeedback = UISelectionFeedbackGenerator()
     
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
@@ -44,7 +44,7 @@ struct SymbolsListView: View {
             SearchBar(text: $searchText)
             List {
                 ForEach(sflibrary) { section in
-                    Section(header: Text(section.title)) {
+                    Section(header: Text(section.title + " (" + String(section.items.count) + ")")) {
                         ForEach(section.items.filter {
                             self.searchText.isEmpty ? true : $0.lowercased().contains(self.searchText.lowercased())
                         }) { item in
@@ -52,7 +52,7 @@ struct SymbolsListView: View {
                                 .onTapGesture {
                                     presentationMode.wrappedValue.dismiss()
                                     tabs.update(location: tabLocation, to: item)
-                                    self.generator.notificationOccurred(.success)
+                                    selectionFeedback.selectionChanged()
                                 }
                         }
                     }
