@@ -34,6 +34,8 @@ struct SymbolsListView: View {
     
     @State private var searchText : String = ""
     
+    let generator = UINotificationFeedbackGenerator()
+    
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     
@@ -50,7 +52,7 @@ struct SymbolsListView: View {
                                 .onTapGesture {
                                     presentationMode.wrappedValue.dismiss()
                                     tabs.update(location: tabLocation, to: item)
-                                    print(item)
+                                    self.generator.notificationOccurred(.success)
                                 }
                         }
                     }
