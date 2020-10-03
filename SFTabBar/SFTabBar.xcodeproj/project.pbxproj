@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		FB05B9EC2526360300FE2E43 /* Export.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB05B9EB2526360300FE2E43 /* Export.swift */; };
+		FB05BA122527FCCB00FE2E43 /* WeightListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB05BA112527FCCB00FE2E43 /* WeightListView.swift */; };
 		FB1D0F132512824600A0B190 /* SFTabBarApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1D0F122512824600A0B190 /* SFTabBarApp.swift */; };
 		FB1D0F152512824600A0B190 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1D0F142512824600A0B190 /* ContentView.swift */; };
 		FB1D0F172512824900A0B190 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FB1D0F162512824900A0B190 /* Assets.xcassets */; };
@@ -40,6 +41,7 @@
 
 /* Begin PBXFileReference section */
 		FB05B9EB2526360300FE2E43 /* Export.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Export.swift; sourceTree = "<group>"; };
+		FB05BA112527FCCB00FE2E43 /* WeightListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightListView.swift; sourceTree = "<group>"; };
 		FB1D0F0F2512824600A0B190 /* SFTabBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SFTabBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FB1D0F122512824600A0B190 /* SFTabBarApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFTabBarApp.swift; sourceTree = "<group>"; };
 		FB1D0F142512824600A0B190 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -111,6 +113,7 @@
 				FBFEE5F02523B1B700C2A41A /* SFSymbols */,
 				FB1D0F122512824600A0B190 /* SFTabBarApp.swift */,
 				FB1D0F142512824600A0B190 /* ContentView.swift */,
+				FB05BA112527FCCB00FE2E43 /* WeightListView.swift */,
 				FB05B9EB2526360300FE2E43 /* Export.swift */,
 				FB1D0F162512824900A0B190 /* Assets.xcassets */,
 				FB1D0F1B2512824900A0B190 /* Info.plist */,
@@ -300,6 +303,7 @@
 				FB1D0F152512824600A0B190 /* ContentView.swift in Sources */,
 				FB1F6AD025237E22008C0BB7 /* SFData.swift in Sources */,
 				FB1D0F132512824600A0B190 /* SFTabBarApp.swift in Sources */,
+				FB05BA122527FCCB00FE2E43 /* WeightListView.swift in Sources */,
 				FBBED9302524DD6700E3894D /* SearchBar.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -458,7 +462,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10022020.1s;
+				CURRENT_PROJECT_VERSION = 10022020.1;
 				DEVELOPMENT_ASSET_PATHS = "\"SFTabBar/Preview Content\"";
 				DEVELOPMENT_TEAM = GX6GRW776S;
 				ENABLE_PREVIEWS = YES;
@@ -482,7 +486,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10022020.1s;
+				CURRENT_PROJECT_VERSION = 10022020.1;
 				DEVELOPMENT_ASSET_PATHS = "\"SFTabBar/Preview Content\"";
 				DEVELOPMENT_TEAM = GX6GRW776S;
 				ENABLE_PREVIEWS = YES;
