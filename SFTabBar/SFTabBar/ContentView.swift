@@ -286,6 +286,9 @@ extension UINavigationController {
 
         navigationBar.standardAppearance = standardAppearance
         navigationBar.scrollEdgeAppearance = scrollEdgeAppearance
+        
+        UIView.appearance(whenContainedInInstancesOf: [UIAlertController.self]).tintColor = UIColor(.pink)
+
     
 
     }
