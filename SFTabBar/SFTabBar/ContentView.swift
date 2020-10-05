@@ -123,13 +123,34 @@ struct ContentView: View {
                         .padding([.leading, .bottom, .trailing])
                         Image(isWhiteHomeIndicator ? "img_homeIndicator_white" : "img_homeIndicator_black" )
                             .offset(y: 28.0)
+                        VRule()
+                            .stroke(style: StrokeStyle(lineWidth: 1, dash: [5]))
+                            .frame(height: 1)
+                            .offset(x: 0.6, y: -105.0)
+                            .opacity(0.5)
+                        VRule()
+                            .stroke(style: StrokeStyle(lineWidth: 1, dash: [5]))
+                            .frame(height: 1)
+                            .offset(x: 314.0, y: -105.0)
+                            .opacity(0.5)
                     }
                     .frame(width: 315, height: 74)
                     .offset(y: 18.0)
                     Image("device_iphone11")
                         .offset(y: -10.0)
-                        
+                    HRule()
+                        .stroke(style: StrokeStyle(lineWidth: 1, dash: [5]))
+                        .frame(height: 1)
+                        .offset(y: -19.2)
+                        .opacity(0.5)
+                    HRule()
+                        .stroke(style: StrokeStyle(lineWidth: 1, dash: [5]))
+                        .frame(height: 1)
+                        .offset(y: -91.0)
+                        .opacity(0.5)
                 }.clipped()
+                .offset(y: 4.0)
+                .padding(.bottom)
                 Form {
                     Section(header: Text("Tab Bar Setting")) {
                         Toggle(isOn: $isWhiteHomeIndicator) {
@@ -269,6 +290,22 @@ struct tabItem: View {
     }
 }
 
+struct HRule: Shape {
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        path.move(to: CGPoint(x: 0, y: 0))
+        path.addLine(to: CGPoint(x: rect.width, y: 0))
+        return path
+    }
+}
+struct VRule: Shape {
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        path.move(to: CGPoint(x: 0, y: 0))
+        path.addLine(to: CGPoint(x: 0, y: rect.width))
+        return path
+    }
+}
 
 extension UINavigationController {
     override open func viewDidLoad() {
@@ -298,6 +335,6 @@ extension UINavigationController {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
-            .environment(\.colorScheme, .dark)
+            //.environment(\.colorScheme, .dark)
     }
 }
