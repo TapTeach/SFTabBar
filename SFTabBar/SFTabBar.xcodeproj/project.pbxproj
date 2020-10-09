@@ -18,6 +18,10 @@
 		FB1F6AD025237E22008C0BB7 /* SFData.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1F6ACF25237E22008C0BB7 /* SFData.swift */; };
 		FB1F6AD525237E5D008C0BB7 /* SymbolsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1F6AD425237E5D008C0BB7 /* SymbolsListView.swift */; };
 		FB1F6ADD252386C0008C0BB7 /* SFModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1F6ADC252386C0008C0BB7 /* SFModel.swift */; };
+		FB2C9D6E2530CA8D0007932E /* IAPManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2C9D6D2530CA8D0007932E /* IAPManager.swift */; };
+		FB2C9D822530D1720007932E /* TipJar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2C9D812530D1720007932E /* TipJar.swift */; };
+		FB2C9D8D2530E5A10007932E /* ReviewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2C9D8C2530E5A10007932E /* ReviewManager.swift */; };
+		FB2C9D9C2531084B0007932E /* IAP_ProductIDs.plist in Resources */ = {isa = PBXBuildFile; fileRef = FB2C9D9B2531084B0007932E /* IAP_ProductIDs.plist */; };
 		FB504E7B251FDE60000BC03A /* sfsymbols.json in Resources */ = {isa = PBXBuildFile; fileRef = FB504E7A251FDE60000BC03A /* sfsymbols.json */; };
 		FBBED9302524DD6700E3894D /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBBED92F2524DD6700E3894D /* SearchBar.swift */; };
 /* End PBXBuildFile section */
@@ -57,6 +61,10 @@
 		FB1F6ACF25237E22008C0BB7 /* SFData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFData.swift; sourceTree = "<group>"; };
 		FB1F6AD425237E5D008C0BB7 /* SymbolsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolsListView.swift; sourceTree = "<group>"; };
 		FB1F6ADC252386C0008C0BB7 /* SFModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SFModel.swift; sourceTree = "<group>"; };
+		FB2C9D6D2530CA8D0007932E /* IAPManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPManager.swift; sourceTree = "<group>"; };
+		FB2C9D812530D1720007932E /* TipJar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipJar.swift; sourceTree = "<group>"; };
+		FB2C9D8C2530E5A10007932E /* ReviewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewManager.swift; sourceTree = "<group>"; };
+		FB2C9D9B2531084B0007932E /* IAP_ProductIDs.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = IAP_ProductIDs.plist; sourceTree = "<group>"; };
 		FB504E7A251FDE60000BC03A /* sfsymbols.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = sfsymbols.json; sourceTree = "<group>"; };
 		FBBED92F2524DD6700E3894D /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -109,10 +117,12 @@
 		FB1D0F112512824600A0B190 /* SFTabBar */ = {
 			isa = PBXGroup;
 			children = (
+				FB2C9D722530CA9B0007932E /* IAP */,
 				FB504E79251FDE24000BC03A /* Resources */,
 				FBFEE5F02523B1B700C2A41A /* SFSymbols */,
 				FB1D0F122512824600A0B190 /* SFTabBarApp.swift */,
 				FB1D0F142512824600A0B190 /* ContentView.swift */,
+				FB2C9D9B2531084B0007932E /* IAP_ProductIDs.plist */,
 				FB05BA112527FCCB00FE2E43 /* WeightListView.swift */,
 				FB05B9EB2526360300FE2E43 /* Export.swift */,
 				FB1D0F162512824900A0B190 /* Assets.xcassets */,
@@ -146,6 +156,16 @@
 				FB1D0F312512824A00A0B190 /* Info.plist */,
 			);
 			path = SFTabBarUITests;
+			sourceTree = "<group>";
+		};
+		FB2C9D722530CA9B0007932E /* IAP */ = {
+			isa = PBXGroup;
+			children = (
+				FB2C9D6D2530CA8D0007932E /* IAPManager.swift */,
+				FB2C9D812530D1720007932E /* TipJar.swift */,
+				FB2C9D8C2530E5A10007932E /* ReviewManager.swift */,
+			);
+			path = IAP;
 			sourceTree = "<group>";
 		};
 		FB504E79251FDE24000BC03A /* Resources */ = {
@@ -270,6 +290,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FB2C9D9C2531084B0007932E /* IAP_ProductIDs.plist in Resources */,
 				FB1D0F1A2512824900A0B190 /* Preview Assets.xcassets in Resources */,
 				FB1D0F172512824900A0B190 /* Assets.xcassets in Resources */,
 				FB504E7B251FDE60000BC03A /* sfsymbols.json in Resources */,
@@ -297,10 +318,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FB2C9D6E2530CA8D0007932E /* IAPManager.swift in Sources */,
+				FB2C9D8D2530E5A10007932E /* ReviewManager.swift in Sources */,
 				FB1F6ADD252386C0008C0BB7 /* SFModel.swift in Sources */,
 				FB1F6AD525237E5D008C0BB7 /* SymbolsListView.swift in Sources */,
 				FB05B9EC2526360300FE2E43 /* Export.swift in Sources */,
 				FB1D0F152512824600A0B190 /* ContentView.swift in Sources */,
+				FB2C9D822530D1720007932E /* TipJar.swift in Sources */,
 				FB1F6AD025237E22008C0BB7 /* SFData.swift in Sources */,
 				FB1D0F132512824600A0B190 /* SFTabBarApp.swift in Sources */,
 				FB05BA122527FCCB00FE2E43 /* WeightListView.swift in Sources */,
@@ -472,7 +496,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tapteachapps.SFTabBar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -496,7 +520,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.1;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tapteachapps.SFTabBar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

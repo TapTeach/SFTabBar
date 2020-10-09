@@ -88,7 +88,6 @@ struct ContentView: View {
     @State var quantity: Int = 5
     
     @State var progress: Float = 4
-
     
     @ObservedObject var tabs = TabsViewModel()
     
@@ -253,11 +252,15 @@ struct ContentView: View {
                     }
                 }
                 .navigationBarTitle("SF TabBar")
-                .navigationBarItems(trailing:
+                .navigationBarItems(leading:
+                                        NavigationLink(destination: TipJar()) {
+                                            Image(systemName: "hands.clap")
+                                        }, trailing:
                                         NavigationLink(destination: Export(tabCount: quantity, tabs: tabs)) {
-                        Image(systemName: "square.and.arrow.up")
-                        }
-
+                                            Image(systemName: "square.and.arrow.up")
+                                            
+                                        }
+                                    
                 )
             }
         }
@@ -335,6 +338,6 @@ extension UINavigationController {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
-            //.environment(\.colorScheme, .dark)
+            .environment(\.colorScheme, .dark)
     }
 }
