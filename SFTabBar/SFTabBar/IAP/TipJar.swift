@@ -75,11 +75,11 @@ struct TipJar: View {
  }
     
     func tipBig() {
-        tipManager.PrepTip(skproduct: "com.tapteachapps.SFTabBar.largeTip")
+        tipManager.PurchaseTip(tip: .large)
     }
     
     func tipSmall() {
-        tipManager.PrepTip(skproduct: "com.tapteachapps.SFTabBar.smallTip")
+        tipManager.PurchaseTip(tip: .small)
     }
 }
 
