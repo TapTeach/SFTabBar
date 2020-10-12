@@ -6,10 +6,11 @@
 //
 
 import SwiftUI
+import Purchases
 
 struct TipJar: View {
     let appVersionString: String = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
-
+    
     @State private var showingShareSheet = false
     
     var body: some View {
@@ -29,9 +30,7 @@ struct TipJar: View {
                         Spacer()
                     }
                     HStack{
-                        Button(action: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Action@*/{}/*@END_MENU_TOKEN@*/) {
-                            TipButton(icon: "hand.thumbsup", label: "Small Tip", price: "$0.99")
-                        }.buttonStyle(FilledStyle())
+                        TipButton(icon: "hand.thumbsup", label: "Small Tip", price: "$0.99")
                         TipButton(icon: "heart", label: "Large Tip", price: "$2.99")
                     }.padding(.vertical)
                 }
@@ -87,6 +86,7 @@ struct TipButton: View {
     var price: String
     
     var body: some View {
+        //no idea how to make this work I guess
         Button(action: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Action@*/{}/*@END_MENU_TOKEN@*/) {
             VStack(spacing: 4.0) {
                 Image(systemName: icon)
