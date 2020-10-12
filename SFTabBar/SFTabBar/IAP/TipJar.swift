@@ -13,6 +13,8 @@ struct TipJar: View {
     
     @State private var showingShareSheet = false
     
+    let tipManager = TipManager()
+    
     var body: some View {
         VStack {
             List() {
@@ -30,8 +32,8 @@ struct TipJar: View {
                         Spacer()
                     }
                     HStack{
-                        TipButton(icon: "hand.thumbsup", label: "Small Tip", price: "$0.99")
-                        TipButton(icon: "heart", label: "Large Tip", price: "$2.99")
+                        TipButton(icon: "hand.thumbsup", label: "Small Tip", price: "$0.99", action: tipSmall)
+                        TipButton(icon: "heart", label: "Large Tip", price: "$2.99", action: tipBig)
                     }.padding(.vertical)
                 }
                 
@@ -63,6 +65,14 @@ struct TipJar: View {
         
         }.navigationBarTitle("Sharing is Caring")
  }
+    
+    func tipBig() {
+        tipManager.PrepTip(skproduct: "com.tapteachapps.SFTabBar.largeTip")
+    }
+    
+    func tipSmall() {
+        tipManager.PrepTip(skproduct: "com.tapteachapps.SFTabBar.smallTip")
+    }
 }
 
 
@@ -84,10 +94,11 @@ struct TipButton: View {
     var icon: String
     var label: String
     var price: String
+    let action: () -> Void
     
     var body: some View {
         //no idea how to make this work I guess
-        Button(action: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Action@*/{}/*@END_MENU_TOKEN@*/) {
+        Button(action: action) {
             VStack(spacing: 4.0) {
                 Image(systemName: icon)
                     .imageScale(.large)

@@ -20,21 +20,25 @@ public class TipManager {
     
     var inProgress = false
 
-public func PrepTip(skproduct: String) {
-    guard !inProgress else { return }
-    inProgress = true
-    Purchases.shared.products([skproduct]) { (products) in
-    let tipProduct = products.first
-    print(tipProduct)
-    self.PurchaseTip(skproduct: skproduct)
+    public func PrepTip(skproduct: String) {
+        guard !inProgress else { return }
+        inProgress = true
+        Purchases.shared.products([skproduct]) { (products) in
+            guard let tipProduct = products.first else { return }
+            print(tipProduct)
+            self.PurchaseTip(skproduct: tipProduct)
+        }
     }
-}
 
-public func PurchaseTip(skproduct: String) {
-    //purchase here?
-    //Purchases.shared.purchaseProduct(skproduct, Purchases.PurchaseCompletedBlock)
-    print("Purchase")
-    inProgress = false
+    public func PurchaseTip(skproduct: SKProduct) {
+        Purchases.shared.purchaseProduct(skproduct) { (transaction, purchaserInfo, error, userCancelled) in
+            if transaction?.transactionState == .purchased {
+                print("Thanks!")
+            } else {
+                print("Boo")
+            }
+            self.inProgress = false
+        }
     }
 }
 
