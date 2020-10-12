@@ -67,5 +67,22 @@ public class TipManager: ObservableObject {
             }
         }
     }
+    
+    public func price(for tip: Tip) -> String {
+        switch tip {
+        case .large:
+            return largeTip?.priceString ?? ""
+        case .small:
+            return smallTip?.priceString ?? ""
+        }
+    }
 }
 
+public extension SKProduct {
+    var priceString: String? {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        formatter.locale = self.priceLocale
+        return formatter.string(from: self.price)
+    }
+}

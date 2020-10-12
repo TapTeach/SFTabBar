@@ -34,8 +34,8 @@ struct TipJar: View {
                     switch tipManager.state {
                     case .inactive:
                         HStack{
-                            TipButton(icon: "hand.thumbsup", label: "Small Tip", price: "$0.99", action: tipSmall)
-                            TipButton(icon: "heart", label: "Large Tip", price: "$2.99", action: tipBig)
+                            TipButton(icon: "hand.thumbsup", label: "Small Tip", price: smallPrice, action: tipSmall)
+                            TipButton(icon: "heart", label: "Large Tip", price: largePrice, action: tipLarge)
                         }.padding(.vertical)
                     case .inProgress:
                         Text("Purchasing...")
@@ -74,12 +74,20 @@ struct TipJar: View {
         }.navigationBarTitle("Sharing is Caring")
  }
     
-    func tipBig() {
+    func tipLarge() {
         tipManager.PurchaseTip(tip: .large)
     }
     
     func tipSmall() {
         tipManager.PurchaseTip(tip: .small)
+    }
+    
+    var smallPrice: String {
+        tipManager.price(for: .small)
+    }
+    
+    var largePrice: String {
+        tipManager.price(for: .large)
     }
 }
 
