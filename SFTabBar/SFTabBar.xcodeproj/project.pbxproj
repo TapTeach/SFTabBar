@@ -21,7 +21,6 @@
 		FB2C9D6E2530CA8D0007932E /* IAPManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2C9D6D2530CA8D0007932E /* IAPManager.swift */; };
 		FB2C9D822530D1720007932E /* TipJar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2C9D812530D1720007932E /* TipJar.swift */; };
 		FB2C9D8D2530E5A10007932E /* ReviewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2C9D8C2530E5A10007932E /* ReviewManager.swift */; };
-		FB2C9D9C2531084B0007932E /* IAP_ProductIDs.plist in Resources */ = {isa = PBXBuildFile; fileRef = FB2C9D9B2531084B0007932E /* IAP_ProductIDs.plist */; };
 		FB2C9DA42531FC230007932E /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB2C9DA32531FC230007932E /* StoreKit.framework */; };
 		FB2C9DA72531FF8F0007932E /* Purchases in Frameworks */ = {isa = PBXBuildFile; productRef = FB2C9DA62531FF8F0007932E /* Purchases */; };
 		FB504E7B251FDE60000BC03A /* sfsymbols.json in Resources */ = {isa = PBXBuildFile; fileRef = FB504E7A251FDE60000BC03A /* sfsymbols.json */; };
@@ -66,7 +65,6 @@
 		FB2C9D6D2530CA8D0007932E /* IAPManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPManager.swift; sourceTree = "<group>"; };
 		FB2C9D812530D1720007932E /* TipJar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipJar.swift; sourceTree = "<group>"; };
 		FB2C9D8C2530E5A10007932E /* ReviewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewManager.swift; sourceTree = "<group>"; };
-		FB2C9D9B2531084B0007932E /* IAP_ProductIDs.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = IAP_ProductIDs.plist; sourceTree = "<group>"; };
 		FB2C9DA32531FC230007932E /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		FB504E7A251FDE60000BC03A /* sfsymbols.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = sfsymbols.json; sourceTree = "<group>"; };
 		FBBED92F2524DD6700E3894D /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
@@ -166,7 +164,6 @@
 		FB2C9D722530CA9B0007932E /* IAP */ = {
 			isa = PBXGroup;
 			children = (
-				FB2C9D9B2531084B0007932E /* IAP_ProductIDs.plist */,
 				FB2C9D6D2530CA8D0007932E /* IAPManager.swift */,
 				FB2C9D812530D1720007932E /* TipJar.swift */,
 				FB2C9D8C2530E5A10007932E /* ReviewManager.swift */,
@@ -310,7 +307,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FB2C9D9C2531084B0007932E /* IAP_ProductIDs.plist in Resources */,
 				FB1D0F1A2512824900A0B190 /* Preview Assets.xcassets in Resources */,
 				FB1D0F172512824900A0B190 /* Assets.xcassets in Resources */,
 				FB504E7B251FDE60000BC03A /* sfsymbols.json in Resources */,

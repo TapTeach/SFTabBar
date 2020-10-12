@@ -27,7 +27,7 @@ struct TipJar: View {
                         Spacer()
                     }
                     HStack {
-                        Text("A \"small\" or \"large\" tip would be much appreciated! Thank you. ")
+                        Text("A \"small\" or \"large\" tip of support would be much appreciated!")
                             .font(.body)
                         Spacer()
                     }
@@ -38,9 +38,18 @@ struct TipJar: View {
                             TipButton(icon: "heart", label: "Large Tip", price: largePrice, action: tipLarge)
                         }.padding(.vertical)
                     case .inProgress:
-                        Text("Purchasing...")
+                        HStack {
+                            Image(systemName: "creditcard.fill")
+                                .foregroundColor(.pink)
+                            Text("Processing Payment...")
+                                
+                        }.padding(.vertical)
                     case .success:
-                        Text("Thanks for the tip!")
+                        HStack {
+                            Image(systemName: "hands.sparkles.fill")
+                                .foregroundColor(.pink)
+                            Text("Complete! Thank you.")
+                        }.padding(.vertical)
                     }
                     
                 }
