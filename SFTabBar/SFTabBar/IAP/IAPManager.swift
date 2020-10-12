@@ -16,16 +16,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 }
 
 
-public class TipManager {
+public class TipManager: ObservableObject {
     
-    var inProgress = false
+    enum State {
+        case inactive
+        case inProgress
+        case success
+    }
+    
+    @Published var state: State = .inactive
 
     public func PrepTip(skproduct: String) {
-        guard !inProgress else { return }
-        inProgress = true
+        state = .inProgress
         Purchases.shared.products([skproduct]) { (products) in
-            guard let tipProduct = products.first else { return }
-            print(tipProduct)
+            guard let tipProduct = products.first else {
+                self.state = .inactive
+                return
+            }
             self.PurchaseTip(skproduct: tipProduct)
         }
     }
@@ -33,11 +40,10 @@ public class TipManager {
     public func PurchaseTip(skproduct: SKProduct) {
         Purchases.shared.purchaseProduct(skproduct) { (transaction, purchaserInfo, error, userCancelled) in
             if transaction?.transactionState == .purchased {
-                print("Thanks!")
+                self.state = .success
             } else {
-                print("Boo")
+                self.state = .inactive
             }
-            self.inProgress = false
         }
     }
 }

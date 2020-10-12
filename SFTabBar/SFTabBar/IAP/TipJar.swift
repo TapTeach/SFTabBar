@@ -13,7 +13,7 @@ struct TipJar: View {
     
     @State private var showingShareSheet = false
     
-    let tipManager = TipManager()
+    @StateObject var tipManager = TipManager()
     
     var body: some View {
         VStack {
@@ -31,10 +31,18 @@ struct TipJar: View {
                             .font(.body)
                         Spacer()
                     }
-                    HStack{
-                        TipButton(icon: "hand.thumbsup", label: "Small Tip", price: "$0.99", action: tipSmall)
-                        TipButton(icon: "heart", label: "Large Tip", price: "$2.99", action: tipBig)
-                    }.padding(.vertical)
+                    switch tipManager.state {
+                    case .inactive:
+                        HStack{
+                            TipButton(icon: "hand.thumbsup", label: "Small Tip", price: "$0.99", action: tipSmall)
+                            TipButton(icon: "heart", label: "Large Tip", price: "$2.99", action: tipBig)
+                        }.padding(.vertical)
+                    case .inProgress:
+                        Text("Purchasing...")
+                    case .success:
+                        Text("Thanks for the tip!")
+                    }
+                    
                 }
                 
             }
