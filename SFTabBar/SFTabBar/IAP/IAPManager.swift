@@ -6,10 +6,11 @@
 //
 
 import Purchases
+import UIKit
 
 class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-        Purchases.debugLogsEnabled = true
+        Purchases.debugLogsEnabled = false
         Purchases.configure(withAPIKey: "GnoYhAKVaDHJUPWVgSzYIWXYPfRIfiFj")
         return true
     }
@@ -41,6 +42,7 @@ public class TipManager: ObservableObject {
     @Published var state: State = .inactive
     @Published var largeTip: SKProduct?
     @Published var smallTip: SKProduct?
+    @Published var alertStatus = false
     
     init() {
         Purchases.shared.products(Tip.allCases.map({ $0.identifier })) { (products) in
@@ -57,7 +59,10 @@ public class TipManager: ObservableObject {
             case .small:
                 return smallTip
             }
-        }() else { return }
+        }() else {
+            self.alertStatus.toggle()
+            return
+        }
         self.state = .inProgress
         Purchases.shared.purchaseProduct(product) { (transaction, purchaserInfo, error, userCancelled) in
             if transaction?.transactionState == .purchased {
@@ -71,11 +76,13 @@ public class TipManager: ObservableObject {
     public func price(for tip: Tip) -> String {
         switch tip {
         case .large:
-            return largeTip?.priceString ?? ""
+            return largeTip?.priceString ?? "Loading Amount..."
         case .small:
-            return smallTip?.priceString ?? ""
+            return smallTip?.priceString ?? "Loading Amount..."
         }
+        
     }
+    
 }
 
 public extension SKProduct {
@@ -86,3 +93,4 @@ public extension SKProduct {
         return formatter.string(from: self.price)
     }
 }
+

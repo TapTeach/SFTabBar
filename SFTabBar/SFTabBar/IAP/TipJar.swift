@@ -18,7 +18,7 @@ struct TipJar: View {
     var body: some View {
         VStack {
             List() {
-            Section(header: Text("Send a Thank You")) {
+                Section(header: Text("Send a Thank You")) {
                 VStack {
                     HStack {
                         Text("Finding SF TabBar useful?")
@@ -37,6 +37,8 @@ struct TipJar: View {
                             TipButton(icon: "hand.thumbsup", label: "Small Tip", price: smallPrice, action: tipSmall)
                             TipButton(icon: "heart", label: "Large Tip", price: largePrice, action: tipLarge)
                         }.padding(.vertical)
+                        .alert(isPresented: $tipManager.alertStatus) { () -> Alert in
+                            Alert(title: Text("Unable to connect to the App Store, pleaes make sure you are connected to a network."))}
                     case .inProgress:
                         HStack {
                             Image(systemName: "creditcard.fill")
@@ -53,7 +55,6 @@ struct TipJar: View {
                     }
                     
                 }
-                
             }
             Section(header: Text("Share the App")) {
                 HStack {
