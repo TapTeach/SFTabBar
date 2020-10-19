@@ -23,6 +23,7 @@
 		FB2C9D8D2530E5A10007932E /* ReviewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2C9D8C2530E5A10007932E /* ReviewManager.swift */; };
 		FB2C9DA42531FC230007932E /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB2C9DA32531FC230007932E /* StoreKit.framework */; };
 		FB2C9DA72531FF8F0007932E /* Purchases in Frameworks */ = {isa = PBXBuildFile; productRef = FB2C9DA62531FF8F0007932E /* Purchases */; };
+		FB4678F2253C8A7B00417EDE /* PlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB4678F1253C8A7B00417EDE /* PlayView.swift */; };
 		FB504E7B251FDE60000BC03A /* sfsymbols.json in Resources */ = {isa = PBXBuildFile; fileRef = FB504E7A251FDE60000BC03A /* sfsymbols.json */; };
 		FBBED9302524DD6700E3894D /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = FBBED92F2524DD6700E3894D /* SearchBar.swift */; };
 /* End PBXBuildFile section */
@@ -66,6 +67,7 @@
 		FB2C9D812530D1720007932E /* TipJar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TipJar.swift; sourceTree = "<group>"; };
 		FB2C9D8C2530E5A10007932E /* ReviewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewManager.swift; sourceTree = "<group>"; };
 		FB2C9DA32531FC230007932E /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		FB4678F1253C8A7B00417EDE /* PlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayView.swift; sourceTree = "<group>"; };
 		FB504E7A251FDE60000BC03A /* sfsymbols.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = sfsymbols.json; sourceTree = "<group>"; };
 		FBBED92F2524DD6700E3894D /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -126,6 +128,7 @@
 				FBFEE5F02523B1B700C2A41A /* SFSymbols */,
 				FB1D0F122512824600A0B190 /* SFTabBarApp.swift */,
 				FB1D0F142512824600A0B190 /* ContentView.swift */,
+				FB4678F6253C8A8200417EDE /* Play */,
 				FB05BA112527FCCB00FE2E43 /* WeightListView.swift */,
 				FB05B9EB2526360300FE2E43 /* Export.swift */,
 				FB1D0F162512824900A0B190 /* Assets.xcassets */,
@@ -177,6 +180,14 @@
 				FB2C9DA32531FC230007932E /* StoreKit.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FB4678F6253C8A8200417EDE /* Play */ = {
+			isa = PBXGroup;
+			children = (
+				FB4678F1253C8A7B00417EDE /* PlayView.swift */,
+			);
+			path = Play;
 			sourceTree = "<group>";
 		};
 		FB504E79251FDE24000BC03A /* Resources */ = {
@@ -340,6 +351,7 @@
 				FB1F6AD525237E5D008C0BB7 /* SymbolsListView.swift in Sources */,
 				FB05B9EC2526360300FE2E43 /* Export.swift in Sources */,
 				FB1D0F152512824600A0B190 /* ContentView.swift in Sources */,
+				FB4678F2253C8A7B00417EDE /* PlayView.swift in Sources */,
 				FB2C9D822530D1720007932E /* TipJar.swift in Sources */,
 				FB1F6AD025237E22008C0BB7 /* SFData.swift in Sources */,
 				FB1D0F132512824600A0B190 /* SFTabBarApp.swift in Sources */,
@@ -502,7 +514,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10142020.1;
+				CURRENT_PROJECT_VERSION = 10192020.1;
 				DEVELOPMENT_ASSET_PATHS = "\"SFTabBar/Preview Content\"";
 				DEVELOPMENT_TEAM = GX6GRW776S;
 				ENABLE_PREVIEWS = YES;
@@ -512,7 +524,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tapteachapps.SFTabBar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -526,7 +538,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10142020.1;
+				CURRENT_PROJECT_VERSION = 10192020.1;
 				DEVELOPMENT_ASSET_PATHS = "\"SFTabBar/Preview Content\"";
 				DEVELOPMENT_TEAM = GX6GRW776S;
 				ENABLE_PREVIEWS = YES;
@@ -536,7 +548,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tapteachapps.SFTabBar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

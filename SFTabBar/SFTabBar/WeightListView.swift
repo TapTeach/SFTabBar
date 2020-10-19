@@ -39,18 +39,27 @@ struct WeightListView: View {
         let weights = [u, t, l, r, m, s, b, h, bl]
         
         return VStack {
-            List(weights) { weight in
-                WeightRow(symbol: tabIcon, current: currentWeight, weight: weight)
-                    .onTapGesture {
-                        presentationMode.wrappedValue.dismiss()
-                        tabs.updateWeight(location: tabLocation, to: weight.name, font: weight.weight)
-                        selectionFeedback.selectionChanged()
-                    }
+            List {
+                Section(header: Text("")) {
+                Text("Weight is not currently supported on a .tabitem image. However, you can use this to get a sense of the impact weight has on an SF Symbol.")
+                    .font(.footnote)
+                    .foregroundColor(Color.gray)
+                    .padding(.vertical, 4.0)
+                }
+                Section(header: Text("Weights")) {
+                    ForEach(weights) { weight in
+                        WeightRow(symbol: tabIcon, current: currentWeight, weight: weight)
+                            .onTapGesture {
+                                presentationMode.wrappedValue.dismiss()
+                                tabs.updateWeight(location: tabLocation, to: weight.name, font: weight.weight)
+                                selectionFeedback.selectionChanged()
+                            }
+                }
             }
-            .listStyle(InsetGroupedListStyle())
-            .navigationBarTitle("SF Symbol Weight")
         }
-        .padding(.top)
+        .listStyle(InsetGroupedListStyle())
+        .navigationBarTitle("SF Symbol Weight")
+    }
     }
 }
 

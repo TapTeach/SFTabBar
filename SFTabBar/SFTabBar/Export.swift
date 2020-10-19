@@ -18,11 +18,11 @@ struct Export: View {
     
     var body: some View {
             List {
-                Text("Below is an example of each tab's implementation with SwiftUI. Your .tabItem should be a modifier of a view and contained within a TabView()")
-                    .font(.callout)
+                Section(header: Text("")) {
+                Text("Below is an example of each tab's implementation with SwiftUI. Your .tabItem should be a modifier of a view and contained within a TabView() \n\rTab views only support tab items of type Text, Image, or an image followed by text. Passing any other type of view results in a visible but empty tab item.")
+                    .font(.footnote)
                     .padding(.top, 4.0)
-                Link("Learn about TabView()", destination: URL(string: "https://developer.apple.com/documentation/swiftui/tabview")!)
-                    .padding(.top, 4.0)
+                }
                 if tabCount >= 1 {
                     exportRow(tabTag: 1, tabIcon: tabs.tab1Icon, tabLabel: tabs.tab1Label, iconWeight: tabs.tab1Weight)
                 }
@@ -39,7 +39,6 @@ struct Export: View {
                 exportRow(tabTag: 5, tabIcon: tabs.tab5Icon, tabLabel: tabs.tab5Label, iconWeight: tabs.tab5Weight)
                 }
             }
-            .padding(.top)
             .listStyle(InsetGroupedListStyle())
             .navigationBarTitle("Share")
     }
@@ -61,9 +60,9 @@ struct exportRow: View {
             Text("  Image(systemName:").foregroundColor(Color("modifier")) +
                 Text("\"" + tabIcon + "\"").foregroundColor(.primary) +
             Text(")").foregroundColor(Color("modifier"))
-            Text("  .font(.system(size: 16, weight: ").foregroundColor(Color("modifier")) +
-            Text(iconWeight).foregroundColor(.primary) +
-            Text(")").foregroundColor(Color("modifier"))
+//            Text("  .font(.system(size: 16, weight: ").foregroundColor(Color("modifier")) +
+//            Text(iconWeight).foregroundColor(.primary) +
+//            Text("))").foregroundColor(Color("modifier"))
             Text("  Text(").foregroundColor(Color("modifier")) +
             Text("\"" + tabLabel + "\"").foregroundColor(.primary) +
             Text(")").foregroundColor(Color("modifier"))
@@ -72,7 +71,7 @@ struct exportRow: View {
         }
         .padding([.top, .bottom])
             Button("Copy to Clipboard") {
-                UIPasteboard.general.setValue(String(".tabItem({ \r Image(systemName:\"" + tabIcon + "\")\r" + ".font(.system(size: 16, weight: " + iconWeight + ")\r" + "Text(\"") + tabLabel + "\")\r" + "})\r" + ".tag(" + String(tabTag - 1) + ")",
+                UIPasteboard.general.setValue(String(".tabItem({ \r Image(systemName:\"" + tabIcon + "\")\r" + "Text(\"") + tabLabel + "\")\r" + "})\r" + ".tag(" + String(tabTag - 1) + ")",
                             forPasteboardType: kUTTypePlainText as String)
                 self.generator.notificationOccurred(.success)
             }

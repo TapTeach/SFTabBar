@@ -29,11 +29,12 @@ class TabsViewModel: ObservableObject {
     @Published var tab4Weight = ".regular"
     @Published var tab4FontWeight: Font.Weight = .regular
     
-    @Published var tab5Label = "More"
-    @Published var tab5Icon = "ellipsis"
+    @Published var tab5Label = "Settings"
+    @Published var tab5Icon = "slider.horizontal.3"
     @Published var tab5Weight = ".regular"
     @Published var tab5FontWeight: Font.Weight = .regular
     
+    @Published var tabBarColor = Color.pink
     @Published var tabItemColor = Color("defaultLabel")
     @Published var tabTintColor = Color.white
     
@@ -81,9 +82,7 @@ class TabsViewModel: ObservableObject {
 struct ContentView: View {
 
     @State private var showingSheet = false
-    
-    @State private var tbColor = Color.pink
-    
+        
     @State var isWhiteHomeIndicator = false
     @State var quantity: Int = 5
     
@@ -101,7 +100,7 @@ struct ContentView: View {
                 ZStack {
                     ZStack {
                         RoundedRectangle(cornerRadius: 0, style: .continuous)
-                            .fill(tbColor)
+                            .fill(tabs.tabBarColor)
                         HStack(alignment: .top){
                             if quantity >= 1 {
                                 SFTabBar.tabItem(icon: tabs.tab1Icon, label: tabs.tab1Label, color: tabs.tabTintColor, weight: tabs.tab1FontWeight)
@@ -158,7 +157,7 @@ struct ContentView: View {
                         HStack {
                             Text("Tab Bar Color")
                             Spacer()
-                            ColorPicker("", selection: $tbColor, supportsOpacity: false)
+                            ColorPicker("", selection: $tabs.tabBarColor, supportsOpacity: false)
                                 .frame(width: 40, alignment: .center)
                         }
                         HStack {
@@ -246,20 +245,21 @@ struct ContentView: View {
                             }
                         }
                     }
-                    Section(header: Text("Documentation")) {
-                    Link("SF Symbols 2.0", destination: URL(string: "https://developer.apple.com/sf-symbols/")!)
-                    Link("Apple HIG Tab Bars", destination: URL(string: "https://developer.apple.com/design/human-interface-guidelines/ios/bars/tab-bars/")!)
-                    }
                 }
                 .navigationBarTitle("SF TabBar")
                 .navigationBarItems(leading:
-                                        NavigationLink(destination: TipJar()) {
-                                            Image(systemName: "hands.clap")
-                                        }, trailing:
-                                        NavigationLink(destination: Export(tabCount: quantity, tabs: tabs)) {
-                                            Image(systemName: "square.and.arrow.up")
-                                            
-                                        }
+                    NavigationLink(destination: TipJar()) {
+                        Image(systemName: "hands.clap")
+                    }, trailing:
+                        HStack {
+                            NavigationLink(destination: PlayView(tabCount: quantity, tabs: tabs)) {
+                            Image(systemName: "play")
+                            }
+                            .padding(.trailing)
+                            NavigationLink(destination: Export(tabCount: quantity, tabs: tabs)) {
+                            Image(systemName: "square.and.arrow.up")
+                            }
+                        }
                                     
                 )
             }
@@ -277,7 +277,7 @@ struct tabItem: View {
     var weight: Font.Weight
                 
     var body: some View {
-        VStack{
+        VStack(spacing: 4.0){
             Image(systemName: icon)
                 .resizable()
                 .scaledToFit()
