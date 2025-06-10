@@ -32,15 +32,26 @@ struct PlayView: View {
             }
         }
         .accentColor(tabs.tabTintColor)
-        .onAppear(perform: fetchTabBarColor)
+        .onAppear {
+            let appearance = UITabBarAppearance()
+            appearance.configureWithOpaqueBackground()
+            appearance.backgroundColor = UIColor(tabs.tabBarColor)
+            
+            // Configure the normal (unselected) item appearance
+            let normalItemAppearance = UITabBarItemAppearance()
+            normalItemAppearance.normal.iconColor = UIColor(tabs.tabItemColor)
+            normalItemAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor(tabs.tabItemColor)]
+            appearance.stackedLayoutAppearance = normalItemAppearance
+            appearance.inlineLayoutAppearance = normalItemAppearance
+            appearance.compactInlineLayoutAppearance = normalItemAppearance
+            
+            UITabBar.appearance().standardAppearance = appearance
+            if #available(iOS 15.0, *) {
+                UITabBar.appearance().scrollEdgeAppearance = appearance
+            }
+        }
         .navigationBarTitle("Your Tab Bar")
     }
-    
-    private func fetchTabBarColor() {
-        UITabBar.appearance().isTranslucent = false
-        UITabBar.appearance().barTintColor = UIColor(tabs.tabBarColor)
-        UITabBar.appearance().unselectedItemTintColor = UIColor(tabs.tabItemColor)
-        }
 }
 
 struct TabItem: View {
@@ -66,7 +77,7 @@ struct DocumentionView: View {
                 .padding(.vertical, 4.0)
             }
             Section(header: Text("Documentation")) {
-            Link("SF Symbols 2.0", destination: URL(string: "https://developer.apple.com/sf-symbols/")!)
+            Link("SF Symbols 6.0", destination: URL(string: "https://developer.apple.com/sf-symbols/")!)
             Link("Apple HIG Tab Bars", destination: URL(string: "https://developer.apple.com/design/human-interface-guidelines/ios/bars/tab-bars/")!)
             Link("TabView()", destination: URL(string: "https://developer.apple.com/documentation/swiftui/tabview")!)
                 Link(".tabItem", destination: URL(string: "https://developer.apple.com/documentation/swiftui/tabview/tabitem(_:)")!)
@@ -80,7 +91,6 @@ struct DocumentionView: View {
         .accentColor(.pink)
         .listStyle(InsetGroupedListStyle())
     }
-    
 }
 
 struct PlayView_Previews: PreviewProvider {

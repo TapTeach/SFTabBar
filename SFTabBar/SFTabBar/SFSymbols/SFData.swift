@@ -8,7 +8,7 @@
 import UIKit
 import SwiftUI
 
-let sflibrary: [Library] = load("sfsymbols.json")
+let sflibrary: [Library] = load("sfsymbols6.json")
 
 func load<T: Decodable>(_ filename: String) -> T {
     let data: Data

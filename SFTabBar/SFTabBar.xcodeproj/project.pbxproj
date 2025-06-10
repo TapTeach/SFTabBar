@@ -3,10 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		289F653A2DF68AAC00326FB7 /* sfsymbols6.json in Resources */ = {isa = PBXBuildFile; fileRef = 289F65392DF68AAC00326FB7 /* sfsymbols6.json */; };
 		FB05B9EC2526360300FE2E43 /* Export.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB05B9EB2526360300FE2E43 /* Export.swift */; };
 		FB05BA122527FCCB00FE2E43 /* WeightListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB05BA112527FCCB00FE2E43 /* WeightListView.swift */; };
 		FB1D0F132512824600A0B190 /* SFTabBarApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1D0F122512824600A0B190 /* SFTabBarApp.swift */; };
@@ -46,6 +47,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		289F65392DF68AAC00326FB7 /* sfsymbols6.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = sfsymbols6.json; sourceTree = "<group>"; };
 		FB05B9EB2526360300FE2E43 /* Export.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Export.swift; sourceTree = "<group>"; };
 		FB05BA112527FCCB00FE2E43 /* WeightListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightListView.swift; sourceTree = "<group>"; };
 		FB1D0F0F2512824600A0B190 /* SFTabBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SFTabBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -194,6 +196,7 @@
 			isa = PBXGroup;
 			children = (
 				FB504E7A251FDE60000BC03A /* sfsymbols.json */,
+				289F65392DF68AAC00326FB7 /* sfsymbols6.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -321,6 +324,7 @@
 				FB1D0F1A2512824900A0B190 /* Preview Assets.xcassets in Resources */,
 				FB1D0F172512824900A0B190 /* Assets.xcassets in Resources */,
 				FB504E7B251FDE60000BC03A /* sfsymbols.json in Resources */,
+				289F653A2DF68AAC00326FB7 /* sfsymbols6.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -524,7 +528,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tapteachapps.SFTabBar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -548,7 +552,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2.0;
+				MARKETING_VERSION = 1.3.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tapteachapps.SFTabBar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

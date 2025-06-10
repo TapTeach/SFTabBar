@@ -40,6 +40,19 @@ struct SymbolsListView: View {
     
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
+    private var categoryButtons: [ActionSheet.Button] {
+        var buttons: [ActionSheet.Button] = [.default(Text("All")) { filter = "All" }]
+        
+        // Add buttons for each category from the JSON data
+        for section in sflibrary {
+            buttons.append(.default(Text(section.title)) { filter = section.title })
+        }
+        
+        // Add cancel button at the end
+        buttons.append(.cancel())
+        
+        return buttons
+    }
     
     var body: some View {
             VStack {
@@ -73,29 +86,7 @@ struct SymbolsListView: View {
                 }
                 .actionSheet(isPresented: $showingSheet) {
                     ActionSheet(title: Text("Filter SF Symbols by Category"),
-                                buttons: [ .default(Text("All")) { filter = "All" }
-                                           , .default(Text("What's New")) { filter = "What's New" }
-                                           , .default(Text("Communication")) { filter = "Communication" }
-                                           , .default(Text("Weather")) { filter = "Weather" }
-                                           , .default(Text("Objects & Tools")) { filter = "Objects & Tools" }
-                                           , .default(Text("Devices")) { filter = "Devices" }
-                                           , .default(Text("Connectivity")) { filter = "Connectivity" }
-                                           , .default(Text("Transportation")) { filter = "Transportation" }
-                                           , .default(Text("Human")) { filter = "Human" }
-                                           , .default(Text("Nature")) { filter = "Nature" }
-                                           , .default(Text("Editing")) { filter = "Editing" }
-                                           , .default(Text("Text Formatting")) { filter = "Text Formatting" }
-                                           , .default(Text("Media")) { filter = "Media" }
-                                           , .default(Text("Keyboard")) { filter = "Keyboard" }
-                                           , .default(Text("Commerce")) { filter = "Commerce" }
-                                           , .default(Text("Time")) { filter = "Time" }
-                                           , .default(Text("Health")) { filter = "Health" }
-                                           , .default(Text("Shapes")) { filter = "Shapes" }
-                                           , .default(Text("Arrows")) { filter = "Arrows" }
-                                           , .default(Text("Indices")) { filter = "Indices" }
-                                           , .default(Text("Math")) { filter = "Math" }
-                                           , .cancel()
-                                ])
+                              buttons: categoryButtons)
                 }
             )
     }
