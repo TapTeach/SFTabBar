@@ -94,9 +94,21 @@ struct ContentView: View {
     
         
     var body: some View {
-        
-        NavigationView {
-            VStack {
+        if #available(iOS 16.0, *) {
+            NavigationStack {
+                contentView
+            }
+        } else {
+            NavigationView {
+                contentView
+            }
+            .navigationViewStyle(StackNavigationViewStyle())
+        }
+    }
+    
+    @ViewBuilder
+    private var contentView: some View {
+        NavigationStack {
                 ZStack {
                     ZStack {
                         RoundedRectangle(cornerRadius: 0, style: .continuous)
@@ -246,25 +258,29 @@ struct ContentView: View {
                         }
                     }
                 }
-                .navigationBarTitle("SF TabBar")
-                .navigationBarItems(leading:
-                    NavigationLink(destination: TipJar()) {
-                        Image(systemName: "hands.clap")
-                    }, trailing:
-                        HStack {
-                            NavigationLink(destination: PlayView(tabCount: quantity, tabs: tabs)) {
-                            Image(systemName: "play")
-                            }
-                            .padding(.trailing)
-                            NavigationLink(destination: Export(tabCount: quantity, tabs: tabs)) {
-                            Image(systemName: "square.and.arrow.up")
-                            }
+                .navigationTitle("SF TabBar")
+                .navigationBarTitleDisplayMode(.large)
+                .toolbar {
+                    ToolbarItem(placement: .topBarLeading) {
+                        NavigationLink(destination: TipJar()) {
+                            Image(systemName: "hands.clap")
                         }
-                                    
-                )
-            }
+                    }
+                    ToolbarItemGroup(placement: .topBarTrailing) {
+                        NavigationLink(destination: PlayView(tabCount: quantity, tabs: tabs)) {
+                            Image(systemName: "play")
+                        }
+                        NavigationLink(destination: Export(tabCount: quantity, tabs: tabs)) {
+                            Image(systemName: "square.and.arrow.up")
+                        }
+                    }
+                }
+                .slateToolbarStyle()
         }
         .accentColor(.pink)
+        .onAppear {
+            UIView.configureAlertAppearance()
+        }
     }
 }
 
@@ -310,27 +326,25 @@ struct VRule: Shape {
     }
 }
 
-extension UINavigationController {
-    override open func viewDidLoad() {
-        super.viewDidLoad()
+struct SlateToolbarStyle: ViewModifier {
+    func body(content: Content) -> some View {
+        content
+            .toolbarBackground(Color("slate"), for: .navigationBar)
+            .toolbarBackground(.visible, for: .navigationBar)
+            .toolbarColorScheme(.dark, for: .navigationBar)
+    }
+}
 
-        let standardAppearance = UINavigationBarAppearance()
-        standardAppearance.backgroundColor = UIColor(named: "slate")
-        standardAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
-        standardAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+extension View {
+    func slateToolbarStyle() -> some View {
+        modifier(SlateToolbarStyle())
+    }
+}
 
-        let scrollEdgeAppearance = UINavigationBarAppearance()
-        scrollEdgeAppearance.backgroundColor = UIColor(named: "slate")
-        scrollEdgeAppearance.largeTitleTextAttributes = [.foregroundColor: UIColor.white]
-        scrollEdgeAppearance.titleTextAttributes = [.foregroundColor: UIColor.white]
-
-        navigationBar.standardAppearance = standardAppearance
-        navigationBar.scrollEdgeAppearance = scrollEdgeAppearance
-        
+// Keep alert controller styling
+extension UIView {
+    static func configureAlertAppearance() {
         UIView.appearance(whenContainedInInstancesOf: [UIAlertController.self]).tintColor = UIColor(.pink)
-
-    
-
     }
 }
 
@@ -338,6 +352,6 @@ extension UINavigationController {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
-            .environment(\.colorScheme, .dark)
+            //.environment(\.colorScheme, .dark)
     }
 }

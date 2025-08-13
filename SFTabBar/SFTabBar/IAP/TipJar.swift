@@ -82,6 +82,7 @@ struct TipJar: View {
             .padding(.top, 2.0)
         
         }.navigationBarTitle("Sharing is Caring")
+        .slateToolbarStyle()
  }
     
     func tipLarge() {

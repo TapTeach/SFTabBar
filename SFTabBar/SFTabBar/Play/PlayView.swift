@@ -51,6 +51,7 @@ struct PlayView: View {
             }
         }
         .navigationBarTitle("Your Tab Bar")
+        .slateToolbarStyle()
     }
 }
 
