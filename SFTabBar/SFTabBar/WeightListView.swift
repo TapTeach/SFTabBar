@@ -59,7 +59,7 @@ struct WeightListView: View {
         }
         .listStyle(InsetGroupedListStyle())
         .navigationBarTitle("SF Symbol Weight")
-        .slateToolbarStyle()
+        //.slateToolbarStyle()
     }
     }
 }

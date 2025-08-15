@@ -79,7 +79,7 @@ struct SymbolsListView: View {
                 .accentColor(.pink)
                 .listStyle(InsetGroupedListStyle())
                 .navigationBarTitle("Select SF Symbol")
-                .slateToolbarStyle()
+                //.slateToolbarStyle()
             }
             .navigationBarItems(trailing:
                 Button("Categories") {

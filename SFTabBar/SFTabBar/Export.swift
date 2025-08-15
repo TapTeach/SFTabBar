@@ -41,7 +41,7 @@ struct Export: View {
             }
             .listStyle(InsetGroupedListStyle())
             .navigationBarTitle("Share")
-            .slateToolbarStyle()
+            //.slateToolbarStyle()
     }
 }
 
