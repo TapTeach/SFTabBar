@@ -40,7 +40,7 @@ struct Export: View {
                 }
             }
             .listStyle(InsetGroupedListStyle())
-            .navigationBarTitle("Share")
+            .navigationBarTitle("Sample Code")
             //.slateToolbarStyle()
     }
 }

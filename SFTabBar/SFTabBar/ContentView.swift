@@ -8,6 +8,14 @@
 import SwiftUI
 import UIKit
 
+// iOS 26 Tab Bar Minimize Behavior
+enum TabBarMinimizeBehavior: String, CaseIterable {
+    case onScrollDown = "onScrollDown"
+    case onScrollUp = "onScrollUp"
+    case automatic = "automatic"
+    case never = "never"
+}
+
 class TabsViewModel: ObservableObject {
     @Published var tab1Label = "Dash"
     @Published var tab1Icon = "gauge"
@@ -34,9 +42,10 @@ class TabsViewModel: ObservableObject {
     @Published var tab5Weight = ".regular"
     @Published var tab5FontWeight: Font.Weight = .regular
     
-    @Published var tabBarColor = Color.pink
     @Published var tabItemColor = Color("defaultLabel")
-    @Published var tabTintColor = Color.white
+    @Published var tabTintColor = Color.black
+    @Published var tabBarMinimizeBehavior = TabBarMinimizeBehavior.automatic
+    @Published var hasSearchRole = false
     
 
     func update(location: String, to value: String) {
@@ -92,23 +101,34 @@ struct ContentView: View {
     
     let generator = UINotificationFeedbackGenerator()
     
+    private func calculateTabBarWidth(for tabCount: Int) -> CGFloat {
+        switch tabCount {
+        case 1:
+            return 70
+        case 2:
+            return 147
+        case 3:
+            return 214
+        case 4, 5:
+            return 282
+        default:
+            return 282
+        }
+    }
+    
         
     var body: some View {
-        if #available(iOS 16.0, *) {
-            NavigationStack {
-                contentView
-            }
-        } else {
-            NavigationView {
-                contentView
-            }
-            .navigationViewStyle(StackNavigationViewStyle())
+        NavigationView {
+            contentView
+        }
+        .accentColor(.pink)
+        .onAppear {
+            UIView.configureAlertAppearance()
         }
     }
     
     @ViewBuilder
     private var contentView: some View {
-        NavigationStack {
                 ScrollView {
                     LazyVStack(alignment: .leading, spacing: 0, pinnedViews: [.sectionHeaders]) {
                         Section {
@@ -128,18 +148,6 @@ struct ContentView: View {
                                         }
                                         .padding(.leading, 16)
                                         .padding(.trailing, 8)
-                                        .padding(.vertical, 12)
-                                        .background(Color(.secondarySystemGroupedBackground))
-                                        
-                                        Divider()
-                                            .padding(.leading, 16)
-                                        HStack {
-                                            Text("Tab Bar Color")
-                                            Spacer()
-                                            ColorPicker("", selection: $tabs.tabBarColor, supportsOpacity: false)
-                                                .frame(width: 40, alignment: .center)
-                                        }
-                                        .padding(.horizontal, 16)
                                         .padding(.vertical, 12)
                                         .background(Color(.secondarySystemGroupedBackground))
                                         
@@ -170,9 +178,27 @@ struct ContentView: View {
                                         Divider()
                                             .padding(.leading, 16)
                                         HStack {
+                                            Text("Minimize Behavior")
+                                            Spacer()
+                                            Picker("", selection: $tabs.tabBarMinimizeBehavior) {
+                                                Text("On Scroll Down").tag(TabBarMinimizeBehavior.onScrollDown)
+                                                Text("On Scroll Up").tag(TabBarMinimizeBehavior.onScrollUp)
+                                                Text("Automatic").tag(TabBarMinimizeBehavior.automatic)
+                                                Text("Never").tag(TabBarMinimizeBehavior.never)
+                                            }
+                                            .pickerStyle(MenuPickerStyle())
+                                            .frame(width: 170, alignment: .trailing)
+                                        }
+                                        .padding(.horizontal, 16)
+                                        .padding(.vertical, 12)
+                                        .background(Color(.secondarySystemGroupedBackground))
+                                        
+                                        Divider()
+                                            .padding(.leading, 16)
+                                        HStack {
                                             Text("Display \(quantity) Tabs")
                                             Spacer()
-                                            Stepper("", value: $quantity, in: 1...5)
+                                            Stepper("", value: $quantity, in: 2...5)
                                         }
                                         .padding(.horizontal, 16)
                                         .padding(.vertical, 12)
@@ -182,297 +208,27 @@ struct ContentView: View {
                                 }
                                 // Tab 1 Section
                                 if quantity >= 1 {
-                                    VStack(alignment: .leading, spacing: 0) {
-                                        Text("Tab 1")
-                                            .font(.footnote)
-                                            .foregroundColor(.secondary)
-                                            .textCase(.uppercase)
-                                            .padding(.horizontal, 16)
-                                            .padding(.bottom, 8)
-                                        
-                                        VStack(spacing: 0) {
-                                            HStack {
-                                                TextField("Tab Label", text: $tabs.tab1Label)
-                                            }
-                                            .padding(.horizontal, 16)
-                                            .padding(.vertical, 12)
-                                            .background(Color(.secondarySystemGroupedBackground))
-                                            
-                                            Divider()
-                                                .padding(.leading, 16)
-                                            
-                                            NavigationLink(destination: SymbolsListView(tabLocation: "tab1Icon", tabs: tabs)) {
-                                                HStack {
-                                                    Image(systemName: tabs.tab1Icon)
-                                                        .opacity(0.5)
-                                                    Text(tabs.tab1Icon)
-                                                        .foregroundColor(.primary)
-                                                    Spacer()
-                                                    Image(systemName: "chevron.right")
-                                                        .font(.caption)
-                                                        .foregroundColor(.secondary)
-                                                }
-                                                .padding(.horizontal, 16)
-                                                .padding(.vertical, 12)
-                                            }
-                                            .background(Color(.secondarySystemGroupedBackground))
-                                            
-                                            Divider()
-                                                .padding(.leading, 16)
-                                            
-                                            NavigationLink(destination: WeightListView(tabLocation: "tab1Icon", currentWeight: tabs.tab1Weight, tabIcon: tabs.tab1Icon, tabs: tabs)) {
-                                                HStack {
-                                                    Text(tabs.tab1Weight)
-                                                        .fontWeight(.regular)
-                                                        .foregroundColor(.primary)
-                                                    Spacer()
-                                                    Image(systemName: "chevron.right")
-                                                        .font(.caption)
-                                                        .foregroundColor(.secondary)
-                                                }
-                                                .padding(.horizontal, 16)
-                                                .padding(.vertical, 12)
-                                            }
-                                            .background(Color(.secondarySystemGroupedBackground))
-                                        }
-                                        .clipShape(RoundedRectangle(cornerRadius: 10))
-                                    }
+                                    TabConfigurationView(tabNumber: 1, quantity: quantity, tabs: tabs)
                                 }
                                 
                                 // Tab 2 Section
                                 if quantity >= 2 {
-                                    VStack(alignment: .leading, spacing: 0) {
-                                        Text("Tab 2")
-                                            .font(.footnote)
-                                            .foregroundColor(.secondary)
-                                            .textCase(.uppercase)
-                                            .padding(.horizontal, 16)
-                                            .padding(.bottom, 8)
-                                        
-                                        VStack(spacing: 0) {
-                                            HStack {
-                                                TextField("Tab Label", text: $tabs.tab2Label)
-                                            }
-                                            .padding(.horizontal, 16)
-                                            .padding(.vertical, 12)
-                                            .background(Color(.secondarySystemGroupedBackground))
-                                            
-                                            Divider()
-                                                .padding(.leading, 16)
-                                            
-                                            NavigationLink(destination: SymbolsListView(tabLocation: "tab2Icon", tabs: tabs)) {
-                                                HStack {
-                                                    Image(systemName: tabs.tab2Icon)
-                                                        .opacity(0.5)
-                                                    Text(tabs.tab2Icon)
-                                                        .foregroundColor(.primary)
-                                                    Spacer()
-                                                    Image(systemName: "chevron.right")
-                                                        .font(.caption)
-                                                        .foregroundColor(.secondary)
-                                                }
-                                                .padding(.horizontal, 16)
-                                                .padding(.vertical, 12)
-                                            }
-                                            .background(Color(.secondarySystemGroupedBackground))
-                                            
-                                            Divider()
-                                                .padding(.leading, 16)
-                                            
-                                            NavigationLink(destination: WeightListView(tabLocation: "tab2Icon", currentWeight: tabs.tab2Weight, tabIcon: tabs.tab2Icon, tabs: tabs)) {
-                                                HStack {
-                                                    Text(tabs.tab2Weight)
-                                                        .fontWeight(.regular)
-                                                        .foregroundColor(.primary)
-                                                    Spacer()
-                                                    Image(systemName: "chevron.right")
-                                                        .font(.caption)
-                                                        .foregroundColor(.secondary)
-                                                }
-                                                .padding(.horizontal, 16)
-                                                .padding(.vertical, 12)
-                                            }
-                                            .background(Color(.secondarySystemGroupedBackground))
-                                        }
-                                        .clipShape(RoundedRectangle(cornerRadius: 10))
-                                    }
+                                    TabConfigurationView(tabNumber: 2, quantity: quantity, tabs: tabs)
                                 }
                                 
                                 // Tab 3 Section
                                 if quantity >= 3 {
-                                    VStack(alignment: .leading, spacing: 0) {
-                                        Text("Tab 3")
-                                            .font(.footnote)
-                                            .foregroundColor(.secondary)
-                                            .textCase(.uppercase)
-                                            .padding(.horizontal, 16)
-                                            .padding(.bottom, 8)
-                                        
-                                        VStack(spacing: 0) {
-                                            HStack {
-                                                TextField("Tab Label", text: $tabs.tab3Label)
-                                            }
-                                            .padding(.horizontal, 16)
-                                            .padding(.vertical, 12)
-                                            .background(Color(.secondarySystemGroupedBackground))
-                                            
-                                            Divider()
-                                                .padding(.leading, 16)
-                                            
-                                            NavigationLink(destination: SymbolsListView(tabLocation: "tab3Icon", tabs: tabs)) {
-                                                HStack {
-                                                    Image(systemName: tabs.tab3Icon)
-                                                        .opacity(0.5)
-                                                    Text(tabs.tab3Icon)
-                                                        .foregroundColor(.primary)
-                                                    Spacer()
-                                                    Image(systemName: "chevron.right")
-                                                        .font(.caption)
-                                                        .foregroundColor(.secondary)
-                                                }
-                                                .padding(.horizontal, 16)
-                                                .padding(.vertical, 12)
-                                            }
-                                            .background(Color(.secondarySystemGroupedBackground))
-                                            
-                                            Divider()
-                                                .padding(.leading, 16)
-                                            
-                                            NavigationLink(destination: WeightListView(tabLocation: "tab3Icon", currentWeight: tabs.tab3Weight, tabIcon: tabs.tab3Icon, tabs: tabs)) {
-                                                HStack {
-                                                    Text(tabs.tab3Weight)
-                                                        .fontWeight(.regular)
-                                                        .foregroundColor(.primary)
-                                                    Spacer()
-                                                    Image(systemName: "chevron.right")
-                                                        .font(.caption)
-                                                        .foregroundColor(.secondary)
-                                                }
-                                                .padding(.horizontal, 16)
-                                                .padding(.vertical, 12)
-                                            }
-                                            .background(Color(.secondarySystemGroupedBackground))
-                                        }
-                                        .clipShape(RoundedRectangle(cornerRadius: 10))
-                                    }
+                                    TabConfigurationView(tabNumber: 3, quantity: quantity, tabs: tabs)
                                 }
                                 
                                 // Tab 4 Section
                                 if quantity >= 4 {
-                                    VStack(alignment: .leading, spacing: 0) {
-                                        Text("Tab 4")
-                                            .font(.footnote)
-                                            .foregroundColor(.secondary)
-                                            .textCase(.uppercase)
-                                            .padding(.horizontal, 16)
-                                            .padding(.bottom, 8)
-                                        
-                                        VStack(spacing: 0) {
-                                            HStack {
-                                                TextField("Tab Label", text: $tabs.tab4Label)
-                                            }
-                                            .padding(.horizontal, 16)
-                                            .padding(.vertical, 12)
-                                            .background(Color(.secondarySystemGroupedBackground))
-                                            
-                                            Divider()
-                                                .padding(.leading, 16)
-                                            
-                                            NavigationLink(destination: SymbolsListView(tabLocation: "tab4Icon", tabs: tabs)) {
-                                                HStack {
-                                                    Image(systemName: tabs.tab4Icon)
-                                                        .opacity(0.5)
-                                                    Text(tabs.tab4Icon)
-                                                        .foregroundColor(.primary)
-                                                    Spacer()
-                                                    Image(systemName: "chevron.right")
-                                                        .font(.caption)
-                                                        .foregroundColor(.secondary)
-                                                }
-                                                .padding(.horizontal, 16)
-                                                .padding(.vertical, 12)
-                                            }
-                                            .background(Color(.secondarySystemGroupedBackground))
-                                            
-                                            Divider()
-                                                .padding(.leading, 16)
-                                            
-                                            NavigationLink(destination: WeightListView(tabLocation: "tab4Icon", currentWeight: tabs.tab4Weight, tabIcon: tabs.tab4Icon, tabs: tabs)) {
-                                                HStack {
-                                                    Text(tabs.tab4Weight)
-                                                        .fontWeight(.regular)
-                                                        .foregroundColor(.primary)
-                                                    Spacer()
-                                                    Image(systemName: "chevron.right")
-                                                        .font(.caption)
-                                                        .foregroundColor(.secondary)
-                                                }
-                                                .padding(.horizontal, 16)
-                                                .padding(.vertical, 12)
-                                            }
-                                            .background(Color(.secondarySystemGroupedBackground))
-                                        }
-                                        .clipShape(RoundedRectangle(cornerRadius: 10))
-                                    }
+                                    TabConfigurationView(tabNumber: 4, quantity: quantity, tabs: tabs)
                                 }
                                 
                                 // Tab 5 Section
                                 if quantity >= 5 {
-                                    VStack(alignment: .leading, spacing: 0) {
-                                        Text("Tab 5")
-                                            .font(.footnote)
-                                            .foregroundColor(.secondary)
-                                            .textCase(.uppercase)
-                                            .padding(.horizontal, 16)
-                                            .padding(.bottom, 8)
-                                        
-                                        VStack(spacing: 0) {
-                                            HStack {
-                                                TextField("Tab Label", text: $tabs.tab5Label)
-                                            }
-                                            .padding(.horizontal, 16)
-                                            .padding(.vertical, 12)
-                                            .background(Color(.secondarySystemGroupedBackground))
-                                            
-                                            Divider()
-                                                .padding(.leading, 16)
-                                            
-                                            NavigationLink(destination: SymbolsListView(tabLocation: "tab5Icon", tabs: tabs)) {
-                                                HStack {
-                                                    Image(systemName: tabs.tab5Icon)
-                                                        .opacity(0.5)
-                                                    Text(tabs.tab5Icon)
-                                                        .foregroundColor(.primary)
-                                                    Spacer()
-                                                    Image(systemName: "chevron.right")
-                                                        .font(.caption)
-                                                        .foregroundColor(.secondary)
-                                                }
-                                                .padding(.horizontal, 16)
-                                                .padding(.vertical, 12)
-                                            }
-                                            .background(Color(.secondarySystemGroupedBackground))
-                                            
-                                            Divider()
-                                                .padding(.leading, 16)
-                                            
-                                            NavigationLink(destination: WeightListView(tabLocation: "tab5Icon", currentWeight: tabs.tab5Weight, tabIcon: tabs.tab5Icon, tabs: tabs)) {
-                                                HStack {
-                                                    Text(tabs.tab5Weight)
-                                                        .fontWeight(.regular)
-                                                        .foregroundColor(.primary)
-                                                    Spacer()
-                                                    Image(systemName: "chevron.right")
-                                                        .font(.caption)
-                                                        .foregroundColor(.secondary)
-                                                }
-                                                .padding(.horizontal, 16)
-                                                .padding(.vertical, 12)
-                                            }
-                                            .background(Color(.secondarySystemGroupedBackground))
-                                        }
-                                        .clipShape(RoundedRectangle(cornerRadius: 10))
-                                    }
+                                    TabConfigurationView(tabNumber: 5, quantity: quantity, tabs: tabs)
                                 }
                             }
                             .padding(.horizontal, 16)
@@ -480,86 +236,151 @@ struct ContentView: View {
                         } header: {
                             ZStack {
                                 ZStack {
-                                    RoundedRectangle(cornerRadius: 0, style: .continuous)
-                                        .fill(tabs.tabBarColor)
-                                    HStack(alignment: .top){
-                                        if quantity >= 1 {
-                                            SFTabBar.tabItem(icon: tabs.tab1Icon, label: tabs.tab1Label, color: tabs.tabTintColor, weight: tabs.tab1FontWeight)
+                                    if tabs.hasSearchRole {
+                                        HStack(alignment: .top, spacing: 0) {
+                                            ZStack {
+                                                HStack(alignment: .top, spacing: 0) {}
+                                                .frame(width: calculateTabBarWidth(for: quantity) - 60, height: 44)
+                                                .padding(.horizontal, 4)
+                                                .padding(.vertical, 4)
+                                                .glassEffect(.clear)
+                                                HStack(alignment: .top, spacing: 0) {
+                                                    if quantity >= 1 {
+                                                        SFTabBar.tabItem(icon: tabs.tab1Icon, label: tabs.tab1Label, color: tabs.tabTintColor, weight: tabs.tab1FontWeight, isSelected: true)
+                                                    }
+                                                    if quantity >= 2 && quantity > 2 {
+                                                        SFTabBar.tabItem(icon: tabs.tab2Icon, label: tabs.tab2Label, color: tabs.tabItemColor, weight: tabs.tab2FontWeight, isSelected: false)
+                                                    }
+                                                    if quantity >= 3 && quantity > 3 {
+                                                        SFTabBar.tabItem(icon: tabs.tab3Icon, label: tabs.tab3Label, color: tabs.tabItemColor, weight: tabs.tab3FontWeight, isSelected: false)
+                                                    }
+                                                    if quantity >= 4 && quantity > 4 {
+                                                        SFTabBar.tabItem(icon: tabs.tab4Icon, label: tabs.tab4Label, color: tabs.tabItemColor, weight: tabs.tab4FontWeight, isSelected: false)
+                                                    }
+                                                }
+                                                .frame(width: calculateTabBarWidth(for: quantity) - (quantity == 5 ? 68 : 62))
+                                                .padding(.horizontal, 4)
+                                                .padding(.vertical, 4)
+                                            }
+                                            Spacer()
+                                            if quantity >= 1 {
+                                                let searchTabIcon = quantity == 1 ? tabs.tab1Icon :
+                                                                   quantity == 2 ? tabs.tab2Icon :
+                                                                   quantity == 3 ? tabs.tab3Icon :
+                                                                   quantity == 4 ? tabs.tab4Icon : tabs.tab5Icon
+                                                
+                                                let searchTabLabel = quantity == 1 ? tabs.tab1Label : 
+                                                                    quantity == 2 ? tabs.tab2Label :
+                                                                    quantity == 3 ? tabs.tab3Label :
+                                                                    quantity == 4 ? tabs.tab4Label : tabs.tab5Label
+                                                
+                                                let searchTabWeight = quantity == 1 ? tabs.tab1FontWeight : 
+                                                                     quantity == 2 ? tabs.tab2FontWeight :
+                                                                     quantity == 3 ? tabs.tab3FontWeight :
+                                                                     quantity == 4 ? tabs.tab4FontWeight : tabs.tab5FontWeight
+                                                
+                                                Image(systemName: searchTabIcon)
+                                                    .font(.system(size: 22))
+                                                    .foregroundColor(tabs.tabTintColor)
+                                                    .frame(width: 44, height: 44)
+                                                    .padding(.horizontal, 4)
+                                                    .padding(.vertical, 4)
+                                                    .glassEffect(.clear)
+                                            }
                                         }
-                                        if quantity >= 2 {
-                                            SFTabBar.tabItem(icon: tabs.tab2Icon, label: tabs.tab2Label, color: tabs.tabItemColor, weight: tabs.tab2FontWeight)
-                                        }
-                                        if quantity >= 3 {
-                                            SFTabBar.tabItem(icon: tabs.tab3Icon, label: tabs.tab3Label, color: tabs.tabItemColor, weight: tabs.tab3FontWeight)
-                                        }
-                                        if quantity >= 4 {
-                                            SFTabBar.tabItem(icon: tabs.tab4Icon, label: tabs.tab4Label, color: tabs.tabItemColor, weight: tabs.tab4FontWeight)
-                                        }
-                                        if quantity >= 5 {
-                                            SFTabBar.tabItem(icon: tabs.tab5Icon, label: tabs.tab5Label, color: tabs.tabItemColor, weight: tabs.tab5FontWeight)
+                                        //.frame(width: 290)
+                                    } else {
+                                        ZStack {
+                                            HStack(alignment: .top, spacing: 0) {}
+                                            .frame(width: calculateTabBarWidth(for: quantity), height: 44)
+                                            .padding(.horizontal, 4)
+                                            .padding(.vertical, 4)
+                                            .glassEffect(.clear)
+                                            HStack(alignment: .top, spacing: 0) {
+                                                if quantity >= 1 {
+                                                    SFTabBar.tabItem(icon: tabs.tab1Icon, label: tabs.tab1Label, color: tabs.tabTintColor, weight: tabs.tab1FontWeight, isSelected: true)
+                                                }
+                                                if quantity >= 2 {
+                                                    SFTabBar.tabItem(icon: tabs.tab2Icon, label: tabs.tab2Label, color: tabs.tabItemColor, weight: tabs.tab2FontWeight, isSelected: false)
+                                                }
+                                                if quantity >= 3 {
+                                                    SFTabBar.tabItem(icon: tabs.tab3Icon, label: tabs.tab3Label, color: tabs.tabItemColor, weight: tabs.tab3FontWeight, isSelected: false)
+                                                }
+                                                if quantity >= 4 {
+                                                    SFTabBar.tabItem(icon: tabs.tab4Icon, label: tabs.tab4Label, color: tabs.tabItemColor, weight: tabs.tab4FontWeight, isSelected: false)
+                                                }
+                                                if quantity >= 5 {
+                                                    SFTabBar.tabItem(icon: tabs.tab5Icon, label: tabs.tab5Label, color: tabs.tabItemColor, weight: tabs.tab5FontWeight, isSelected: false)
+                                                }
+                                            }
+                                            .frame(width: calculateTabBarWidth(for: quantity) - (quantity == 5 ? 8 : 2))
+                                            .padding(.horizontal, 4)
+                                            .padding(.vertical, 4)
+                                            //.glassEffect()
                                         }
                                     }
-                                    .padding([.leading, .bottom, .trailing])
                                     Image(isWhiteHomeIndicator ? "img_homeIndicator_white" : "img_homeIndicator_black" )
-                                        .offset(y: 28.0)
-                                    VRule()
-                                        .stroke(style: StrokeStyle(lineWidth: 1, dash: [5]))
-                                        .frame(height: 1)
-                                        .offset(x: 0.6, y: -105.0)
-                                        .opacity(0.5)
-                                    VRule()
-                                        .stroke(style: StrokeStyle(lineWidth: 1, dash: [5]))
-                                        .frame(height: 1)
-                                        .offset(x: 314.0, y: -105.0)
-                                        .opacity(0.5)
+                                        .offset(y: 37.0)
                                 }
-                                .frame(width: 315, height: 74)
+                                .frame(width: calculateTabBarWidth(for: quantity), height: 74)
                                 .offset(y: 18.0)
+                                ZStack {
+//                                    VRule()
+//                                        .stroke(style: StrokeStyle(lineWidth: 1, dash: [5]))
+//                                        .frame(height: 1)
+//                                        .offset(x: 0, y: -105.0)
+//                                        .opacity(0.5)
+//                                    VRule()
+//                                        .stroke(style: StrokeStyle(lineWidth: 1, dash: [5]))
+//                                        .frame(height: 1)
+//                                        .offset(x: calculateTabBarWidth(for: quantity), y: -105.0)
+//                                        .opacity(0.5)
+                                }
+                                .frame(width: calculateTabBarWidth(for: quantity))
+                                //.background(Color(.pink))
                                 Image("device_iphone11")
-                                    .offset(y: -10.0)
+                                    //.offset(y: -10.0)
                                 HRule()
                                     .stroke(style: StrokeStyle(lineWidth: 1, dash: [5]))
                                     .frame(height: 1)
-                                    .offset(y: -19.2)
+                                    .offset(y: -8)
                                     .opacity(0.5)
                                 HRule()
                                     .stroke(style: StrokeStyle(lineWidth: 1, dash: [5]))
                                     .frame(height: 1)
-                                    .offset(y: -91.0)
+                                    .offset(y: -89.0)
                                     .opacity(0.5)
+                                
                             }
                             .clipped()
                             .offset(y: 4.0)
                             .padding(.bottom)
-                            .background(Color(.systemGroupedBackground)) // Match the scrollview background
+                            .background(Color(.systemGroupedBackground))
                         }
                     }
                 }
-                .scrollIndicators(.hidden)
                 .background(Color(.systemGroupedBackground))
                 .navigationTitle("SF TabBar")
                 .navigationBarTitleDisplayMode(.large)
                 .toolbar {
-                    ToolbarItem(placement: .topBarLeading) {
-                        NavigationLink(destination: TipJar()) {
-                            Image(systemName: "hands.clap")
-                        }
-                    }
                     ToolbarItemGroup(placement: .topBarTrailing) {
-                        NavigationLink(destination: PlayView(tabCount: quantity, tabs: tabs)) {
+                        NavigationLink(destination: NewPlayView(tabCount: quantity, tabs: tabs)) {
                             Image(systemName: "play")
                         }
                         NavigationLink(destination: Export(tabCount: quantity, tabs: tabs)) {
                             Image(systemName: "square.and.arrow.up")
                         }
                     }
+                    ToolbarSpacer(placement: .topBarTrailing)
+                    ToolbarItemGroup(placement: .topBarTrailing) {
+                        NavigationLink(destination: TipJar()) {
+                            Image(systemName: "hands.clap")
+                        }
+                    }
                 }
             }
-            .accentColor(.pink)
-            .onAppear {
-                UIView.configureAlertAppearance()
-            }
-    }
+            
+    
 }
 
 
@@ -569,6 +390,7 @@ struct tabItem: View {
     var label: String
     var color: Color
     var weight: Font.Weight
+    var isSelected: Bool = false
                 
     var body: some View {
         VStack(spacing: 4.0){
@@ -576,14 +398,26 @@ struct tabItem: View {
                 .resizable()
                 .scaledToFit()
                 .frame(width: 16.0, height: 16.0)
-                .foregroundColor(color)
+                .foregroundColor(isSelected ? color : .primary)
                 .font(.system(size: 16, weight: weight))
             Text(label)
                 .foregroundColor(color)
                 .font(.system(size: 9))
                 .lineLimit(1)
                
-        } .frame(maxWidth: .infinity)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 6)
+        .background (
+            Group {
+                if isSelected {
+                    ConcentricRectangle(corners: .concentric(minimum: 6), isUniform: true)
+                        .glassEffect(.regular.interactive(),in: ConcentricRectangle(corners: .concentric(minimum: 6), isUniform: true))
+                        .frame(minWidth: 60)
+                }
+            }
+        )
+        .containerShape(.rect(cornerRadius: 37))
     }
 }
 

@@ -18,7 +18,7 @@ struct TipJar: View {
     var body: some View {
         VStack {
             List() {
-                Section(header: Text("Send a Thank You")) {
+                Section {
                 VStack {
                     HStack {
                         Text("Finding SF TabBar useful?")
@@ -81,7 +81,10 @@ struct TipJar: View {
             .foregroundColor(Color.gray)
             .padding(.top, 2.0)
         
-        }.navigationBarTitle("Sharing is Caring")
+        }
+        .navigationBarTitleDisplayMode(.large)
+        .navigationBarTitle("Rate & Share")
+        //.navigationSubtitle("Or Send a Thank You")
         //.slateToolbarStyle()
  }
     

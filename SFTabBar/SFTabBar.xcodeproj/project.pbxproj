@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		289F653A2DF68AAC00326FB7 /* sfsymbols6.json in Resources */ = {isa = PBXBuildFile; fileRef = 289F65392DF68AAC00326FB7 /* sfsymbols6.json */; };
+		9BD886552E5A8D93004BD678 /* iOS26TabViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD886542E5A8D93004BD678 /* iOS26TabViewTest.swift */; };
+		9BD886572E5B3671004BD678 /* TabConfigurationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD886562E5B3671004BD678 /* TabConfigurationView.swift */; };
+		9BD886612E61EA38004BD678 /* NovelExcerptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD886602E61EA38004BD678 /* NovelExcerptView.swift */; };
 		FB05B9EC2526360300FE2E43 /* Export.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB05B9EB2526360300FE2E43 /* Export.swift */; };
 		FB05BA122527FCCB00FE2E43 /* WeightListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB05BA112527FCCB00FE2E43 /* WeightListView.swift */; };
 		FB1D0F132512824600A0B190 /* SFTabBarApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1D0F122512824600A0B190 /* SFTabBarApp.swift */; };
@@ -48,6 +51,9 @@
 
 /* Begin PBXFileReference section */
 		289F65392DF68AAC00326FB7 /* sfsymbols6.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = sfsymbols6.json; sourceTree = "<group>"; };
+		9BD886542E5A8D93004BD678 /* iOS26TabViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOS26TabViewTest.swift; sourceTree = "<group>"; };
+		9BD886562E5B3671004BD678 /* TabConfigurationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabConfigurationView.swift; sourceTree = "<group>"; };
+		9BD886602E61EA38004BD678 /* NovelExcerptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NovelExcerptView.swift; sourceTree = "<group>"; };
 		FB05B9EB2526360300FE2E43 /* Export.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Export.swift; sourceTree = "<group>"; };
 		FB05BA112527FCCB00FE2E43 /* WeightListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeightListView.swift; sourceTree = "<group>"; };
 		FB1D0F0F2512824600A0B190 /* SFTabBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SFTabBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -129,6 +135,8 @@
 				FB504E79251FDE24000BC03A /* Resources */,
 				FBFEE5F02523B1B700C2A41A /* SFSymbols */,
 				FB1D0F122512824600A0B190 /* SFTabBarApp.swift */,
+				9BD886542E5A8D93004BD678 /* iOS26TabViewTest.swift */,
+				9BD886562E5B3671004BD678 /* TabConfigurationView.swift */,
 				FB1D0F142512824600A0B190 /* ContentView.swift */,
 				FB4678F6253C8A8200417EDE /* Play */,
 				FB05BA112527FCCB00FE2E43 /* WeightListView.swift */,
@@ -187,6 +195,7 @@
 		FB4678F6253C8A8200417EDE /* Play */ = {
 			isa = PBXGroup;
 			children = (
+				9BD886602E61EA38004BD678 /* NovelExcerptView.swift */,
 				FB4678F1253C8A7B00417EDE /* PlayView.swift */,
 			);
 			path = Play;
@@ -350,8 +359,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				FB2C9D6E2530CA8D0007932E /* IAPManager.swift in Sources */,
+				9BD886572E5B3671004BD678 /* TabConfigurationView.swift in Sources */,
 				FB2C9D8D2530E5A10007932E /* ReviewManager.swift in Sources */,
 				FB1F6ADD252386C0008C0BB7 /* SFModel.swift in Sources */,
+				9BD886552E5A8D93004BD678 /* iOS26TabViewTest.swift in Sources */,
+				9BD886612E61EA38004BD678 /* NovelExcerptView.swift in Sources */,
 				FB1F6AD525237E5D008C0BB7 /* SymbolsListView.swift in Sources */,
 				FB05B9EC2526360300FE2E43 /* Export.swift in Sources */,
 				FB1D0F152512824600A0B190 /* ContentView.swift in Sources */,
@@ -523,12 +535,14 @@
 				DEVELOPMENT_TEAM = GX6GRW776S;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = SFTabBar/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = SFTabBar;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.0;
+				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tapteachapps.SFTabBar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -547,12 +561,14 @@
 				DEVELOPMENT_TEAM = GX6GRW776S;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = SFTabBar/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = SFTabBar;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.0;
+				MARKETING_VERSION = 2.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tapteachapps.SFTabBar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
