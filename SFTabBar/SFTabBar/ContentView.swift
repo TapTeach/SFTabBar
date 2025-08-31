@@ -289,14 +289,18 @@ struct ContentView: View {
                                                                    quantity == 2 ? tabs.tab2Icon :
                                                                    quantity == 3 ? tabs.tab3Icon :
                                                                    quantity == 4 ? tabs.tab4Icon : tabs.tab5Icon
-                                                
-                                                Image(systemName: searchTabIcon)
-                                                    .font(.system(size: 22))
-                                                    .foregroundColor(Color.primary)
-                                                    .frame(width: 44, height: 44)
-                                                    .padding(.horizontal, 4)
-                                                    .padding(.vertical, 4)
+                                                ZStack{
+                                                    ZStack {
+                                                    }
+                                                    .frame(width: 50, height: 50)
                                                     .glassEffect(.clear)
+                                                    Image(systemName: searchTabIcon)
+                                                        .font(.system(size: 20))
+                                                        .frame(width: 44, height: 44)
+                                                        .foregroundColor(Color.primary)
+                                                        .padding(.horizontal, 4)
+                                                        .padding(.vertical, 4)
+                                                }
                                             }
                                         }
                                         .frame(width: 290)

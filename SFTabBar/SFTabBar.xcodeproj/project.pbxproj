@@ -12,6 +12,7 @@
 		9B0568EE2E61FCEE00691D24 /* UploadDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0568ED2E61FCE000691D24 /* UploadDemoView.swift */; };
 		9B0568F02E62361D00691D24 /* ColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0568EF2E6235FF00691D24 /* ColorExtensions.swift */; };
 		9B0568F22E64627300691D24 /* DocumentationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0568F12E64626600691D24 /* DocumentationView.swift */; };
+		9B0568F82E64C2AD00691D24 /* SFTabBar.icon in Resources */ = {isa = PBXBuildFile; fileRef = 9B0568F72E64C2AD00691D24 /* SFTabBar.icon */; };
 		9BD886552E5A8D93004BD678 /* iOS26TabViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD886542E5A8D93004BD678 /* iOS26TabViewTest.swift */; };
 		9BD886572E5B3671004BD678 /* TabConfigurationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD886562E5B3671004BD678 /* TabConfigurationView.swift */; };
 		9BD886612E61EA38004BD678 /* NovelExcerptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD886602E61EA38004BD678 /* NovelExcerptView.swift */; };
@@ -58,6 +59,7 @@
 		9B0568ED2E61FCE000691D24 /* UploadDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadDemoView.swift; sourceTree = "<group>"; };
 		9B0568EF2E6235FF00691D24 /* ColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtensions.swift; sourceTree = "<group>"; };
 		9B0568F12E64626600691D24 /* DocumentationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentationView.swift; sourceTree = "<group>"; };
+		9B0568F72E64C2AD00691D24 /* SFTabBar.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = SFTabBar.icon; sourceTree = "<group>"; };
 		9BD886542E5A8D93004BD678 /* iOS26TabViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOS26TabViewTest.swift; sourceTree = "<group>"; };
 		9BD886562E5B3671004BD678 /* TabConfigurationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabConfigurationView.swift; sourceTree = "<group>"; };
 		9BD886602E61EA38004BD678 /* NovelExcerptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NovelExcerptView.swift; sourceTree = "<group>"; };
@@ -137,6 +139,7 @@
 		FB1D0F112512824600A0B190 /* SFTabBar */ = {
 			isa = PBXGroup;
 			children = (
+				9B0568F72E64C2AD00691D24 /* SFTabBar.icon */,
 				9B0568F12E64626600691D24 /* DocumentationView.swift */,
 				9B0568EF2E6235FF00691D24 /* ColorExtensions.swift */,
 				FB2C9D722530CA9B0007932E /* IAP */,
@@ -341,6 +344,7 @@
 				FB1D0F1A2512824900A0B190 /* Preview Assets.xcassets in Resources */,
 				FB1D0F172512824900A0B190 /* Assets.xcassets in Resources */,
 				FB504E7B251FDE60000BC03A /* sfsymbols.json in Resources */,
+				9B0568F82E64C2AD00691D24 /* SFTabBar.icon in Resources */,
 				289F653A2DF68AAC00326FB7 /* sfsymbols6.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -539,7 +543,7 @@
 		FB1D0F352512824A00A0B190 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = SFTabBar;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 10192020.1;
@@ -565,7 +569,7 @@
 		FB1D0F362512824A00A0B190 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_APPICON_NAME = SFTabBar;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 10192020.1;

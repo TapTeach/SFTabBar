@@ -81,22 +81,6 @@ struct FilledStyle: ButtonStyle {
     }
 }
 
-struct ActivityView: UIViewControllerRepresentable {
-
-    let activityItems: [Any]
-    let applicationActivities: [UIActivity]?
-
-    func makeUIViewController(context: UIViewControllerRepresentableContext<ActivityView>) -> UIActivityViewController {
-        return UIActivityViewController(activityItems: activityItems,
-                                        applicationActivities: applicationActivities)
-    }
-
-    func updateUIViewController(_ uiViewController: UIActivityViewController,
-                                context: UIViewControllerRepresentableContext<ActivityView>) {
-
-    }
-}
-
 struct TipJar_Previews: PreviewProvider {
     static var previews: some View {
         TipJar()

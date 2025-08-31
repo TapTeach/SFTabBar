@@ -31,8 +31,8 @@ struct BottomAccessoryModifier: ViewModifier {
                     Text("Love the App?")
                         .font(.caption)
                     Spacer()
-                    Button("Rate") {
-                        // Play action
+                    Link(destination: URL(string: "https://apps.apple.com/us/app/id1533863571?mt=8&action=write-review")!) {
+                        Text("Rate")
                     }
                     .buttonStyle(.borderedProminent)
                 }

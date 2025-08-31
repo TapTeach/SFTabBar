@@ -11,6 +11,8 @@ struct DocumentionView: View {
     
     let appVersionString: String = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
     
+    @State private var showingShareSheet = false
+    
     var body: some View {
         List {
             Section(header: Text("Tab Bar Resources")) {
@@ -30,17 +32,50 @@ struct DocumentionView: View {
             Section(header: Text("SFSymbols Resources")) {
                 Link("SF Symbols 6.0", destination: URL(string: "https://developer.apple.com/sf-symbols/")!)
             }
-            HStack {
-                Text("App Version")
-                Spacer()
-                Text(appVersionString)
-                    .foregroundColor(Color.gray)
+            Section(header: Text("Share the App")) {
+                HStack {
+                    Link(destination: URL(string: "https://apps.apple.com/us/app/id1533863571?mt=8&action=write-review")!) {
+                        Text("Rate the App")
+                    }
+                }
+                HStack {
+                    Button(action: {
+                        self.showingShareSheet = true
+                    }) {
+                        Text("Share with Friends")
+                    }
+                    .sheet(isPresented: $showingShareSheet,
+                           content: {
+                            ActivityView(activityItems: [NSURL(string: "https://apps.apple.com/us/app/id1533863571")!] as [Any], applicationActivities: nil) })
+                }
+                HStack {
+                    Text("App Version")
+                    Spacer()
+                    Text(appVersionString)
+                        .foregroundColor(Color.gray)
+                }
             }
         }
         .accentColor(.pink)
         .listStyle(InsetGroupedListStyle())
         .navigationBarTitleDisplayMode(.large)
         .navigationBarTitle("Documentation")
+    }
+}
+
+struct ActivityView: UIViewControllerRepresentable {
+
+    let activityItems: [Any]
+    let applicationActivities: [UIActivity]?
+
+    func makeUIViewController(context: UIViewControllerRepresentableContext<ActivityView>) -> UIActivityViewController {
+        return UIActivityViewController(activityItems: activityItems,
+                                        applicationActivities: applicationActivities)
+    }
+
+    func updateUIViewController(_ uiViewController: UIActivityViewController,
+                                context: UIViewControllerRepresentableContext<ActivityView>) {
+
     }
 }
 

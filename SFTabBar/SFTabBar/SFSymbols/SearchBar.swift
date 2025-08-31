@@ -44,8 +44,8 @@ struct SearchBar: UIViewRepresentable {
         searchBar.delegate = context.coordinator
         searchBar.searchBarStyle = .minimal
         searchBar.autocapitalizationType = .none
-        searchBar.backgroundColor = UIColor(named: "slate")
-        searchBar.searchTextField.textColor = .white
+        searchBar.backgroundColor = UIColor(.gray.opacity(0.3))
+        searchBar.searchTextField.textColor = .secondaryLabel
         searchBar.placeholder = "Find a Symbol"
         return searchBar
     }
