@@ -63,11 +63,11 @@ struct SymbolsListView: View {
                             Section(header: Text(section.title + " (" + String(section.items.count) + ")")) {
                                 ForEach(section.items.filter {
                                     self.searchText.isEmpty ? true : $0.lowercased().contains(self.searchText.lowercased())
-                                }) { item in
-                                    SymbolRow(name: item)
+                                }.map { IdentifiableString(value: $0) }) { item in
+                                    SymbolRow(name: item.value)
                                         .onTapGesture {
                                             presentationMode.wrappedValue.dismiss()
-                                            tabs.update(location: tabLocation, to: item)
+                                            tabs.update(location: tabLocation, to: item.value)
                                             selectionFeedback.selectionChanged()
                                         }
                                 }

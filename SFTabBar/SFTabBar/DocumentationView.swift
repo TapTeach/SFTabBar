@@ -1,0 +1,51 @@
+//
+//  DocumentationView.swift
+//  SFTabBar
+//
+//  Created by Adam Jones on 8/31/25.
+//
+
+import SwiftUI
+
+struct DocumentionView: View {
+    
+    let appVersionString: String = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
+    
+    var body: some View {
+        List {
+            Section(header: Text("Tab Bar Resources")) {
+                Link("Apple HIG Tab Bars", destination: URL(string: "https://developer.apple.com/design/human-interface-guidelines/ios/bars/tab-bars/")!)
+                Link("TabView()", destination: URL(string: "https://developer.apple.com/documentation/swiftui/tabview")!)
+                Link("TabSearchActivation", destination: URL(string: "https://developer.apple.com/documentation/swiftui/tabsearchactivation")!)
+                Link("TabBarMinimizeBehavior", destination: URL(string: "https://developer.apple.com/documentation/swiftui/tabbarminimizebehavior")!)
+                Link("TabViewBottomAccessoryPlacement", destination: URL(string: "https://developer.apple.com/documentation/swiftui/tabviewbottomaccessoryplacement")!)
+                Link("role: .search", destination: URL(string: "https://developer.apple.com/documentation/swiftui/tabrole")!)
+            }
+            Section(header: Text("Liquid Glass Resources")) {
+                Link("Adopting Liquid Glass", destination: URL(string: "https://developer.apple.com/documentation/TechnologyOverviews/adopting-liquid-glass")!)
+                Link("Applying Liquid Glass to Custom Views", destination: URL(string: "https://developer.apple.com/documentation/SwiftUI/Applying-Liquid-Glass-to-custom-views")!)
+                Link(".glassEfftect()", destination: URL(string: "https://developer.apple.com/documentation/SwiftUI/View/glassEffect(_:in:)")!)
+                
+            }
+            Section(header: Text("SFSymbols Resources")) {
+                Link("SF Symbols 6.0", destination: URL(string: "https://developer.apple.com/sf-symbols/")!)
+            }
+            HStack {
+                Text("App Version")
+                Spacer()
+                Text(appVersionString)
+                    .foregroundColor(Color.gray)
+            }
+        }
+        .accentColor(.pink)
+        .listStyle(InsetGroupedListStyle())
+        .navigationBarTitleDisplayMode(.large)
+        .navigationBarTitle("Documentation")
+    }
+}
+
+#Preview {
+    NavigationStack {
+        DocumentionView()
+    }
+}

@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import MobileCoreServices
+import UniformTypeIdentifiers
 
 struct Export: View {
     
@@ -17,73 +17,193 @@ struct Export: View {
     let generator = UINotificationFeedbackGenerator()
     
     var body: some View {
-            List {
-                Section(header: Text("")) {
-                Text("Below is an example of each tab's implementation with SwiftUI. Your .tabItem should be a modifier of a view and contained within a TabView() \n\rTab views only support tab items of type Text, Image, or an image followed by text. Passing any other type of view results in a visible but empty tab item.")
-                    .font(.footnote)
-                    .padding(.top, 4.0)
+        List {
+            Section(header: Text("iOS 26 TabView Code")) {
+                HStack {
+                    Text("Below is an implementation based on your configuration. Copy and paste this into your SwiftUI project.")
+                        .font(.footnote)
+                        .padding(.horizontal)
+                    Button {
+                        copyCompleteCodeToClipboard()
+                        self.generator.notificationOccurred(.success)
+                    } label: {
+                        Image(systemName: "document.on.document")
+                    }
+                    .buttonStyle(.glassProminent)
+                    .padding()
+                    
                 }
-                if tabCount >= 1 {
-                    exportRow(tabTag: 1, tabIcon: tabs.tab1Icon, tabLabel: tabs.tab1Label, iconWeight: tabs.tab1Weight)
+                VStack(alignment: .leading, spacing: 8) {
+                    // TabView structure
+                    Text("TabView {")
+                        .font(.system(.body, design: .monospaced))
+                        .foregroundColor(.blue)
+                    
+                    // Individual tabs
+                    ForEach(1...tabCount, id: \.self) { tabNumber in
+                        generateTabCode(tabNumber: tabNumber)
+                    }
+                    
+                    Text("}")
+                        .font(.system(.body, design: .monospaced))
+                        .foregroundColor(.blue)
+                    
+                    // Modifiers
+                    generateModifiers()
                 }
-                if tabCount >= 2 {
-                exportRow(tabTag: 2, tabIcon: tabs.tab2Icon, tabLabel: tabs.tab2Label, iconWeight: tabs.tab2Weight)
-                }
-                if tabCount >= 3 {
-                exportRow(tabTag: 3, tabIcon: tabs.tab3Icon, tabLabel: tabs.tab3Label, iconWeight: tabs.tab3Weight)
-                }
-                if tabCount >= 4 {
-                exportRow(tabTag: 4, tabIcon: tabs.tab4Icon, tabLabel: tabs.tab4Label, iconWeight: tabs.tab4Weight)
-                }
-                if tabCount >= 5 {
-                exportRow(tabTag: 5, tabIcon: tabs.tab5Icon, tabLabel: tabs.tab5Label, iconWeight: tabs.tab5Weight)
-                }
+                .padding()
+                .background(Color(.systemGray6))
+                .cornerRadius(8)
             }
-            .listStyle(InsetGroupedListStyle())
-            .navigationBarTitle("Sample Code")
-            //.slateToolbarStyle()
+        }
+        .listStyle(InsetGroupedListStyle())
+        .navigationBarTitle("Code Snippet")
     }
-}
-
-struct exportRow: View {
     
-    var tabTag: Int
-    var tabIcon: String
-    var tabLabel: String
-    var iconWeight: String
+    // Generate individual tab code
+    private func generateTabCode(tabNumber: Int) -> some View {
+        let icon = getTabIcon(tabNumber)
+        let label = getTabLabel(tabNumber)
+        let hasSearchRole = tabNumber == tabCount && tabs.hasSearchRole
         
-    let generator = UINotificationFeedbackGenerator()
-    
-    var body: some View {
-        Section(header: Text("Tab " + String(tabTag))) {
-        VStack(alignment: .leading) {
-            Text(".tabItem({").foregroundColor(Color("modifier"))
-            Text("  Image(systemName:").foregroundColor(Color("modifier")) +
-                Text("\"" + tabIcon + "\"").foregroundColor(.primary) +
-            Text(")").foregroundColor(Color("modifier"))
-//            Text("  .font(.system(size: 16, weight: ").foregroundColor(Color("modifier")) +
-//            Text(iconWeight).foregroundColor(.primary) +
-//            Text("))").foregroundColor(Color("modifier"))
-            Text("  Text(").foregroundColor(Color("modifier")) +
-            Text("\"" + tabLabel + "\"").foregroundColor(.primary) +
-            Text(")").foregroundColor(Color("modifier"))
-            Text("})").foregroundColor(Color("modifier"))
-            Text(".tag(" + String(tabTag - 1) + ")").foregroundColor(Color("modifier"))
+        return VStack(alignment: .leading, spacing: 4) {
+            if hasSearchRole {
+                Text("    Tab(\"\(label)\", systemImage: \"\(icon)\", role: .search) {")
+                    .font(.system(.body, design: .monospaced))
+                    .foregroundColor(.green)
+                Text("        // Your search view here")
+                    .font(.system(.body, design: .monospaced))
+                    .foregroundColor(.secondary)
+                    .padding(.leading, 16)
+                Text("    }")
+                    .font(.system(.body, design: .monospaced))
+                    .foregroundColor(.green)
+            } else {
+                Text("    Tab(\"\(label)\", systemImage: \"\(icon)\") {")
+                    .font(.system(.body, design: .monospaced))
+                    .foregroundColor(.green)
+                Text("        EmptyView() // Your view here")
+                    .font(.system(.body, design: .monospaced))
+                    .foregroundColor(.secondary)
+                    .padding(.leading, 16)
+                Text("    }")
+                    .font(.system(.body, design: .monospaced))
+                    .foregroundColor(.green)
+            }
         }
-        .padding([.top, .bottom])
-            Button("Copy to Clipboard") {
-                UIPasteboard.general.setValue(String(".tabItem({ \r Image(systemName:\"" + tabIcon + "\")\r" + "Text(\"") + tabLabel + "\")\r" + "})\r" + ".tag(" + String(tabTag - 1) + ")",
-                            forPasteboardType: kUTTypePlainText as String)
-                self.generator.notificationOccurred(.success)
+    }
+    
+    // Generate modifiers section
+    private func generateModifiers() -> some View {
+        VStack(alignment: .leading, spacing: 4) {
+            Text("")
+            Text(".tabViewStyle(.sidebarAdaptable)")
+                .font(.system(.body, design: .monospaced))
+                .foregroundColor(.orange)
+            
+            // Minimize behavior
+            Text(".tabBarMinimizeBehavior(.\(tabs.tabBarMinimizeBehavior.rawValue))")
+                .font(.system(.body, design: .monospaced))
+                .foregroundColor(.orange)
+            
+            // Bottom accessory if enabled
+            if tabs.hasBottomAccessory {
+                Text("")
+                Text(".tabViewBottomAccessory {")
+                    .font(.system(.body, design: .monospaced))
+                    .foregroundColor(.purple)
+                Text("    // Your bottom accessory content here")
+                    .font(.system(.body, design: .monospaced))
+                    .foregroundColor(.secondary)
+                    .padding(.leading, 16)
+                Text("}")
+                    .font(.system(.body, design: .monospaced))
+                    .foregroundColor(.purple)
+            }
+            
+            // Color customizations
+            Text("")
+            Text(".accentColor(\(generateColorCode(tabs.tabTintColor)))")
+                .font(.system(.body, design: .monospaced))
+                .foregroundColor(.orange)
+        }
+    }
+    
+    // Helper functions
+    private func getTabIcon(_ tabNumber: Int) -> String {
+        switch tabNumber {
+        case 1: return tabs.tab1Icon
+        case 2: return tabs.tab2Icon
+        case 3: return tabs.tab3Icon
+        case 4: return tabs.tab4Icon
+        case 5: return tabs.tab5Icon
+        default: return "circle"
+        }
+    }
+    
+    private func getTabLabel(_ tabNumber: Int) -> String {
+        switch tabNumber {
+        case 1: return tabs.tab1Label
+        case 2: return tabs.tab2Label
+        case 3: return tabs.tab3Label
+        case 4: return tabs.tab4Label
+        case 5: return tabs.tab5Label
+        default: return "Tab \(tabNumber)"
+        }
+    }
+    
+    private func generateColorCode(_ color: Color) -> String {
+        // Convert common colors to readable names
+        if color == .black { return ".black" }
+        if color == .white { return ".white" }
+        if color == .blue { return ".blue" }
+        if color == .red { return ".red" }
+        if color == .green { return ".green" }
+        if color == .orange { return ".orange" }
+        if color == .pink { return ".pink" }
+        if color == .purple { return ".purple" }
+        if color == .yellow { return ".yellow" }
+        return "Color(red: \(color.description))" // Fallback
+    }
+    
+    private func copyCompleteCodeToClipboard() {
+        var code = "TabView {\n"
+        
+        // Add tabs
+        for tabNumber in 1...tabCount {
+            let icon = getTabIcon(tabNumber)
+            let label = getTabLabel(tabNumber)
+            let hasSearchRole = tabNumber == tabCount && tabs.hasSearchRole
+            
+            if hasSearchRole {
+                code += "    Tab(\"\(label)\", systemImage: \"\(icon)\", role: .search) {\n"
+                code += "        // Your search view here\n"
+                code += "    }\n"
+            } else {
+                code += "    Tab(\"\(label)\", systemImage: \"\(icon)\") {\n"
+                code += "        EmptyView() // Your view here\n"
+                code += "    }\n"
             }
         }
         
+        code += "}\n"
+        code += ".tabViewStyle(.sidebarAdaptable)\n"
+        code += ".tabBarMinimizeBehavior(.\(tabs.tabBarMinimizeBehavior.rawValue))\n"
+        
+        if tabs.hasBottomAccessory {
+            code += ".tabViewBottomAccessory {\n"
+            code += "    // Your bottom accessory content here\n"
+            code += "}\n"
+        }
+        
+        code += ".accentColor(\(generateColorCode(tabs.tabTintColor)))"
+        
+        UIPasteboard.general.setValue(code, forPasteboardType: UTType.plainText.identifier)
     }
 }
 
 struct Export_Previews: PreviewProvider {
     static var previews: some View {
         Export(tabCount: 5, tabs: TabsViewModel())
-            //.environment(\.colorScheme, .dark)
     }
 }

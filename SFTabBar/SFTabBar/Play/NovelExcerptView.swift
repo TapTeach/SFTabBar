@@ -4,16 +4,14 @@ struct NovelExcerptView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 20) {
-                // Header
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Introduction")
                         .font(.caption)
                         .foregroundColor(.secondary)
                         .textCase(.uppercase)
                         .tracking(1)
-                    
                     Text("Winesburg, Ohio")
-                        .font(.largeTitle)
+                        .font(.title)
                         .fontWeight(.bold)
                         .foregroundColor(.primary)
                     
@@ -23,19 +21,26 @@ struct NovelExcerptView: View {
                         .italic()
                 }
                 .padding(.bottom, 10)
-                
-                // Divider
                 Divider()
                     .padding(.vertical, 10)
-                
-                // Excerpt text
                 Text("""
                 THE WRITER, an old man with a white mustache, had some difficulty in getting into bed. The windows of the house in which he lived were high and he wanted to look at the trees when he awoke in the morning. A carpenter came to fix the bed so that it would be on a level with the window.
 
                 Quite a fuss was made about the matter. The carpenter, who had been a soldier in the Civil War, came into the writer's room and sat down to talk of building a platform for the purpose of raising the bed. The writer had cigars lying about and the carpenter smoked.
 
                 For a time the two men talked of the raising of the bed and then they talked of other things. The soldier got on the subject of the war. The writer, in fact, led him to that subject. The carpenter had once been a prisoner in Andersonville prison and had lost a brother. The brother had died of starvation, and whenever the carpenter got upon that subject he cried. He, like the old writer, had a white mustache, and when he cried he puckered up his lips and the mustache bobbed up and down. The weeping old man with the cigar in his mouth was ludicrous. The plan the writer had for the raising of his bed was forgotten and later the carpenter did it in his own way and the writer, who was past sixty, had to help himself with a chair when he went to bed at night.
-
+                """)
+                    .font(.body)
+                    .lineSpacing(6)
+                    .foregroundColor(.primary)
+                    .textSelection(.enabled)
+                Image("illus_winesburg")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(maxWidth: .infinity)
+                    .cornerRadius(12)
+                    .shadow(radius: 4, x: 0, y: 2)
+                Text("""
                 In his bed the writer rolled over on his side and lay quite still. For years he had been beset with notions concerning his heart. He was a hard smoker and his heart fluttered. The idea had got into his mind that he would some time die unexpectedly and always when he got into bed he thought of that. It did not alarm him. The effect in fact was quite a special thing and not easily explained. It made him more alive, there in bed, than at any other time. Perfectly still he lay and his body was old and not of much use any more, but something inside him was altogether young. He was like a pregnant woman, only that the thing inside him was not a baby but a youth. No, it wasn't a youth, it was a woman, young, and wearing a coat of mail like a knight. It is absurd, you see, to try to tell what was inside the old writer as he lay on his high bed and listened to the fluttering of his heart. The thing to get at is what the writer, or the young thing within the writer, was thinking about.
 
                 The old writer, like all of the people in the world, had got, during his long life, a great many notions in his head. He had once been quite handsome and a number of women had been in love with him. And then, of course, he had known people, many people, known them in a peculiarly intimate way that was different from the way in which you and I know people. At least that is what the writer thought and the thought pleased him. Why quarrel with an old man concerning his thoughts?
@@ -68,6 +73,7 @@ struct NovelExcerptView: View {
                     .textSelection(.enabled)
             }
             .padding()
+            .background(.primary.opacity(0.05))
         }
         .navigationTitle("Winesburg, Ohio")
         .navigationBarTitleDisplayMode(.inline)

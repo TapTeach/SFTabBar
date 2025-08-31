@@ -7,22 +7,54 @@
 
 import SwiftUI
 
-struct DefaultTabView: View {
-    let label: String
-    let contentText: String
+// Shared state across all tabs
+class ContentState: ObservableObject {
+    @Published var selectedContentType: ContentType = .withContent
+    @Published var selectedColor: Color = .white
+    @Published var selectedImage: UIImage?
     
-    var body: some View {
-        NavigationStack {
-            VStack(spacing: 20) {
-                Text(label)
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                Text(contentText)
-                    .foregroundColor(.secondary)
+    enum ContentType: String, CaseIterable {
+        case withContent = "With Content"
+        case withColor = "With Color"
+        case withImage = "With Image"
+    }
+}
+
+struct BottomAccessoryModifier: ViewModifier {
+    let hasBottomAccessory: Bool
+    
+    func body(content: Content) -> some View {
+        if hasBottomAccessory {
+            content.tabViewBottomAccessory {
+                HStack {
+                    Image(systemName: "app.gift.fill")
+                    Text("Love the App?")
+                        .font(.caption)
+                    Spacer()
+                    Button("Rate") {
+                        // Play action
+                    }
+                    .buttonStyle(.borderedProminent)
+                }
+                .padding()
+                .background(.ultraThinMaterial)
             }
-            .padding()
+        } else {
+            content
         }
-        .navigationTitle(label)
+    }
+}
+
+func convertToSwiftUIMinimizeBehavior(_ option: TabBarMinimizeBehaviorOption) -> TabBarMinimizeBehavior {
+    switch option {
+    case .onScrollDown:
+        return .onScrollDown
+    case .onScrollUp:
+        return .onScrollUp
+    case .automatic:
+        return .automatic
+    case .never:
+        return .never
     }
 }
 
@@ -34,11 +66,11 @@ struct SearchTabView: View {
     var body: some View {
         NavigationStack {
             VStack(spacing: 20) {
-                Text(label)
-                    .font(.largeTitle)
-                    .fontWeight(.bold)
-                Text(contentText)
-                    .foregroundColor(.secondary)
+                Image(systemName: "magnifyingglass")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 100, height: 100)
+                    .foregroundColor(.primary).opacity(0.3)
             }
             .padding()
         }
@@ -52,7 +84,8 @@ struct NewPlayView: View {
     @ObservedObject var tabs: TabsViewModel
     @State private var selectedTab = "dashboard"
     @State private var searchText = ""
-    @State private var minimizeBehavior: TabViewMinimizeBehavior = .automatic
+    @State private var minimizeBehavior: TabViewMinimizeBehavior = .onScrollDown
+    @StateObject private var sharedContentState = ContentState()
     
     var body: some View {
         TabView(selection: $selectedTab) {
@@ -64,7 +97,7 @@ struct NewPlayView: View {
                     }
                 } else {
                     Tab(tabs.tab1Label, systemImage: tabs.tab1Icon, value: "tab1") {
-                        DefaultTabView(label: tabs.tab1Label, contentText: "Tab 1 Content")
+                        TabContentSelection(sharedState: sharedContentState)
                     }
                 }
             }
@@ -77,7 +110,7 @@ struct NewPlayView: View {
                     }
                 } else {
                     Tab(tabs.tab2Label, systemImage: tabs.tab2Icon, value: "tab2") {
-                        DefaultTabView(label: tabs.tab2Label, contentText: "Tab 2 Content")
+                        TabContentSelection(sharedState: sharedContentState)
                     }
                 }
             }
@@ -90,7 +123,7 @@ struct NewPlayView: View {
                     }
                 } else {
                     Tab(tabs.tab3Label, systemImage: tabs.tab3Icon, value: "tab3") {
-                        DefaultTabView(label: tabs.tab3Label, contentText: "Tab 3 Content")
+                        TabContentSelection(sharedState: sharedContentState)
                     }
                 }
             }
@@ -103,7 +136,7 @@ struct NewPlayView: View {
                     }
                 } else {
                     Tab(tabs.tab4Label, systemImage: tabs.tab4Icon, value: "tab4") {
-                        DefaultTabView(label: tabs.tab4Label, contentText: "Tab 4 Content")
+                        TabContentSelection(sharedState: sharedContentState)
                     }
                 }
             }
@@ -116,12 +149,12 @@ struct NewPlayView: View {
                     }
                 } else {
                     Tab(tabs.tab5Label, systemImage: tabs.tab5Icon, value: "tab5") {
-                        DefaultTabView(label: tabs.tab5Label, contentText: "Tab 5 Content")
+                        TabContentSelection(sharedState: sharedContentState)
                     }
                 }
             }
         }
-        .accentColor(tabs.tabTintColor) // Selected tab color
+        .accentColor(tabs.tabTintColor)
         .onAppear {
             let appearance = UITabBarAppearance()
             appearance.configureWithOpaqueBackground()
@@ -132,59 +165,47 @@ struct NewPlayView: View {
             appearance.stackedLayoutAppearance = normalItemAppearance
             appearance.inlineLayoutAppearance = normalItemAppearance
             appearance.compactInlineLayoutAppearance = normalItemAppearance
-            
             UITabBar.appearance().standardAppearance = appearance
             if #available(iOS 15.0, *) {
                 UITabBar.appearance().scrollEdgeAppearance = appearance
             }
         }
         .tabViewStyle(.sidebarAdaptable)
-        .tabBarMinimizeBehavior(.automatic)
+        .tabBarMinimizeBehavior(convertToSwiftUIMinimizeBehavior(tabs.tabBarMinimizeBehavior))
         .tabViewSearchActivation(.searchTabSelection)
-        .tabViewBottomAccessory {
-            // Bottom Accessory Demo
-            HStack {
-                Image(systemName: "app.gift.fill")
-                Text("Love the App?")
-                    .font(.caption)
-                Spacer()
-                Button("Rate") {
-                    // Play action
-                }
-                .buttonStyle(.borderedProminent)
-            }
-            .padding()
-            .background(.ultraThinMaterial)
-        }
+        .modifier(BottomAccessoryModifier(hasBottomAccessory: tabs.hasBottomAccessory))
         .navigationBarTitle("Your Tab Bar")
     }
     
 }
 
-struct DocumentionView: View {
+struct TabContentSelection: View {
+    @ObservedObject var sharedState: ContentState
+    
     var body: some View {
-        List {
-            Section(header: Text("")) {
-            Text("Your Tab Bar is alive! You can use the Tab Bar below to check out what you created or grab a screenshot for comps.")
-                .font(.callout)
-                .padding(.vertical, 4.0)
+        VStack(spacing: 0) {
+            Picker("Content Type", selection: $sharedState.selectedContentType) {
+                ForEach(ContentState.ContentType.allCases, id: \.self) { contentType in
+                    Text(contentType.rawValue).tag(contentType)
+                }
             }
-            Section(header: Text("Documentation")) {
-            Link("SF Symbols 6.0", destination: URL(string: "https://developer.apple.com/sf-symbols/")!)
-            Link("Apple HIG Tab Bars", destination: URL(string: "https://developer.apple.com/design/human-interface-guidelines/ios/bars/tab-bars/")!)
-            Link("TabView()", destination: URL(string: "https://developer.apple.com/documentation/swiftui/tabview")!)
-                Link(".tabItem", destination: URL(string: "https://developer.apple.com/documentation/swiftui/tabview/tabitem(_:)")!)
+            .pickerStyle(.segmented)
+            .padding()
+            Group {
+                switch sharedState.selectedContentType {
+                case .withContent:
+                    NovelExcerptView()
+                case .withColor:
+                    ColorDemoView()
+                case .withImage:
+                    UploadDemoView()
+                }
             }
-            Section(header: Text("Notice")) {
-            Text("The same view is created for all tabs in this demo. New views/content will not show as you tap your individual .tabItems")
-                .font(.footnote)
-                .padding(.vertical, 4.0)
-            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
-        .accentColor(.pink)
-        .listStyle(InsetGroupedListStyle())
     }
 }
+
 
 struct NewPlayView_Previews: PreviewProvider {
     static var previews: some View {

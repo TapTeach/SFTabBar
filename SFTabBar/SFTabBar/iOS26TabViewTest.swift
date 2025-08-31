@@ -73,7 +73,6 @@ struct iOS26TabViewTest: View {
                 Button("Play") {
                     // Play action
                 }
-                .buttonStyle(.borderedProminent)
             }
             .padding()
             .background(.ultraThinMaterial)

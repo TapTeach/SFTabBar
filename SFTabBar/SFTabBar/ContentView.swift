@@ -8,8 +8,7 @@
 import SwiftUI
 import UIKit
 
-// iOS 26 Tab Bar Minimize Behavior
-enum TabBarMinimizeBehavior: String, CaseIterable {
+enum TabBarMinimizeBehaviorOption: String, CaseIterable {
     case onScrollDown = "onScrollDown"
     case onScrollUp = "onScrollUp"
     case automatic = "automatic"
@@ -37,15 +36,16 @@ class TabsViewModel: ObservableObject {
     @Published var tab4Weight = ".regular"
     @Published var tab4FontWeight: Font.Weight = .regular
     
-    @Published var tab5Label = "Settings"
-    @Published var tab5Icon = "slider.horizontal.3"
+    @Published var tab5Label = "Search"
+    @Published var tab5Icon = "magnifyingglass"
     @Published var tab5Weight = ".regular"
     @Published var tab5FontWeight: Font.Weight = .regular
     
-    @Published var tabItemColor = Color("defaultLabel")
-    @Published var tabTintColor = Color.black
-    @Published var tabBarMinimizeBehavior = TabBarMinimizeBehavior.automatic
+    @Published var tabItemColor = Color.primary
+    @Published var tabTintColor = Color.pink
+    @Published var tabBarMinimizeBehavior = TabBarMinimizeBehaviorOption.onScrollDown
     @Published var hasSearchRole = false
+    @Published var hasBottomAccessory = true
     
 
     func update(location: String, to value: String) {
@@ -89,10 +89,14 @@ class TabsViewModel: ObservableObject {
 }
 
 struct ContentView: View {
+    
+    init() {
+        UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor: UIColor.systemPink]
+        UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor.systemPink]
+        }
 
     @State private var showingSheet = false
         
-    @State var isWhiteHomeIndicator = false
     @State var quantity: Int = 5
     
     @State var progress: Float = 4
@@ -142,18 +146,6 @@ struct ContentView: View {
                                         .padding(.bottom, 8)
                                     VStack(spacing: 0) {
                                         HStack {
-                                            Text("White Home Indicator")
-                                            Spacer()
-                                            Toggle("", isOn: $isWhiteHomeIndicator)
-                                        }
-                                        .padding(.leading, 16)
-                                        .padding(.trailing, 8)
-                                        .padding(.vertical, 12)
-                                        .background(Color(.secondarySystemGroupedBackground))
-                                        
-                                        Divider()
-                                            .padding(.leading, 16)
-                                        HStack {
                                             Text("Label Color")
                                             Spacer()
                                             ColorPicker("", selection: $tabs.tabItemColor, supportsOpacity: false)
@@ -181,15 +173,26 @@ struct ContentView: View {
                                             Text("Minimize Behavior")
                                             Spacer()
                                             Picker("", selection: $tabs.tabBarMinimizeBehavior) {
-                                                Text("On Scroll Down").tag(TabBarMinimizeBehavior.onScrollDown)
-                                                Text("On Scroll Up").tag(TabBarMinimizeBehavior.onScrollUp)
-                                                Text("Automatic").tag(TabBarMinimizeBehavior.automatic)
-                                                Text("Never").tag(TabBarMinimizeBehavior.never)
+                                                Text("On Scroll Down").tag(TabBarMinimizeBehaviorOption.onScrollDown)
+                                                Text("On Scroll Up").tag(TabBarMinimizeBehaviorOption.onScrollUp)
+                                                Text("Automatic").tag(TabBarMinimizeBehaviorOption.automatic)
+                                                Text("Never").tag(TabBarMinimizeBehaviorOption.never)
                                             }
                                             .pickerStyle(MenuPickerStyle())
                                             .frame(width: 170, alignment: .trailing)
                                         }
                                         .padding(.horizontal, 16)
+                                        .padding(.vertical, 12)
+                                        .background(Color(.secondarySystemGroupedBackground))
+                                        Divider()
+                                            .padding(.leading, 16)
+                                        HStack {
+                                            Text("Bottom Accessory")
+                                            Spacer()
+                                            Toggle("", isOn: $tabs.hasBottomAccessory)
+                                        }
+                                        .padding(.leading, 16)
+                                        .padding(.trailing, 8)
                                         .padding(.vertical, 12)
                                         .background(Color(.secondarySystemGroupedBackground))
                                         
@@ -235,6 +238,24 @@ struct ContentView: View {
                             .padding(.bottom, 20)
                         } header: {
                             ZStack {
+                                if tabs.hasBottomAccessory {
+                                    HStack(alignment: .top, spacing: 0) {
+                                        Image(systemName: "play.fill")
+                                            .padding(EdgeInsets(top: 0, leading: 4, bottom: 0, trailing: 8))
+                                        Text("Call to Action")
+                                            .font(.caption)
+                                        Spacer()
+                                        Text("Action")
+                                            .font(.caption)
+                                            .padding(.trailing, 4)
+                                    }
+                                        .frame(width: 280, height: 30)
+                                        .padding(.horizontal, 8)
+                                        .padding(.vertical, 4)
+                                        .background(.ultraThinMaterial)
+                                        .cornerRadius(.infinity)
+                                        .offset(y: -34.0)
+                                }
                                 ZStack {
                                     if tabs.hasSearchRole {
                                         HStack(alignment: .top, spacing: 0) {
@@ -264,31 +285,21 @@ struct ContentView: View {
                                             }
                                             Spacer()
                                             if quantity >= 1 {
-                                                let searchTabIcon = quantity == 1 ? tabs.tab1Icon :
+                                                let searchTabIcon = quantity == 1 ? tabs.tab1Icon : 
                                                                    quantity == 2 ? tabs.tab2Icon :
                                                                    quantity == 3 ? tabs.tab3Icon :
                                                                    quantity == 4 ? tabs.tab4Icon : tabs.tab5Icon
                                                 
-                                                let searchTabLabel = quantity == 1 ? tabs.tab1Label : 
-                                                                    quantity == 2 ? tabs.tab2Label :
-                                                                    quantity == 3 ? tabs.tab3Label :
-                                                                    quantity == 4 ? tabs.tab4Label : tabs.tab5Label
-                                                
-                                                let searchTabWeight = quantity == 1 ? tabs.tab1FontWeight : 
-                                                                     quantity == 2 ? tabs.tab2FontWeight :
-                                                                     quantity == 3 ? tabs.tab3FontWeight :
-                                                                     quantity == 4 ? tabs.tab4FontWeight : tabs.tab5FontWeight
-                                                
                                                 Image(systemName: searchTabIcon)
                                                     .font(.system(size: 22))
-                                                    .foregroundColor(tabs.tabTintColor)
+                                                    .foregroundColor(Color.primary)
                                                     .frame(width: 44, height: 44)
                                                     .padding(.horizontal, 4)
                                                     .padding(.vertical, 4)
                                                     .glassEffect(.clear)
                                             }
                                         }
-                                        //.frame(width: 290)
+                                        .frame(width: 290)
                                     } else {
                                         ZStack {
                                             HStack(alignment: .top, spacing: 0) {}
@@ -319,25 +330,24 @@ struct ContentView: View {
                                             //.glassEffect()
                                         }
                                     }
-                                    Image(isWhiteHomeIndicator ? "img_homeIndicator_white" : "img_homeIndicator_black" )
+                                    Image("img_homeIndicator_black")
                                         .offset(y: 37.0)
                                 }
                                 .frame(width: calculateTabBarWidth(for: quantity), height: 74)
                                 .offset(y: 18.0)
                                 ZStack {
-//                                    VRule()
-//                                        .stroke(style: StrokeStyle(lineWidth: 1, dash: [5]))
-//                                        .frame(height: 1)
-//                                        .offset(x: 0, y: -105.0)
-//                                        .opacity(0.5)
-//                                    VRule()
-//                                        .stroke(style: StrokeStyle(lineWidth: 1, dash: [5]))
-//                                        .frame(height: 1)
-//                                        .offset(x: calculateTabBarWidth(for: quantity), y: -105.0)
-//                                        .opacity(0.5)
+                                    VRule()
+                                        .stroke(style: StrokeStyle(lineWidth: 1, dash: [5]))
+                                        .frame(height: 1)
+                                        .offset(x: 0, y: -105.0)
+                                        .opacity(0.5)
+                                    VRule()
+                                        .stroke(style: StrokeStyle(lineWidth: 1, dash: [5]))
+                                        .frame(height: 1)
+                                        .offset(x: 290, y: -105.0)
+                                        .opacity(0.5)
                                 }
-                                .frame(width: calculateTabBarWidth(for: quantity))
-                                //.background(Color(.pink))
+                                .frame(width: 290)
                                 Image("device_iphone11")
                                     //.offset(y: -10.0)
                                 HRule()
@@ -373,8 +383,8 @@ struct ContentView: View {
                     }
                     ToolbarSpacer(placement: .topBarTrailing)
                     ToolbarItemGroup(placement: .topBarTrailing) {
-                        NavigationLink(destination: TipJar()) {
-                            Image(systemName: "hands.clap")
+                        NavigationLink(destination: DocumentionView()) {
+                            Image(systemName: "book.pages")
                         }
                     }
                 }
