@@ -13,6 +13,7 @@
 		9B0568F02E62361D00691D24 /* ColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0568EF2E6235FF00691D24 /* ColorExtensions.swift */; };
 		9B0568F22E64627300691D24 /* DocumentationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0568F12E64626600691D24 /* DocumentationView.swift */; };
 		9B0568F82E64C2AD00691D24 /* SFTabBar.icon in Resources */ = {isa = PBXBuildFile; fileRef = 9B0568F72E64C2AD00691D24 /* SFTabBar.icon */; };
+		9B0568FA2E65CAAB00691D24 /* sfsymbols7.json in Resources */ = {isa = PBXBuildFile; fileRef = 9B0568F92E65CAAB00691D24 /* sfsymbols7.json */; };
 		9BD886552E5A8D93004BD678 /* iOS26TabViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD886542E5A8D93004BD678 /* iOS26TabViewTest.swift */; };
 		9BD886572E5B3671004BD678 /* TabConfigurationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD886562E5B3671004BD678 /* TabConfigurationView.swift */; };
 		9BD886612E61EA38004BD678 /* NovelExcerptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD886602E61EA38004BD678 /* NovelExcerptView.swift */; };
@@ -60,6 +61,7 @@
 		9B0568EF2E6235FF00691D24 /* ColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtensions.swift; sourceTree = "<group>"; };
 		9B0568F12E64626600691D24 /* DocumentationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentationView.swift; sourceTree = "<group>"; };
 		9B0568F72E64C2AD00691D24 /* SFTabBar.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = SFTabBar.icon; sourceTree = "<group>"; };
+		9B0568F92E65CAAB00691D24 /* sfsymbols7.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = sfsymbols7.json; sourceTree = "<group>"; };
 		9BD886542E5A8D93004BD678 /* iOS26TabViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOS26TabViewTest.swift; sourceTree = "<group>"; };
 		9BD886562E5B3671004BD678 /* TabConfigurationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabConfigurationView.swift; sourceTree = "<group>"; };
 		9BD886602E61EA38004BD678 /* NovelExcerptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NovelExcerptView.swift; sourceTree = "<group>"; };
@@ -217,6 +219,7 @@
 		FB504E79251FDE24000BC03A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				9B0568F92E65CAAB00691D24 /* sfsymbols7.json */,
 				FB504E7A251FDE60000BC03A /* sfsymbols.json */,
 				289F65392DF68AAC00326FB7 /* sfsymbols6.json */,
 			);
@@ -343,6 +346,7 @@
 			files = (
 				FB1D0F1A2512824900A0B190 /* Preview Assets.xcassets in Resources */,
 				FB1D0F172512824900A0B190 /* Assets.xcassets in Resources */,
+				9B0568FA2E65CAAB00691D24 /* sfsymbols7.json in Resources */,
 				FB504E7B251FDE60000BC03A /* sfsymbols.json in Resources */,
 				9B0568F82E64C2AD00691D24 /* SFTabBar.icon in Resources */,
 				289F653A2DF68AAC00326FB7 /* sfsymbols6.json in Resources */,

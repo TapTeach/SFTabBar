@@ -20,65 +20,6 @@ class ContentState: ObservableObject {
     }
 }
 
-struct BottomAccessoryModifier: ViewModifier {
-    let hasBottomAccessory: Bool
-    
-    func body(content: Content) -> some View {
-        if hasBottomAccessory {
-            content.tabViewBottomAccessory {
-                HStack {
-                    Image(systemName: "app.gift.fill")
-                    Text("Love the App?")
-                        .font(.caption)
-                    Spacer()
-                    Link(destination: URL(string: "https://apps.apple.com/us/app/id1533863571?mt=8&action=write-review")!) {
-                        Text("Rate")
-                    }
-                    .buttonStyle(.borderedProminent)
-                }
-                .padding()
-                .background(.ultraThinMaterial)
-            }
-        } else {
-            content
-        }
-    }
-}
-
-func convertToSwiftUIMinimizeBehavior(_ option: TabBarMinimizeBehaviorOption) -> TabBarMinimizeBehavior {
-    switch option {
-    case .onScrollDown:
-        return .onScrollDown
-    case .onScrollUp:
-        return .onScrollUp
-    case .automatic:
-        return .automatic
-    case .never:
-        return .never
-    }
-}
-
-struct SearchTabView: View {
-    let label: String
-    let contentText: String
-    @Binding var searchText: String
-    
-    var body: some View {
-        NavigationStack {
-            VStack(spacing: 20) {
-                Image(systemName: "magnifyingglass")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 100, height: 100)
-                    .foregroundColor(.primary).opacity(0.3)
-            }
-            .padding()
-        }
-        .navigationTitle(label)
-        .searchable(text: $searchText)
-    }
-}
-
 struct NewPlayView: View {
     var tabCount: Int
     @ObservedObject var tabs: TabsViewModel
@@ -203,6 +144,65 @@ struct TabContentSelection: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
+    }
+}
+
+struct BottomAccessoryModifier: ViewModifier {
+    let hasBottomAccessory: Bool
+    
+    func body(content: Content) -> some View {
+        if hasBottomAccessory {
+            content.tabViewBottomAccessory {
+                HStack {
+                    Image(systemName: "app.gift.fill")
+                    Text("Love the App?")
+                        .font(.caption)
+                    Spacer()
+                    Link(destination: URL(string: "https://apps.apple.com/us/app/id1533863571?mt=8&action=write-review")!) {
+                        Text("Rate")
+                    }
+                    .buttonStyle(.borderedProminent)
+                }
+                .padding()
+                .background(.ultraThinMaterial)
+            }
+        } else {
+            content
+        }
+    }
+}
+
+func convertToSwiftUIMinimizeBehavior(_ option: TabBarMinimizeBehaviorOption) -> TabBarMinimizeBehavior {
+    switch option {
+    case .onScrollDown:
+        return .onScrollDown
+    case .onScrollUp:
+        return .onScrollUp
+    case .automatic:
+        return .automatic
+    case .never:
+        return .never
+    }
+}
+
+struct SearchTabView: View {
+    let label: String
+    let contentText: String
+    @Binding var searchText: String
+    
+    var body: some View {
+        NavigationStack {
+            VStack(spacing: 20) {
+                Image(systemName: "magnifyingglass")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 100, height: 100)
+                    .foregroundColor(.primary).opacity(0.3)
+            }
+            .padding()
+        }
+        .navigationTitle(label)
+        .searchable(text: $searchText)
     }
 }
 
