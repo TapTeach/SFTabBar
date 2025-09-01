@@ -167,7 +167,9 @@ struct Export: View {
     }
     
     private func copyCompleteCodeToClipboard() {
-        var code = "TabView {\n"
+        var code = "struct SFTabBarExport: View {\n"
+        code += "    var body: some View {\n"
+        code += "        TabView {\n"
         
         // Add tabs
         for tabNumber in 1...tabCount {
@@ -176,29 +178,33 @@ struct Export: View {
             let hasSearchRole = tabNumber == tabCount && tabs.hasSearchRole
             
             if hasSearchRole {
-                code += "    Tab(\"\(label)\", systemImage: \"\(icon)\", role: .search) {\n"
-                code += "        // Your search view here\n"
-                code += "    }\n"
+                code += "            Tab(\"\(label)\", systemImage: \"\(icon)\", role: .search) {\n"
+                code += "                // Your search view here\n"
+                code += "            }\n"
             } else {
-                code += "    Tab(\"\(label)\", systemImage: \"\(icon)\") {\n"
-                code += "        EmptyView() // Your view here\n"
-                code += "    }\n"
+                code += "            Tab(\"\(label)\", systemImage: \"\(icon)\") {\n"
+                code += "                EmptyView() // Your view here\n"
+                code += "            }\n"
             }
         }
         
-        code += "}\n"
-        code += ".tabViewStyle(.sidebarAdaptable)\n"
-        code += ".tabBarMinimizeBehavior(.\(tabs.tabBarMinimizeBehavior.rawValue))\n"
+        code += "        }\n"
+        code += "        .tabViewStyle(.sidebarAdaptable)\n"
+        code += "        .tabBarMinimizeBehavior(.\(tabs.tabBarMinimizeBehavior.rawValue))\n"
         
         if tabs.hasBottomAccessory {
-            code += ".tabViewBottomAccessory {\n"
-            code += "    // Your bottom accessory content here\n"
-            code += "}\n"
+            code += "        .tabViewBottomAccessory {\n"
+            code += "            // Your bottom accessory content here\n"
+            code += "        }\n"
         }
         
-        code += ".accentColor(\(generateColorCode(tabs.tabTintColor)))"
+        code += "        .accentColor(\(generateColorCode(tabs.tabTintColor)))\n"
+        code += "    }\n"
+        code += "}"
         
         UIPasteboard.general.setValue(code, forPasteboardType: UTType.plainText.identifier)
+        //print(code)
+        
     }
 }
 

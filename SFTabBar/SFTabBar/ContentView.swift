@@ -427,6 +427,7 @@ struct tabItem: View {
                 if isSelected {
                     ConcentricRectangle(corners: .concentric(minimum: 6), isUniform: true)
                         .glassEffect(.regular.interactive(),in: ConcentricRectangle(corners: .concentric(minimum: 6), isUniform: true))
+                        .opacity(0.5)
                         .frame(minWidth: 60)
                 }
             }
@@ -452,22 +453,6 @@ struct VRule: Shape {
     }
 }
 
-//struct SlateToolbarStyle: ViewModifier {
-//    func body(content: Content) -> some View {
-//        content
-//            .toolbarBackground(Color("slate"), for: .navigationBar)
-//            .toolbarBackground(.visible, for: .navigationBar)
-//            .toolbarColorScheme(.dark, for: .navigationBar)
-//    }
-//}
-//
-//extension View {
-//    func slateToolbarStyle() -> some View {
-//        modifier(SlateToolbarStyle())
-//    }
-//}
-
-// Keep alert controller styling
 extension UIView {
     static func configureAlertAppearance() {
         UIView.appearance(whenContainedInInstancesOf: [UIAlertController.self]).tintColor = UIColor(.pink)

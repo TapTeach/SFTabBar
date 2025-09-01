@@ -30,7 +30,7 @@ struct DocumentionView: View {
                 
             }
             Section(header: Text("SFSymbols Resources")) {
-                Link("SF Symbols 6.0", destination: URL(string: "https://developer.apple.com/sf-symbols/")!)
+                Link("SF Symbols 7.0", destination: URL(string: "https://developer.apple.com/sf-symbols/")!)
             }
             Section(header: Text("Share the App")) {
                 HStack {

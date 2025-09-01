@@ -9,7 +9,6 @@ struct UploadDemoView: View {
     var body: some View {
         GeometryReader { geometry in
             ScrollView {
-                // Top UI section
                 VStack(alignment: .leading, spacing: 8) {
                     Text("fun with Images")
                         .font(.caption)
