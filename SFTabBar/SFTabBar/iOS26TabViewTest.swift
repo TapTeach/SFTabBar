@@ -25,7 +25,7 @@ struct iOS26TabViewTest: View {
             
             // Messages Section
             TabSection("Messages") {
-                Tab("Received", systemImage: "tray.and.arrow.down.fill", value: "received") {
+                Tab("Received", systemImage: "tray.and.arrow.down", value: "received") {
                     NavigationStack {
                         VStack(spacing: 20) {}
                         .padding()

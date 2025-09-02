@@ -56,8 +56,14 @@ struct SymbolsListView: View {
     
     var body: some View {
             VStack {
-                SearchBar(text: $searchText)
+               SearchBar(text: $searchText)
                 List {
+                    Section {
+                    Text("You can choose any SF Symbol, but iOS may display a variant depending on context. For example, TabViews automatically use the .filled version per Apple's Human Interface Guidelines.")
+                        .font(.footnote)
+                        .foregroundColor(Color.gray)
+                        .padding(.vertical, 4.0)
+                    }
                     ForEach(sflibrary) { section in
                         if (section.title == filter) || (filter == "All") {
                             Section(header: Text(section.title + " (" + String(section.items.count) + ")")) {
