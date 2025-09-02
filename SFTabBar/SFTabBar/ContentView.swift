@@ -238,21 +238,29 @@ struct ContentView: View {
                             .padding(.bottom, 20)
                         } header: {
                             ZStack {
+                                ZStack(alignment: .top) {
+                                }
+                                .frame(width: 330, height: 155)
+                                .background(Color(.systemGroupedBackground))
+                                .offset(y: -12)
                                 if tabs.hasBottomAccessory {
                                     HStack(alignment: .top, spacing: 0) {
                                         Image(systemName: "play.fill")
                                             .padding(EdgeInsets(top: 0, leading: 4, bottom: 0, trailing: 8))
                                         Text("Call to Action")
                                             .font(.caption)
+                                            .foregroundColor(Color.primary)
                                         Spacer()
                                         Text("Action")
                                             .font(.caption)
+                                            .foregroundColor(Color.primary)
                                             .padding(.trailing, 4)
                                     }
                                         .frame(width: 280, height: 30)
                                         .padding(.horizontal, 8)
                                         .padding(.vertical, 4)
                                         .background(.ultraThinMaterial)
+                                        //.glassEffect(.clear)
                                         .cornerRadius(.infinity)
                                         .offset(y: -34.0)
                                 }
@@ -369,7 +377,7 @@ struct ContentView: View {
                             .clipped()
                             .offset(y: 4.0)
                             .padding(.bottom)
-                            .background(Color(.systemGroupedBackground))
+                            //.background(Color(.systemGroupedBackground))
                         }
                     }
                 }

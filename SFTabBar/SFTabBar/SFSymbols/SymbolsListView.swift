@@ -55,44 +55,45 @@ struct SymbolsListView: View {
     }
     
     var body: some View {
-            VStack {
-               SearchBar(text: $searchText)
-                List {
-                    Section {
+        List {
+            Section {
+                HStack {
+                    Image(systemName: "info.circle.fill")
+                        .font(.system(size: 20))
+                    Spacer()
                     Text("You can choose any SF Symbol, but iOS may display a variant depending on context. For example, TabViews automatically use the .filled version per Apple's Human Interface Guidelines.")
                         .font(.footnote)
-                        .foregroundColor(Color.gray)
+                        .foregroundColor(Color.black)
                         .padding(.vertical, 4.0)
-                    }
-                    ForEach(sflibrary) { section in
-                        if (section.title == filter) || (filter == "All") {
-                            Section(header: Text(section.title + " (" + String(section.items.count) + ")")) {
-                                ForEach(section.items.filter {
-                                    self.searchText.isEmpty ? true : $0.lowercased().contains(self.searchText.lowercased())
-                                }.map { IdentifiableString(value: $0) }) { item in
-                                    SymbolRow(name: item.value)
-                                        .onTapGesture {
-                                            presentationMode.wrappedValue.dismiss()
-                                            tabs.update(location: tabLocation, to: item.value)
-                                            selectionFeedback.selectionChanged()
-                                        }
+                }
+            }
+            ForEach(sflibrary) { section in
+                if (section.title == filter) || (filter == "All") {
+                    Section(header: Text(section.title + " (" + String(section.items.count) + ")")) {
+                        ForEach(section.items.filter {
+                            self.searchText.isEmpty ? true : $0.lowercased().contains(self.searchText.lowercased())
+                        }.map { IdentifiableString(value: $0) }) { item in
+                            SymbolRow(name: item.value)
+                                .onTapGesture {
+                                    presentationMode.wrappedValue.dismiss()
+                                    tabs.update(location: tabLocation, to: item.value)
+                                    selectionFeedback.selectionChanged()
                                 }
-                            }
                         }
                     }
-                    
                 }
-                .accentColor(.pink)
-                .listStyle(InsetGroupedListStyle())
-                .navigationBarTitle("Select SF Symbol")
-                //.slateToolbarStyle()
             }
+        }
+        .searchable(text: $searchText, prompt: "Search SF Symbols")
+        .accentColor(.pink)
+        .listStyle(InsetGroupedListStyle())
+        .navigationBarTitle("Select SF Symbol")
             .navigationBarItems(trailing:
                 Button("Categories") {
                     self.showingSheet = true
                 }
                 .actionSheet(isPresented: $showingSheet) {
-                    ActionSheet(title: Text("Filter SF Symbols by Category"),
+                    ActionSheet(title: Text("Filter by Category"),
                               buttons: categoryButtons)
                 }
             )

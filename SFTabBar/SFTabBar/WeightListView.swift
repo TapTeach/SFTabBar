@@ -41,10 +41,15 @@ struct WeightListView: View {
         return VStack {
             List {
                 Section(header: Text("")) {
-                Text("Weight is not currently supported on a .tabitem image. However, you can use this to get a sense of the impact weight has on an SF Symbol.")
-                    .font(.footnote)
-                    .foregroundColor(Color.gray)
-                    .padding(.vertical, 4.0)
+                    HStack {
+                        Image(systemName: "info.circle.fill")
+                            .font(.system(size: 20))
+                        Spacer()
+                        Text("Weight is not currently supported on a .tabitem image. However, you can use this to get a sense of the impact weight has on an SF Symbol.")
+                            .font(.footnote)
+                            .foregroundColor(Color.black)
+                            .padding(.vertical, 4.0)
+                    }
                 }
                 Section(header: Text("Weights")) {
                     ForEach(weights) { weight in

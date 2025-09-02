@@ -157,14 +157,17 @@ struct BottomAccessoryModifier: ViewModifier {
                     Image(systemName: "app.gift.fill")
                     Text("Love the App?")
                         .font(.caption)
+                        .foregroundColor(Color.primary)
                     Spacer()
                     Link(destination: URL(string: "https://apps.apple.com/us/app/id1533863571?mt=8&action=write-review")!) {
                         Text("Rate")
+                        .foregroundColor(Color.primary)
                     }
                     .buttonStyle(.borderedProminent)
                 }
                 .padding()
                 .background(.ultraThinMaterial)
+                //.glassEffect(.clear)
             }
         } else {
             content
