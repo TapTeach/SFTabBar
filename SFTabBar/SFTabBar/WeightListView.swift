@@ -47,7 +47,7 @@ struct WeightListView: View {
                         Spacer()
                         Text("Weight is not currently supported on a .tabitem image. However, you can use this to get a sense of the impact weight has on an SF Symbol.")
                             .font(.footnote)
-                            .foregroundColor(Color.black)
+                            .foregroundColor(Color.primary)
                             .padding(.vertical, 4.0)
                     }
                 }

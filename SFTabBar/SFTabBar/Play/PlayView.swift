@@ -153,21 +153,26 @@ struct BottomAccessoryModifier: ViewModifier {
     func body(content: Content) -> some View {
         if hasBottomAccessory {
             content.tabViewBottomAccessory {
-                HStack {
-                    Image(systemName: "app.gift.fill")
-                    Text("Love the App?")
-                        .font(.caption)
-                        .foregroundColor(Color.primary)
-                    Spacer()
-                    Link(destination: URL(string: "https://apps.apple.com/us/app/id1533863571?mt=8&action=write-review")!) {
-                        Text("Rate")
-                        .foregroundColor(Color.primary)
+                ZStack {
+                    Color(.white.opacity(0.1))
+                        .glassEffect(.regular)
+                        .cornerRadius(.infinity)
+                    HStack(alignment: .center, spacing: 0) {
+                        Image(systemName: "app.gift.fill")
+                            .padding(EdgeInsets(top: 0, leading: 4, bottom: 0, trailing: 8))
+                        Text("Love the App?")
+                            .font(.caption)
+                            .foregroundColor(Color.primary)
+                        Spacer()
+                        Link(destination: URL(string: "https://apps.apple.com/us/app/id1533863571?mt=8&action=write-review")!) {
+                            Text("Rate")
+                            .foregroundColor(Color.primary)
+                        }
+                        .buttonStyle(.borderedProminent)
+                        .padding(.horizontal, 8)
                     }
-                    .buttonStyle(.borderedProminent)
+                    .padding(.horizontal, 8)
                 }
-                .padding()
-                .background(.ultraThinMaterial)
-                //.glassEffect(.clear)
             }
         } else {
             content

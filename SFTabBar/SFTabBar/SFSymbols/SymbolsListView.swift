@@ -63,7 +63,7 @@ struct SymbolsListView: View {
                     Spacer()
                     Text("You can choose any SF Symbol, but iOS may display a variant depending on context. For example, TabViews automatically use the .filled version per Apple's Human Interface Guidelines.")
                         .font(.footnote)
-                        .foregroundColor(Color.black)
+                        .foregroundColor(Color.primary)
                         .padding(.vertical, 4.0)
                 }
             }

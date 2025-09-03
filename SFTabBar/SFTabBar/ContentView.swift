@@ -238,31 +238,29 @@ struct ContentView: View {
                             .padding(.bottom, 20)
                         } header: {
                             ZStack {
-                                ZStack(alignment: .top) {
-                                }
-                                .frame(width: 330, height: 155)
-                                .background(Color(.systemGroupedBackground))
-                                .offset(y: -12)
+                                Color(.systemGroupedBackground)
+                                    .background(Color(.systemGroupedBackground))
                                 if tabs.hasBottomAccessory {
-                                    HStack(alignment: .top, spacing: 0) {
-                                        Image(systemName: "play.fill")
-                                            .padding(EdgeInsets(top: 0, leading: 4, bottom: 0, trailing: 8))
-                                        Text("Call to Action")
-                                            .font(.caption)
-                                            .foregroundColor(Color.primary)
-                                        Spacer()
-                                        Text("Action")
-                                            .font(.caption)
-                                            .foregroundColor(Color.primary)
-                                            .padding(.trailing, 4)
-                                    }
-                                        .frame(width: 280, height: 30)
+                                    ZStack {
+                                        Color(.white.opacity(0.1))
+                                            .glassEffect(.regular)
+                                            .cornerRadius(.infinity)
+                                        HStack(alignment: .top, spacing: 0) {
+                                            Image(systemName: "play.fill")
+                                                .padding(EdgeInsets(top: 0, leading: 4, bottom: 0, trailing: 8))
+                                            Text("Call to Action")
+                                                .font(.caption)
+                                                .foregroundColor(Color.primary)
+                                            Spacer()
+                                            Text("Action")
+                                                .font(.caption)
+                                                .foregroundColor(Color.primary)
+                                                .padding(.trailing, 4)
+                                        }
                                         .padding(.horizontal, 8)
-                                        .padding(.vertical, 4)
-                                        .background(.ultraThinMaterial)
-                                        //.glassEffect(.clear)
-                                        .cornerRadius(.infinity)
-                                        .offset(y: -34.0)
+                                    }
+                                    .frame(width: 290, height: 40)
+                                    .offset(y: -36.0)
                                 }
                                 ZStack {
                                     if tabs.hasSearchRole {
@@ -375,8 +373,8 @@ struct ContentView: View {
                                 
                             }
                             .clipped()
-                            .offset(y: 4.0)
                             .padding(.bottom)
+                            //.offset(y: 4.0)
                             //.background(Color(.systemGroupedBackground))
                         }
                     }
