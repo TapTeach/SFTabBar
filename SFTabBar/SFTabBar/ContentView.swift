@@ -240,6 +240,8 @@ struct ContentView: View {
                             ZStack {
                                 Color(.systemGroupedBackground)
                                     .background(Color(.systemGroupedBackground))
+                                    .frame(width: 330, height: 155)
+                                    .offset(y: -12)
                                 if tabs.hasBottomAccessory {
                                     ZStack {
                                         Color(.white.opacity(0.1))
