@@ -162,11 +162,11 @@ struct BottomAccessoryModifier: ViewModifier {
                             .padding(EdgeInsets(top: 0, leading: 4, bottom: 0, trailing: 8))
                         Text("Love the App?")
                             .font(.caption)
-                            .foregroundColor(Color.primary)
+                            .foregroundStyle(.primary)
                         Spacer()
                         Link(destination: URL(string: "https://apps.apple.com/us/app/id1533863571?mt=8&action=write-review")!) {
                             Text("Rate")
-                            .foregroundColor(Color.primary)
+                            .foregroundStyle(.primary)
                         }
                         .buttonStyle(.borderedProminent)
                         .padding(.horizontal, 8)

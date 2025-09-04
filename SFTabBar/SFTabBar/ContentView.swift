@@ -44,7 +44,7 @@ class TabsViewModel: ObservableObject {
     @Published var tabItemColor = Color.primary
     @Published var tabTintColor = Color.pink
     @Published var tabBarMinimizeBehavior = TabBarMinimizeBehaviorOption.onScrollDown
-    @Published var hasSearchRole = false
+    @Published var hasSearchRole = true
     @Published var hasBottomAccessory = true
     
 
@@ -110,7 +110,7 @@ struct ContentView: View {
         case 1:
             return 70
         case 2:
-            return 147
+            return 135
         case 3:
             return 214
         case 4, 5:
