@@ -96,6 +96,7 @@ struct ContentView: View {
         }
 
     @State private var showingSheet = false
+    @State private var colorScheme: ColorScheme? = nil
         
     @State var quantity: Int = 5
     
@@ -126,6 +127,7 @@ struct ContentView: View {
             contentView
         }
         .accentColor(.pink)
+        .preferredColorScheme(colorScheme)
         .onAppear {
             UIView.configureAlertAppearance()
         }
@@ -385,6 +387,24 @@ struct ContentView: View {
                 .navigationTitle("SF TabBar")
                 .navigationBarTitleDisplayMode(.large)
                 .toolbar {
+                    ToolbarItemGroup(placement: .topBarTrailing) {
+                        Menu {
+                            Section("Appearance Mode") {
+                                Button(action: { colorScheme = nil }) {
+                                    Label("System", systemImage: "gear")
+                                }
+                                Button(action: { colorScheme = .light }) {
+                                    Label("Light Mode", systemImage: "sun.max")
+                                }
+                                Button(action: { colorScheme = .dark }) {
+                                    Label("Dark Mode", systemImage: "moon")
+                                }
+                            }
+                        } label: {
+                            Image(systemName: "circle.lefthalf.filled.inverse")
+                        }
+                    }
+                    ToolbarSpacer(placement: .topBarTrailing)
                     ToolbarItemGroup(placement: .topBarTrailing) {
                         NavigationLink(destination: NewPlayView(tabCount: quantity, tabs: tabs)) {
                             Image(systemName: "play")
