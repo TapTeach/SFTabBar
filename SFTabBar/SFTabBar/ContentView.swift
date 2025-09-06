@@ -388,6 +388,15 @@ struct ContentView: View {
                 .navigationBarTitleDisplayMode(.large)
                 .toolbar {
                     ToolbarItemGroup(placement: .topBarTrailing) {
+                        NavigationLink(destination: NewPlayView(tabCount: quantity, tabs: tabs)) {
+                            Image(systemName: "play")
+                        }
+                        NavigationLink(destination: Export(tabCount: quantity, tabs: tabs)) {
+                            Image(systemName: "square.and.arrow.up")
+                        }
+                    }
+                    ToolbarSpacer(placement: .topBarTrailing)
+                    ToolbarItemGroup(placement: .topBarTrailing) {
                         Menu {
                             Section("Appearance Mode") {
                                 Button(action: { colorScheme = nil }) {
@@ -402,15 +411,6 @@ struct ContentView: View {
                             }
                         } label: {
                             Image(systemName: "circle.lefthalf.filled.inverse")
-                        }
-                    }
-                    ToolbarSpacer(placement: .topBarTrailing)
-                    ToolbarItemGroup(placement: .topBarTrailing) {
-                        NavigationLink(destination: NewPlayView(tabCount: quantity, tabs: tabs)) {
-                            Image(systemName: "play")
-                        }
-                        NavigationLink(destination: Export(tabCount: quantity, tabs: tabs)) {
-                            Image(systemName: "square.and.arrow.up")
                         }
                     }
                     ToolbarSpacer(placement: .topBarTrailing)
