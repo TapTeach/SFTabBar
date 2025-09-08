@@ -201,7 +201,7 @@ struct ContentView: View {
                                         HStack {
                                             Text("Bottom Accessory")
                                             Spacer()
-                                            Toggle("", isOn: $tabs.hasBottomAccessory)
+                                            Toggle("", isOn: $tabs.hasBottomAccessory.animation(.spring(response: 0.6, dampingFraction: 0.8)))
                                         }
                                         .padding(.leading, 16)
                                         .padding(.trailing, 8)
@@ -213,7 +213,8 @@ struct ContentView: View {
                                         HStack {
                                             Text("Display \(quantity) Tabs")
                                             Spacer()
-                                            Stepper("", value: $quantity, in: 2...5)
+                                            //Stepper("", value: $quantity, in: 2...5)
+                                            Stepper("", value: $quantity.animation(.spring(response: 0.5, dampingFraction: 0.7)), in: 2...5)
                                         }
                                         .padding(.horizontal, 16)
                                         .padding(.vertical, 12)
@@ -254,28 +255,27 @@ struct ContentView: View {
                                     .background(Color(.systemGroupedBackground))
                                     .frame(width: 330, height: 155)
                                     .offset(y: -12)
-                                if tabs.hasBottomAccessory {
-                                    ZStack {
-                                        Color(.white.opacity(0.1))
-                                            .glassEffect(.regular)
-                                            .cornerRadius(.infinity)
-                                        HStack(alignment: .top, spacing: 0) {
-                                            Image(systemName: "play.fill")
-                                                .padding(EdgeInsets(top: 0, leading: 4, bottom: 0, trailing: 8))
-                                            Text("Call to Action")
-                                                .font(.caption)
-                                                .foregroundColor(Color.primary)
-                                            Spacer()
-                                            Text("Action")
-                                                .font(.caption)
-                                                .foregroundColor(Color.primary)
-                                                .padding(.trailing, 4)
-                                        }
-                                        .padding(.horizontal, 8)
+                                ZStack {
+                                    Color(.white.opacity(0.1))
+                                        .glassEffect(.regular)
+                                        .cornerRadius(.infinity)
+                                    HStack(alignment: .top, spacing: 0) {
+                                        Image(systemName: "play.fill")
+                                            .padding(EdgeInsets(top: 0, leading: 4, bottom: 0, trailing: 8))
+                                        Text("Call to Action")
+                                            .font(.caption)
+                                            .foregroundColor(Color.primary)
+                                        Spacer()
+                                        Text("Action")
+                                            .font(.caption)
+                                            .foregroundColor(Color.primary)
+                                            .padding(.trailing, 4)
                                     }
-                                    .frame(width: 290, height: 40)
-                                    .offset(y: -36.0)
+                                    .padding(.horizontal, 8)
                                 }
+                                .frame(width: 290, height: 40)
+                                .offset(y: tabs.hasBottomAccessory ? -36.0 : 20.0)
+                                .opacity(tabs.hasBottomAccessory ? 1.0 : 0.0)
                                 ZStack {
                                     if tabs.hasSearchRole {
                                         HStack(alignment: .top, spacing: 0) {
@@ -491,6 +491,7 @@ struct TabItemView: View {
                             .cornerRadius(.infinity)
                             .offset(x: 14 + (notificationValue.isEmpty ? 0 : notificationValue.count == 2 ? 2 : notificationValue.count == 3 ? 5 : notificationValue.count > 3 ? CGFloat(notificationValue.count - 3) * 2 + 4 : 0), y: -14)
                     }
+                    .transition(.scale.combined(with: .opacity))
                 }
             }
         )

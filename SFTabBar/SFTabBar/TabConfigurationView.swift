@@ -161,7 +161,7 @@ struct TabConfigurationView: View {
                         Text("Notification Dot")
                             .foregroundColor(.primary)
                         Spacer()
-                        Toggle("", isOn: notificationBinding)
+                        Toggle("", isOn: notificationBinding.animation(.spring(response: 0.4, dampingFraction: 0.6)))
                     }
                     .padding(.horizontal, 16)
                     .padding(.vertical, 12)
