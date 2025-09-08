@@ -40,6 +40,7 @@ struct NewPlayView: View {
                     Tab(tabs.tab1Label, systemImage: tabs.tab1Icon, value: "tab1") {
                         TabContentSelection(sharedState: sharedContentState)
                     }
+                    .badge(tabs.tab1HasNotification ? Text(tabs.tab1NotificationValue.isEmpty ? "1" : tabs.tab1NotificationValue) : nil)
                 }
             }
             
@@ -53,6 +54,7 @@ struct NewPlayView: View {
                     Tab(tabs.tab2Label, systemImage: tabs.tab2Icon, value: "tab2") {
                         TabContentSelection(sharedState: sharedContentState)
                     }
+                    .badge(tabs.tab2HasNotification ? Text(tabs.tab2NotificationValue.isEmpty ? "1" : tabs.tab2NotificationValue) : nil)
                 }
             }
             
@@ -66,6 +68,7 @@ struct NewPlayView: View {
                     Tab(tabs.tab3Label, systemImage: tabs.tab3Icon, value: "tab3") {
                         TabContentSelection(sharedState: sharedContentState)
                     }
+                    .badge(tabs.tab3HasNotification ? Text(tabs.tab3NotificationValue.isEmpty ? "1" : tabs.tab3NotificationValue) : nil)
                 }
             }
             
@@ -79,6 +82,7 @@ struct NewPlayView: View {
                     Tab(tabs.tab4Label, systemImage: tabs.tab4Icon, value: "tab4") {
                         TabContentSelection(sharedState: sharedContentState)
                     }
+                    .badge(tabs.tab4HasNotification ? Text(tabs.tab4NotificationValue.isEmpty ? "1" : tabs.tab4NotificationValue) : nil)
                 }
             }
             
@@ -92,6 +96,7 @@ struct NewPlayView: View {
                     Tab(tabs.tab5Label, systemImage: tabs.tab5Icon, value: "tab5") {
                         TabContentSelection(sharedState: sharedContentState)
                     }
+                    .badge(tabs.tab5HasNotification ? Text(tabs.tab5NotificationValue.isEmpty ? "1" : tabs.tab5NotificationValue) : nil)
                 }
             }
         }

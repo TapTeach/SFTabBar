@@ -65,6 +65,8 @@ struct Export: View {
         let icon = getTabIcon(tabNumber)
         let label = getTabLabel(tabNumber)
         let hasSearchRole = tabNumber == tabCount && tabs.hasSearchRole
+        let hasNotification = getTabHasNotification(tabNumber)
+        let notificationValue = getTabNotificationValue(tabNumber)
         
         return VStack(alignment: .leading, spacing: 4) {
             if hasSearchRole {
@@ -89,6 +91,14 @@ struct Export: View {
                 Text("    }")
                     .font(.system(.body, design: .monospaced))
                     .foregroundColor(.green)
+                
+                // Add badge modifier if notification is enabled
+                if hasNotification {
+                    let badgeValue = notificationValue.isEmpty ? "1" : notificationValue
+                    Text("    .badge(\"\(badgeValue)\")")
+                        .font(.system(.body, design: .monospaced))
+                        .foregroundColor(.red)
+                }
             }
         }
     }
@@ -152,6 +162,28 @@ struct Export: View {
         }
     }
     
+    private func getTabHasNotification(_ tabNumber: Int) -> Bool {
+        switch tabNumber {
+        case 1: return tabs.tab1HasNotification
+        case 2: return tabs.tab2HasNotification
+        case 3: return tabs.tab3HasNotification
+        case 4: return tabs.tab4HasNotification
+        case 5: return tabs.tab5HasNotification
+        default: return false
+        }
+    }
+    
+    private func getTabNotificationValue(_ tabNumber: Int) -> String {
+        switch tabNumber {
+        case 1: return tabs.tab1NotificationValue
+        case 2: return tabs.tab2NotificationValue
+        case 3: return tabs.tab3NotificationValue
+        case 4: return tabs.tab4NotificationValue
+        case 5: return tabs.tab5NotificationValue
+        default: return ""
+        }
+    }
+    
     private func generateColorCode(_ color: Color) -> String {
         // Convert common colors to readable names
         if color == .black { return ".black" }
@@ -176,6 +208,8 @@ struct Export: View {
             let icon = getTabIcon(tabNumber)
             let label = getTabLabel(tabNumber)
             let hasSearchRole = tabNumber == tabCount && tabs.hasSearchRole
+            let hasNotification = getTabHasNotification(tabNumber)
+            let notificationValue = getTabNotificationValue(tabNumber)
             
             if hasSearchRole {
                 code += "            Tab(\"\(label)\", systemImage: \"\(icon)\", role: .search) {\n"
@@ -185,6 +219,12 @@ struct Export: View {
                 code += "            Tab(\"\(label)\", systemImage: \"\(icon)\") {\n"
                 code += "                EmptyView() // Your view here\n"
                 code += "            }\n"
+                
+                // Add badge modifier if notification is enabled
+                if hasNotification {
+                    let badgeValue = notificationValue.isEmpty ? "1" : notificationValue
+                    code += "            .badge(\"\(badgeValue)\")\n"
+                }
             }
         }
         

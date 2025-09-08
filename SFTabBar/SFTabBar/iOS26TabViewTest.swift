@@ -14,7 +14,7 @@ struct iOS26TabViewTest: View {
     
     var body: some View {
         TabView(selection: $selectedTab) {
-            // Dashboard Tab
+            // Dashboard Tab with numeric badge
             Tab("Dashboard", systemImage: "gauge", value: "dashboard") {
                 NavigationStack {
                     VStack(spacing: 20) {}
@@ -22,6 +22,7 @@ struct iOS26TabViewTest: View {
                     .navigationTitle("Dashboard")
                 }
             }
+            .badge(3) // Numeric badge showing 3 notifications
             
             // Messages Section
             TabSection("Messages") {
@@ -32,6 +33,7 @@ struct iOS26TabViewTest: View {
                         .navigationTitle("Received")
                     }
                 }
+                .badge(12) // Numeric badge for unread messages
                 Tab("Sent", systemImage: "tray.and.arrow.up.fill", value: "sent") {
                     NavigationStack {
                         VStack(spacing: 20) {}
@@ -51,7 +53,7 @@ struct iOS26TabViewTest: View {
                 }
             }
             
-            // Settings Tab
+            // Settings Tab with string badge
             Tab("Settings", systemImage: "gear", value: "settings") {
                 NavigationStack {
                     VStack(spacing: 20) {}
@@ -59,6 +61,7 @@ struct iOS26TabViewTest: View {
                     .navigationTitle("Settings")
                 }
             }
+            .badge("!") // String badge for important notifications
         }
         .tabViewStyle(.sidebarAdaptable)
         .tabBarMinimizeBehavior(.automatic)

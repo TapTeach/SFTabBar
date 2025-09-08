@@ -45,12 +45,38 @@ struct TabConfigurationView: View {
         }
     }
     
+    private var notificationBinding: Binding<Bool> {
+        switch tabNumber {
+        case 1: return $tabs.tab1HasNotification
+        case 2: return $tabs.tab2HasNotification
+        case 3: return $tabs.tab3HasNotification
+        case 4: return $tabs.tab4HasNotification
+        case 5: return $tabs.tab5HasNotification
+        default: return .constant(false)
+        }
+    }
+    
+    private var notificationValueBinding: Binding<String> {
+        switch tabNumber {
+        case 1: return $tabs.tab1NotificationValue
+        case 2: return $tabs.tab2NotificationValue
+        case 3: return $tabs.tab3NotificationValue
+        case 4: return $tabs.tab4NotificationValue
+        case 5: return $tabs.tab5NotificationValue
+        default: return .constant("")
+        }
+    }
+    
     private var tabLocation: String {
         "tab\(tabNumber)Icon"
     }
     
     private var isLastTab: Bool {
         tabNumber == quantity
+    }
+    
+    private var hasSearchRole: Bool {
+        isLastTab && tabs.hasSearchRole
     }
     
     var body: some View {
@@ -124,6 +150,39 @@ struct TabConfigurationView: View {
                     .padding(.horizontal, 16)
                     .padding(.vertical, 12)
                     .background(Color(.secondarySystemGroupedBackground))
+                }
+                
+                // Notification Dot - only show if not search role
+                if !hasSearchRole {
+                    Divider()
+                        .padding(.leading, 16)
+                    
+                    HStack {
+                        Text("Notification Dot")
+                            .foregroundColor(.primary)
+                        Spacer()
+                        Toggle("", isOn: notificationBinding)
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 12)
+                    .background(Color(.secondarySystemGroupedBackground))
+                    
+                    if notificationBinding.wrappedValue {
+                        Divider()
+                            .padding(.leading, 16)
+                        
+                        HStack {
+                            TextField("Notification Value", text: notificationValueBinding)
+                                .onChange(of: notificationValueBinding.wrappedValue) { _, newValue in
+                                    if newValue.count > 3 {
+                                        notificationValueBinding.wrappedValue = String(newValue.prefix(3))
+                                    }
+                                }
+                        }
+                        .padding(.horizontal, 16)
+                        .padding(.vertical, 12)
+                        .background(Color(.secondarySystemGroupedBackground))
+                    }
                 }
             }
             .clipShape(RoundedRectangle(cornerRadius: 10))

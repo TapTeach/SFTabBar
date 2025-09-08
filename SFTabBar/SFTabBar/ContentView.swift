@@ -20,26 +20,36 @@ class TabsViewModel: ObservableObject {
     @Published var tab1Icon = "gauge"
     @Published var tab1Weight = ".regular"
     @Published var tab1FontWeight: Font.Weight = .regular
+    @Published var tab1HasNotification = false
+    @Published var tab1NotificationValue = ""
     
     @Published var tab2Label = "Trends"
     @Published var tab2Icon = "flame"
     @Published var tab2Weight = ".regular"
     @Published var tab2FontWeight: Font.Weight = .regular
+    @Published var tab2HasNotification = false
+    @Published var tab2NotificationValue = ""
     
     @Published var tab3Label = "Shop"
     @Published var tab3Icon = "bag"
     @Published var tab3Weight = ".regular"
     @Published var tab3FontWeight: Font.Weight = .regular
+    @Published var tab3HasNotification = false
+    @Published var tab3NotificationValue = ""
     
     @Published var tab4Label = "Profile"
     @Published var tab4Icon = "person.crop.circle"
     @Published var tab4Weight = ".regular"
     @Published var tab4FontWeight: Font.Weight = .regular
+    @Published var tab4HasNotification = false
+    @Published var tab4NotificationValue = ""
     
     @Published var tab5Label = "Search"
     @Published var tab5Icon = "magnifyingglass"
     @Published var tab5Weight = ".regular"
     @Published var tab5FontWeight: Font.Weight = .regular
+    @Published var tab5HasNotification = false
+    @Published var tab5NotificationValue = ""
     
     @Published var tabItemColor = Color.primary
     @Published var tabTintColor = Color.pink
@@ -277,16 +287,16 @@ struct ContentView: View {
                                                 .glassEffect(.clear)
                                                 HStack(alignment: .top, spacing: 0) {
                                                     if quantity >= 1 {
-                                                        SFTabBar.tabItem(icon: tabs.tab1Icon, label: tabs.tab1Label, color: tabs.tabTintColor, weight: tabs.tab1FontWeight, isSelected: true)
+                                                        SFTabBar.tabItem(icon: tabs.tab1Icon, label: tabs.tab1Label, color: tabs.tabTintColor, weight: tabs.tab1FontWeight, isSelected: true, hasNotification: tabs.tab1HasNotification, notificationValue: tabs.tab1NotificationValue)
                                                     }
                                                     if quantity >= 2 && quantity > 2 {
-                                                        SFTabBar.tabItem(icon: tabs.tab2Icon, label: tabs.tab2Label, color: tabs.tabItemColor, weight: tabs.tab2FontWeight, isSelected: false)
+                                                        SFTabBar.tabItem(icon: tabs.tab2Icon, label: tabs.tab2Label, color: tabs.tabItemColor, weight: tabs.tab2FontWeight, isSelected: false, hasNotification: tabs.tab2HasNotification, notificationValue: tabs.tab2NotificationValue)
                                                     }
                                                     if quantity >= 3 && quantity > 3 {
-                                                        SFTabBar.tabItem(icon: tabs.tab3Icon, label: tabs.tab3Label, color: tabs.tabItemColor, weight: tabs.tab3FontWeight, isSelected: false)
+                                                        SFTabBar.tabItem(icon: tabs.tab3Icon, label: tabs.tab3Label, color: tabs.tabItemColor, weight: tabs.tab3FontWeight, isSelected: false, hasNotification: tabs.tab3HasNotification, notificationValue: tabs.tab3NotificationValue)
                                                     }
                                                     if quantity >= 4 && quantity > 4 {
-                                                        SFTabBar.tabItem(icon: tabs.tab4Icon, label: tabs.tab4Label, color: tabs.tabItemColor, weight: tabs.tab4FontWeight, isSelected: false)
+                                                        SFTabBar.tabItem(icon: tabs.tab4Icon, label: tabs.tab4Label, color: tabs.tabItemColor, weight: tabs.tab4FontWeight, isSelected: false, hasNotification: tabs.tab4HasNotification, notificationValue: tabs.tab4NotificationValue)
                                                     }
                                                 }
                                                 .frame(width: calculateTabBarWidth(for: quantity) - (quantity == 5 ? 68 : 62))
@@ -323,19 +333,19 @@ struct ContentView: View {
                                             .glassEffect(.clear)
                                             HStack(alignment: .top, spacing: 0) {
                                                 if quantity >= 1 {
-                                                    SFTabBar.tabItem(icon: tabs.tab1Icon, label: tabs.tab1Label, color: tabs.tabTintColor, weight: tabs.tab1FontWeight, isSelected: true)
+                                                    SFTabBar.tabItem(icon: tabs.tab1Icon, label: tabs.tab1Label, color: tabs.tabTintColor, weight: tabs.tab1FontWeight, isSelected: true, hasNotification: tabs.tab1HasNotification, notificationValue: tabs.tab1NotificationValue)
                                                 }
                                                 if quantity >= 2 {
-                                                    SFTabBar.tabItem(icon: tabs.tab2Icon, label: tabs.tab2Label, color: tabs.tabItemColor, weight: tabs.tab2FontWeight, isSelected: false)
+                                                    SFTabBar.tabItem(icon: tabs.tab2Icon, label: tabs.tab2Label, color: tabs.tabItemColor, weight: tabs.tab2FontWeight, isSelected: false, hasNotification: tabs.tab2HasNotification, notificationValue: tabs.tab2NotificationValue)
                                                 }
                                                 if quantity >= 3 {
-                                                    SFTabBar.tabItem(icon: tabs.tab3Icon, label: tabs.tab3Label, color: tabs.tabItemColor, weight: tabs.tab3FontWeight, isSelected: false)
+                                                    SFTabBar.tabItem(icon: tabs.tab3Icon, label: tabs.tab3Label, color: tabs.tabItemColor, weight: tabs.tab3FontWeight, isSelected: false, hasNotification: tabs.tab3HasNotification, notificationValue: tabs.tab3NotificationValue)
                                                 }
                                                 if quantity >= 4 {
-                                                    SFTabBar.tabItem(icon: tabs.tab4Icon, label: tabs.tab4Label, color: tabs.tabItemColor, weight: tabs.tab4FontWeight, isSelected: false)
+                                                    SFTabBar.tabItem(icon: tabs.tab4Icon, label: tabs.tab4Label, color: tabs.tabItemColor, weight: tabs.tab4FontWeight, isSelected: false, hasNotification: tabs.tab4HasNotification, notificationValue: tabs.tab4NotificationValue)
                                                 }
                                                 if quantity >= 5 {
-                                                    SFTabBar.tabItem(icon: tabs.tab5Icon, label: tabs.tab5Label, color: tabs.tabItemColor, weight: tabs.tab5FontWeight, isSelected: false)
+                                                    SFTabBar.tabItem(icon: tabs.tab5Icon, label: tabs.tab5Label, color: tabs.tabItemColor, weight: tabs.tab5FontWeight, isSelected: false, hasNotification: tabs.tab5HasNotification, notificationValue: tabs.tab5NotificationValue)
                                                 }
                                             }
                                             .frame(width: calculateTabBarWidth(for: quantity) - (quantity == 5 ? 8 : 2))
@@ -426,13 +436,21 @@ struct ContentView: View {
 }
 
 
-struct tabItem: View {
+struct SFTabBar {
+    static func tabItem(icon: String, label: String, color: Color, weight: Font.Weight, isSelected: Bool = false, hasNotification: Bool = false, notificationValue: String = "") -> some View {
+        return TabItemView(icon: icon, label: label, color: color, weight: weight, isSelected: isSelected, hasNotification: hasNotification, notificationValue: notificationValue)
+    }
+}
+
+struct TabItemView: View {
     
     var icon: String
     var label: String
     var color: Color
     var weight: Font.Weight
     var isSelected: Bool = false
+    var hasNotification: Bool = false
+    var notificationValue: String = ""
                 
     var body: some View {
         VStack(spacing: 4.0){
@@ -457,6 +475,22 @@ struct tabItem: View {
                         .glassEffect(.regular.interactive(),in: ConcentricRectangle(corners: .concentric(minimum: 6), isUniform: true))
                         .opacity(0.5)
                         .frame(minWidth: 60)
+                }
+            }
+        )
+        .overlay (
+            Group {
+                if hasNotification {
+                    ZStack {
+                        Text(notificationValue.isEmpty ? "1" : notificationValue)
+                            .font(Font.system(size: 10))
+                            .foregroundStyle(Color(.white))
+                            .padding(4)
+                            .frame(minWidth: 15, maxHeight: 15, alignment: .init(horizontal: .center, vertical: .center))
+                            .background(Color(.red))
+                            .cornerRadius(.infinity)
+                            .offset(x: 14 + (notificationValue.isEmpty ? 0 : notificationValue.count == 2 ? 2 : notificationValue.count == 3 ? 5 : notificationValue.count > 3 ? CGFloat(notificationValue.count - 3) * 2 + 4 : 0), y: -14)
+                    }
                 }
             }
         )
