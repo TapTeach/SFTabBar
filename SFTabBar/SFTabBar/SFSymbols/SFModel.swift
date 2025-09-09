@@ -15,11 +15,10 @@ struct Library: Codable, Identifiable {
         case title
         case items
     }
-
 }
 
-extension String: Identifiable {
-    public var id: String{
-        self
-    }
+// Helper struct for items that need to be identifiable
+struct IdentifiableString: Identifiable {
+    let id = UUID()
+    let value: String
 }
