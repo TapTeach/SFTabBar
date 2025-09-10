@@ -151,7 +151,7 @@ struct ContentView: View {
                             LazyVStack(spacing: 20) {
                                 VStack(alignment: .leading, spacing: 0) {
                                     HStack {
-                                        Text("The Tab Bar above is a non-interactive mockup. Use the \(Image(systemName: "play.fill")) button to see it in action.")
+                                        Text("The Tab Bar above is a non-interactive preview. Tap the \(Image(systemName: "play")) button to see it in action.")
                                         .font(.footnote)
                                         .foregroundColor(Color.secondary)
                                     }
