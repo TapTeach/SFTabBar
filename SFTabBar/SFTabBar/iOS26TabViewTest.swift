@@ -80,6 +80,7 @@ struct iOS26TabViewTest: View {
             .padding()
             .background(.ultraThinMaterial)
         }
+        .accentColor(Color("slate"))
     }
 }
 
