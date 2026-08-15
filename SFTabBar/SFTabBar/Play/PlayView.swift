@@ -23,80 +23,24 @@ class ContentState: ObservableObject {
 struct NewPlayView: View {
     var tabCount: Int
     @ObservedObject var tabs: TabsViewModel
-    @State private var selectedTab = "dashboard"
+    @State private var selectedTab = "tab0"
     @State private var searchText = ""
-    @State private var minimizeBehavior: TabViewMinimizeBehavior = .onScrollDown
     @StateObject private var sharedContentState = ContentState()
-    
+
     var body: some View {
         TabView(selection: $selectedTab) {
-            // Tab 1
-            if tabCount >= 1 {
-                if tabCount == 1 && tabs.hasSearchRole {
-                    Tab(tabs.tab1Label, systemImage: tabs.tab1Icon, value: "tab1", role: .search) {
-                        SearchTabView(label: tabs.tab1Label, contentText: "Tab 1 Content", searchText: $searchText)
+            ForEach(0..<tabCount, id: \.self) { index in
+                let config = tabs.tabs[index]
+
+                if config.role == .search {
+                    Tab(config.label, systemImage: config.icon, value: "tab\(index)", role: .search) {
+                        SearchTabView(label: config.label, contentText: "Tab \(index + 1) Content", searchText: $searchText)
                     }
                 } else {
-                    Tab(tabs.tab1Label, systemImage: tabs.tab1Icon, value: "tab1") {
+                    Tab(config.label, systemImage: config.icon, value: "tab\(index)", role: config.role.swiftUIRole) {
                         TabContentSelection(sharedState: sharedContentState)
                     }
-                    .badge(tabs.tab1HasNotification ? Text(tabs.tab1NotificationValue.isEmpty ? "1" : tabs.tab1NotificationValue) : nil)
-                }
-            }
-            
-            // Tab 2
-            if tabCount >= 2 {
-                if tabCount == 2 && tabs.hasSearchRole {
-                    Tab(tabs.tab2Label, systemImage: tabs.tab2Icon, value: "tab2", role: .search) {
-                        SearchTabView(label: tabs.tab2Label, contentText: "Tab 2 Content", searchText: $searchText)
-                    }
-                } else {
-                    Tab(tabs.tab2Label, systemImage: tabs.tab2Icon, value: "tab2") {
-                        TabContentSelection(sharedState: sharedContentState)
-                    }
-                    .badge(tabs.tab2HasNotification ? Text(tabs.tab2NotificationValue.isEmpty ? "1" : tabs.tab2NotificationValue) : nil)
-                }
-            }
-            
-            // Tab 3
-            if tabCount >= 3 {
-                if tabCount == 3 && tabs.hasSearchRole {
-                    Tab(tabs.tab3Label, systemImage: tabs.tab3Icon, value: "tab3", role: .search) {
-                        SearchTabView(label: tabs.tab3Label, contentText: "Tab 3 Content", searchText: $searchText)
-                    }
-                } else {
-                    Tab(tabs.tab3Label, systemImage: tabs.tab3Icon, value: "tab3") {
-                        TabContentSelection(sharedState: sharedContentState)
-                    }
-                    .badge(tabs.tab3HasNotification ? Text(tabs.tab3NotificationValue.isEmpty ? "1" : tabs.tab3NotificationValue) : nil)
-                }
-            }
-            
-            // Tab 4
-            if tabCount >= 4 {
-                if tabCount == 4 && tabs.hasSearchRole {
-                    Tab(tabs.tab4Label, systemImage: tabs.tab4Icon, value: "tab4", role: .search) {
-                        SearchTabView(label: tabs.tab4Label, contentText: "Tab 4 Content", searchText: $searchText)
-                    }
-                } else {
-                    Tab(tabs.tab4Label, systemImage: tabs.tab4Icon, value: "tab4") {
-                        TabContentSelection(sharedState: sharedContentState)
-                    }
-                    .badge(tabs.tab4HasNotification ? Text(tabs.tab4NotificationValue.isEmpty ? "1" : tabs.tab4NotificationValue) : nil)
-                }
-            }
-            
-            // Tab 5
-            if tabCount >= 5 {
-                if tabCount == 5 && tabs.hasSearchRole {
-                    Tab(tabs.tab5Label, systemImage: tabs.tab5Icon, value: "tab5", role: .search) {
-                        SearchTabView(label: tabs.tab5Label, contentText: "Tab 5 Content", searchText: $searchText)
-                    }
-                } else {
-                    Tab(tabs.tab5Label, systemImage: tabs.tab5Icon, value: "tab5") {
-                        TabContentSelection(sharedState: sharedContentState)
-                    }
-                    .badge(tabs.tab5HasNotification ? Text(tabs.tab5NotificationValue.isEmpty ? "1" : tabs.tab5NotificationValue) : nil)
+                    .badge(config.hasNotification ? Text(config.badgeText) : nil)
                 }
             }
         }
@@ -104,7 +48,7 @@ struct NewPlayView: View {
         .onAppear {
             let appearance = UITabBarAppearance()
             appearance.configureWithOpaqueBackground()
-            
+
             let normalItemAppearance = UITabBarItemAppearance()
             normalItemAppearance.normal.iconColor = UIColor(tabs.tabItemColor)
             normalItemAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor(tabs.tabItemColor)] // Unselected text color
@@ -112,9 +56,7 @@ struct NewPlayView: View {
             appearance.inlineLayoutAppearance = normalItemAppearance
             appearance.compactInlineLayoutAppearance = normalItemAppearance
             UITabBar.appearance().standardAppearance = appearance
-            if #available(iOS 15.0, *) {
-                UITabBar.appearance().scrollEdgeAppearance = appearance
-            }
+            UITabBar.appearance().scrollEdgeAppearance = appearance
         }
         .tabViewStyle(.sidebarAdaptable)
         .tabBarMinimizeBehavior(convertToSwiftUIMinimizeBehavior(tabs.tabBarMinimizeBehavior))

@@ -7,14 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		289F653A2DF68AAC00326FB7 /* sfsymbols6.json in Resources */ = {isa = PBXBuildFile; fileRef = 289F65392DF68AAC00326FB7 /* sfsymbols6.json */; };
 		9B0568EC2E61FCCE00691D24 /* ColorDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0568EB2E61FCAE00691D24 /* ColorDemoView.swift */; };
 		9B0568EE2E61FCEE00691D24 /* UploadDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0568ED2E61FCE000691D24 /* UploadDemoView.swift */; };
 		9B0568F02E62361D00691D24 /* ColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0568EF2E6235FF00691D24 /* ColorExtensions.swift */; };
+		9BA1270A2E80000100000001 /* TabConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA127082E80000100000001 /* TabConfig.swift */; };
+		9BA1270B2E80000100000001 /* TabsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA127092E80000100000001 /* TabsViewModel.swift */; };
 		9B0568F22E64627300691D24 /* DocumentationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0568F12E64626600691D24 /* DocumentationView.swift */; };
 		9B0568F82E64C2AD00691D24 /* SFTabBar.icon in Resources */ = {isa = PBXBuildFile; fileRef = 9B0568F72E64C2AD00691D24 /* SFTabBar.icon */; };
-		9B0568FA2E65CAAB00691D24 /* sfsymbols7.json in Resources */ = {isa = PBXBuildFile; fileRef = 9B0568F92E65CAAB00691D24 /* sfsymbols7.json */; };
-		9BD886552E5A8D93004BD678 /* iOS26TabViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD886542E5A8D93004BD678 /* iOS26TabViewTest.swift */; };
+		9B0568FA2E65CAAB00691D24 /* symbols-catalog.json in Resources */ = {isa = PBXBuildFile; fileRef = 9B0568F92E65CAAB00691D24 /* symbols-catalog.json */; };
+		9BD886552E5A8D93004BD678 /* iOS27TabViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD886542E5A8D93004BD678 /* iOS27TabViewTest.swift */; };
 		9BD886572E5B3671004BD678 /* TabConfigurationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD886562E5B3671004BD678 /* TabConfigurationView.swift */; };
 		9BD886612E61EA38004BD678 /* NovelExcerptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD886602E61EA38004BD678 /* NovelExcerptView.swift */; };
 		FB05B9EC2526360300FE2E43 /* Export.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB05B9EB2526360300FE2E43 /* Export.swift */; };
@@ -33,7 +34,6 @@
 		FB2C9D8D2530E5A10007932E /* ReviewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB2C9D8C2530E5A10007932E /* ReviewManager.swift */; };
 		FB2C9DA42531FC230007932E /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FB2C9DA32531FC230007932E /* StoreKit.framework */; };
 		FB4678F2253C8A7B00417EDE /* PlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB4678F1253C8A7B00417EDE /* PlayView.swift */; };
-		FB504E7B251FDE60000BC03A /* sfsymbols.json in Resources */ = {isa = PBXBuildFile; fileRef = FB504E7A251FDE60000BC03A /* sfsymbols.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,14 +54,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		289F65392DF68AAC00326FB7 /* sfsymbols6.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = sfsymbols6.json; sourceTree = "<group>"; };
 		9B0568EB2E61FCAE00691D24 /* ColorDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorDemoView.swift; sourceTree = "<group>"; };
 		9B0568ED2E61FCE000691D24 /* UploadDemoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadDemoView.swift; sourceTree = "<group>"; };
 		9B0568EF2E6235FF00691D24 /* ColorExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtensions.swift; sourceTree = "<group>"; };
 		9B0568F12E64626600691D24 /* DocumentationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DocumentationView.swift; sourceTree = "<group>"; };
 		9B0568F72E64C2AD00691D24 /* SFTabBar.icon */ = {isa = PBXFileReference; lastKnownFileType = folder.iconcomposer.icon; path = SFTabBar.icon; sourceTree = "<group>"; };
-		9B0568F92E65CAAB00691D24 /* sfsymbols7.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = sfsymbols7.json; sourceTree = "<group>"; };
-		9BD886542E5A8D93004BD678 /* iOS26TabViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOS26TabViewTest.swift; sourceTree = "<group>"; };
+		9B0568F92E65CAAB00691D24 /* symbols-catalog.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "symbols-catalog.json"; sourceTree = "<group>"; };
+		9BA127082E80000100000001 /* TabConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabConfig.swift; sourceTree = "<group>"; };
+		9BA127092E80000100000001 /* TabsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabsViewModel.swift; sourceTree = "<group>"; };
+		9BD886542E5A8D93004BD678 /* iOS27TabViewTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOS27TabViewTest.swift; sourceTree = "<group>"; };
 		9BD886562E5B3671004BD678 /* TabConfigurationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabConfigurationView.swift; sourceTree = "<group>"; };
 		9BD886602E61EA38004BD678 /* NovelExcerptView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NovelExcerptView.swift; sourceTree = "<group>"; };
 		FB05B9EB2526360300FE2E43 /* Export.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Export.swift; sourceTree = "<group>"; };
@@ -86,7 +87,6 @@
 		FB2C9D8C2530E5A10007932E /* ReviewManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReviewManager.swift; sourceTree = "<group>"; };
 		FB2C9DA32531FC230007932E /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		FB4678F1253C8A7B00417EDE /* PlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayView.swift; sourceTree = "<group>"; };
-		FB504E7A251FDE60000BC03A /* sfsymbols.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = sfsymbols.json; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,11 +142,12 @@
 				9B0568F72E64C2AD00691D24 /* SFTabBar.icon */,
 				9B0568F12E64626600691D24 /* DocumentationView.swift */,
 				9B0568EF2E6235FF00691D24 /* ColorExtensions.swift */,
+				9BA127072E80000100000001 /* Models */,
 				FB2C9D722530CA9B0007932E /* IAP */,
 				FB504E79251FDE24000BC03A /* Resources */,
 				FBFEE5F02523B1B700C2A41A /* SFSymbols */,
 				FB1D0F122512824600A0B190 /* SFTabBarApp.swift */,
-				9BD886542E5A8D93004BD678 /* iOS26TabViewTest.swift */,
+				9BD886542E5A8D93004BD678 /* iOS27TabViewTest.swift */,
 				9BD886562E5B3671004BD678 /* TabConfigurationView.swift */,
 				FB1D0F142512824600A0B190 /* ContentView.swift */,
 				FB4678F6253C8A8200417EDE /* Play */,
@@ -157,6 +158,15 @@
 				FB1D0F182512824900A0B190 /* Preview Content */,
 			);
 			path = SFTabBar;
+			sourceTree = "<group>";
+		};
+		9BA127072E80000100000001 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				9BA127082E80000100000001 /* TabConfig.swift */,
+				9BA127092E80000100000001 /* TabsViewModel.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		FB1D0F182512824900A0B190 /* Preview Content */ = {
@@ -217,9 +227,7 @@
 		FB504E79251FDE24000BC03A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				9B0568F92E65CAAB00691D24 /* sfsymbols7.json */,
-				FB504E7A251FDE60000BC03A /* sfsymbols.json */,
-				289F65392DF68AAC00326FB7 /* sfsymbols6.json */,
+				9B0568F92E65CAAB00691D24 /* symbols-catalog.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -343,10 +351,8 @@
 			files = (
 				FB1D0F1A2512824900A0B190 /* Preview Assets.xcassets in Resources */,
 				FB1D0F172512824900A0B190 /* Assets.xcassets in Resources */,
-				9B0568FA2E65CAAB00691D24 /* sfsymbols7.json in Resources */,
-				FB504E7B251FDE60000BC03A /* sfsymbols.json in Resources */,
+				9B0568FA2E65CAAB00691D24 /* symbols-catalog.json in Resources */,
 				9B0568F82E64C2AD00691D24 /* SFTabBar.icon in Resources */,
-				289F653A2DF68AAC00326FB7 /* sfsymbols6.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -376,8 +382,10 @@
 				9B0568F22E64627300691D24 /* DocumentationView.swift in Sources */,
 				FB2C9D8D2530E5A10007932E /* ReviewManager.swift in Sources */,
 				FB1F6ADD252386C0008C0BB7 /* SFModel.swift in Sources */,
-				9BD886552E5A8D93004BD678 /* iOS26TabViewTest.swift in Sources */,
+				9BD886552E5A8D93004BD678 /* iOS27TabViewTest.swift in Sources */,
 				9B0568F02E62361D00691D24 /* ColorExtensions.swift in Sources */,
+				9BA1270A2E80000100000001 /* TabConfig.swift in Sources */,
+				9BA1270B2E80000100000001 /* TabsViewModel.swift in Sources */,
 				9BD886612E61EA38004BD678 /* NovelExcerptView.swift in Sources */,
 				9B0568EE2E61FCEE00691D24 /* UploadDemoView.swift in Sources */,
 				FB1F6AD525237E5D008C0BB7 /* SymbolsListView.swift in Sources */,
@@ -475,7 +483,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -530,7 +538,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -546,19 +554,19 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = SFTabBar;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10192020.1;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"SFTabBar/Preview Content\"";
 				DEVELOPMENT_TEAM = GX6GRW776S;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = SFTabBar/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = SFTabBar;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
-				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1.0;
+				MARKETING_VERSION = 3.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tapteachapps.SFTabBar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -572,19 +580,19 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = SFTabBar;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 10192020.1;
+				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"SFTabBar/Preview Content\"";
 				DEVELOPMENT_TEAM = GX6GRW776S;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = SFTabBar/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = SFTabBar;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
-				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.1.0;
+				MARKETING_VERSION = 3.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tapteachapps.SFTabBar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -600,7 +608,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = GX6GRW776S;
 				INFOPLIST_FILE = SFTabBarTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -622,7 +630,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = GX6GRW776S;
 				INFOPLIST_FILE = SFTabBarTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
