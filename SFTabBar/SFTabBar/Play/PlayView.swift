@@ -23,9 +23,25 @@ class ContentState: ObservableObject {
 struct NewPlayView: View {
     var tabCount: Int
     @ObservedObject var tabs: TabsViewModel
-    @State private var selectedTab = "tab0"
+    @State private var selectedTab: String
     @State private var searchText = ""
     @StateObject private var sharedContentState = ContentState()
+
+    init(tabCount: Int, tabs: TabsViewModel) {
+        self.tabCount = tabCount
+        self.tabs = tabs
+
+        // Land on the first tab inside the capsule rather than tab 0, which
+        // may be the detached search or prominent tab.
+        //
+        // This matches the static preview, which highlights the first capsule
+        // tab, and it avoids an iOS 27.0 (24A5408d) glitch: when a detached
+        // tab is selected on first load, the minimized tab bar renders that
+        // tab's icon in the bar as if it were a normal member and leaves the
+        // detached button untinted. Any later selection change fixes it.
+        let firstCapsuleTab = (0..<tabCount).first { $0 != tabs.detachedIndex } ?? 0
+        _selectedTab = State(initialValue: "tab\(firstCapsuleTab)")
+    }
 
     var body: some View {
         TabView(selection: $selectedTab) {
