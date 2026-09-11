@@ -69,7 +69,7 @@ struct ContentView: View {
     /// The trailing item outside the capsule.
     ///
     /// Search and prominent get the same clear glass circle -- verified against
-    /// iOS 27.0 (24A5408d), where the prominent treatment *is* the detached
+    /// iOS 27.0 RC (24A434), where the prominent treatment *is* the detached
     /// trailing slot rather than any extra fill or tint. Neither shows a label.
     @ViewBuilder
     private func detachedItem(at index: Int) -> some View {

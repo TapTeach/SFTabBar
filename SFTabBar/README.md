@@ -19,7 +19,7 @@ Each tab can take one role, matching SwiftUI's `TabRole`:
 At most one tab may be search and one prominent. When both exist, the prominent
 tab takes the trailing slot and the search tab falls back into the capsule —
 mirroring Apple's rule that a search tab only inherits the prominent treatment
-when nothing else claims it. Verified against iOS 27.0 (24A5408d): the prominent
+when nothing else claims it. Verified against iOS 27.0 RC (24A434): the prominent
 treatment *is* the detached slot, with no extra fill or tint, and badges are
 honoured there.
 
