@@ -26,15 +26,11 @@ struct ContentView: View {
     
     let generator = UINotificationFeedbackGenerator()
     
+    // iOS 27's floating tab bar uses a constant capsule width for 2-5 tabs
+    // and distributes the items within it (iOS 26 sized the capsule to the
+    // count). The parameter is kept so call sites read clearly.
     private func calculateTabBarWidth(for tabCount: Int) -> CGFloat {
-        switch tabCount {
-        case 2:
-            return 135
-        case 3:
-            return 214
-        default:
-            return 282
-        }
+        return 282
     }
 
     /// The tab the system lifts out of the capsule into the trailing slot,
@@ -245,7 +241,7 @@ struct ContentView: View {
                                                         capsuleItem(at: index)
                                                     }
                                                 }
-                                                .frame(width: calculateTabBarWidth(for: quantity) - (quantity == 5 ? 68 : 62))
+                                                .frame(width: calculateTabBarWidth(for: quantity) - 68)
                                                 .padding(.horizontal, 4)
                                                 .padding(.vertical, 4)
                                             }
@@ -265,7 +261,7 @@ struct ContentView: View {
                                                     capsuleItem(at: index)
                                                 }
                                             }
-                                            .frame(width: calculateTabBarWidth(for: quantity) - (quantity == 5 ? 8 : 2))
+                                            .frame(width: calculateTabBarWidth(for: quantity) - 8)
                                             .padding(.horizontal, 4)
                                             .padding(.vertical, 4)
                                             //.glassEffect()
