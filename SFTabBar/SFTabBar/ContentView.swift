@@ -373,6 +373,20 @@ struct TabItemView: View {
                 .frame(width: 16.0, height: 16.0)
                 .foregroundColor(isSelected ? color : .primary)
                 .font(.system(size: 16, weight: weight))
+                .overlay(alignment: .topTrailing) {
+                    if hasNotification {
+                        Text(notificationValue.isEmpty ? "1" : notificationValue)
+                            .font(Font.system(size: 10))
+                            .foregroundStyle(Color(.white))
+                            .padding(.horizontal, 4)
+                            .frame(minWidth: 16, minHeight: 16)
+                            .background(Color(.red), in: Capsule())
+                            // Sit on the icon's top-right corner, overlapping the
+                            // glyph, matching where iOS 27 draws the badge.
+                            .offset(x: 6, y: -6)
+                            .transition(.scale.combined(with: .opacity))
+                    }
+                }
             Text(label)
                 .foregroundColor(color)
                 .font(.system(size: 9))
@@ -388,23 +402,6 @@ struct TabItemView: View {
                         .glassEffect(.regular.interactive(),in: ConcentricRectangle(corners: .concentric(minimum: 6), isUniform: true))
                         .opacity(0.5)
                         .frame(minWidth: 60)
-                }
-            }
-        )
-        .overlay (
-            Group {
-                if hasNotification {
-                    ZStack {
-                        Text(notificationValue.isEmpty ? "1" : notificationValue)
-                            .font(Font.system(size: 10))
-                            .foregroundStyle(Color(.white))
-                            .padding(4)
-                            .frame(minWidth: 15, maxHeight: 15, alignment: .init(horizontal: .center, vertical: .center))
-                            .background(Color(.red))
-                            .cornerRadius(.infinity)
-                            .offset(x: 14 + (notificationValue.isEmpty ? 0 : notificationValue.count == 2 ? 2 : notificationValue.count == 3 ? 5 : notificationValue.count > 3 ? CGFloat(notificationValue.count - 3) * 2 + 4 : 0), y: -14)
-                    }
-                    .transition(.scale.combined(with: .opacity))
                 }
             }
         )
