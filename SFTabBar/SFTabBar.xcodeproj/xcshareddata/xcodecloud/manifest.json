@@ -1,0 +1,9 @@
+{
+  "id" : "ed0198fc-fea9-42b8-95fb-2dd3b5fae45f",
+  "targets" : [
+    {
+      "id" : "EAFFD151-3225-438C-AC55-B6EB9C532652",
+      "name" : "SFTabBar"
+    }
+  ]
+}
