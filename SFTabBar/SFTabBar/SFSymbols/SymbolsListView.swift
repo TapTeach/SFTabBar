@@ -9,7 +9,8 @@ import SwiftUI
 
 struct SymbolRow: View {
     var name: String
-    
+    var isNew: Bool = false
+
     var body: some View {
         HStack {
             Image(systemName: name)
@@ -19,6 +20,15 @@ struct SymbolRow: View {
             Text(name)
                 .font(.subheadline)
             Spacer()
+            if isNew {
+                Text("New")
+                    .font(.caption2)
+                    .fontWeight(.semibold)
+                    .foregroundStyle(.pink)
+                    .padding(.horizontal, 6)
+                    .padding(.vertical, 2)
+                    .background(Color.pink.opacity(0.15), in: Capsule())
+            }
         }
         .contentShape(Rectangle())
         .padding(.all, 6.0)
@@ -27,33 +37,39 @@ struct SymbolRow: View {
 }
 
 struct SymbolsListView: View {
-    
-    var tabLocation: String
-    
+
+    var tabIndex: Int
+
     @ObservedObject var tabs: TabsViewModel
-    
+
     @State private var searchText : String = ""
     @State private var filter : String = "All"
     @State private var showingSheet = false
-    
+
     let selectionFeedback = UISelectionFeedbackGenerator()
-    
+
     @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-    
+
     private var categoryButtons: [ActionSheet.Button] {
         var buttons: [ActionSheet.Button] = [.default(Text("All")) { filter = "All" }]
-        
+
         // Add buttons for each category from the JSON data
         for section in sflibrary {
             buttons.append(.default(Text(section.title)) { filter = section.title })
         }
-        
+
         // Add cancel button at the end
         buttons.append(.cancel())
-        
+
         return buttons
     }
-    
+
+    private func matches(_ section: Library) -> [String] {
+        guard !searchText.isEmpty else { return section.items }
+        let query = searchText.lowercased()
+        return section.items.filter { $0.lowercased().contains(query) }
+    }
+
     var body: some View {
         List {
             Section {
@@ -69,16 +85,27 @@ struct SymbolsListView: View {
             }
             ForEach(sflibrary) { section in
                 if (section.title == filter) || (filter == "All") {
-                    Section(header: Text(section.title + " (" + String(section.items.count) + ")")) {
-                        ForEach(section.items.filter {
-                            self.searchText.isEmpty ? true : $0.lowercased().contains(self.searchText.lowercased())
-                        }.map { IdentifiableString(value: $0) }) { item in
-                            SymbolRow(name: item.value)
-                                .onTapGesture {
-                                    presentationMode.wrappedValue.dismiss()
-                                    tabs.update(location: tabLocation, to: item.value)
-                                    selectionFeedback.selectionChanged()
+                    let items = matches(section)
+                    if !items.isEmpty {
+                        Section {
+                            // Keyed by name rather than a fresh UUID per row so
+                            // typing in the search field doesn't reallocate
+                            // identity for every symbol in the catalog.
+                            ForEach(items, id: \.self) { item in
+                                SymbolRow(name: item, isNew: symbolCatalog.isNew(item))
+                                    .onTapGesture {
+                                        presentationMode.wrappedValue.dismiss()
+                                        tabs.update(icon: item, at: tabIndex)
+                                        selectionFeedback.selectionChanged()
+                                    }
+                            }
+                        } header: {
+                            HStack {
+                                if let icon = section.icon {
+                                    Image(systemName: icon)
                                 }
+                                Text("\(section.title) (\(items.count))")
+                            }
                         }
                     }
                 }
@@ -103,8 +130,7 @@ struct SymbolsListView: View {
 
 struct SymbolsListView_Previews: PreviewProvider {
     static var previews: some View {
-        SymbolsListView(tabLocation: "tab1Icon", tabs: TabsViewModel())
+        SymbolsListView(tabIndex: 0, tabs: TabsViewModel())
             .environment(\.colorScheme, .dark)
     }
 }
-

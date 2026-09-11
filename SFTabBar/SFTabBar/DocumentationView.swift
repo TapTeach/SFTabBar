@@ -22,6 +22,7 @@ struct DocumentionView: View {
                 Link("TabBarMinimizeBehavior", destination: URL(string: "https://developer.apple.com/documentation/swiftui/tabbarminimizebehavior")!)
                 Link("TabViewBottomAccessoryPlacement", destination: URL(string: "https://developer.apple.com/documentation/swiftui/tabviewbottomaccessoryplacement")!)
                 Link("TabRole", destination: URL(string: "https://developer.apple.com/documentation/swiftui/tabrole")!)
+                Link("TabRole.prominent", destination: URL(string: "https://developer.apple.com/documentation/swiftui/tabrole/prominent")!)
             }
             Section(header: Text("Liquid Glass Resources")) {
                 Link("Adopting Liquid Glass", destination: URL(string: "https://developer.apple.com/documentation/TechnologyOverviews/adopting-liquid-glass")!)
@@ -30,7 +31,13 @@ struct DocumentionView: View {
                 
             }
             Section(header: Text("SFSymbols Resources")) {
-                Link("SF Symbols 7.0", destination: URL(string: "https://developer.apple.com/sf-symbols/")!)
+                Link("SF Symbols", destination: URL(string: "https://developer.apple.com/sf-symbols/")!)
+                HStack {
+                    Text("Symbol Library")
+                    Spacer()
+                    Text(symbolCatalog.version)
+                        .foregroundColor(Color.gray)
+                }
             }
             Section(header: Text("Share the App")) {
                 HStack {

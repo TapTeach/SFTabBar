@@ -15,7 +15,7 @@ struct Weight: Identifiable {
 
 struct WeightListView: View {
     
-    var tabLocation: String
+    var tabIndex: Int
     var currentWeight: String
     var tabIcon: String
         
@@ -56,7 +56,7 @@ struct WeightListView: View {
                         WeightRow(symbol: tabIcon, current: currentWeight, weight: weight)
                             .onTapGesture {
                                 presentationMode.wrappedValue.dismiss()
-                                tabs.updateWeight(location: tabLocation, to: weight.name, font: weight.weight)
+                                tabs.updateWeight(weight.name, font: weight.weight, at: tabIndex)
                                 selectionFeedback.selectionChanged()
                             }
                 }
@@ -91,6 +91,6 @@ struct WeightRow: View {
 
 struct WeightListView_Previews: PreviewProvider {
     static var previews: some View {
-        WeightListView(tabLocation: "tab1Icon", currentWeight: ".regular",  tabIcon: "globe", tabs: TabsViewModel())
+        WeightListView(tabIndex: 0, currentWeight: ".regular",  tabIcon: "globe", tabs: TabsViewModel())
     }
 }

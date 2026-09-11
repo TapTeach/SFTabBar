@@ -8,96 +8,6 @@
 import SwiftUI
 import UIKit
 
-enum TabBarMinimizeBehaviorOption: String, CaseIterable {
-    case onScrollDown = "onScrollDown"
-    case onScrollUp = "onScrollUp"
-    case automatic = "automatic"
-    case never = "never"
-}
-
-class TabsViewModel: ObservableObject {
-    @Published var tab1Label = "Dash"
-    @Published var tab1Icon = "gauge"
-    @Published var tab1Weight = ".regular"
-    @Published var tab1FontWeight: Font.Weight = .regular
-    @Published var tab1HasNotification = false
-    @Published var tab1NotificationValue = ""
-    
-    @Published var tab2Label = "Trends"
-    @Published var tab2Icon = "flame"
-    @Published var tab2Weight = ".regular"
-    @Published var tab2FontWeight: Font.Weight = .regular
-    @Published var tab2HasNotification = false
-    @Published var tab2NotificationValue = ""
-    
-    @Published var tab3Label = "Shop"
-    @Published var tab3Icon = "bag"
-    @Published var tab3Weight = ".regular"
-    @Published var tab3FontWeight: Font.Weight = .regular
-    @Published var tab3HasNotification = false
-    @Published var tab3NotificationValue = ""
-    
-    @Published var tab4Label = "Profile"
-    @Published var tab4Icon = "person.crop.circle"
-    @Published var tab4Weight = ".regular"
-    @Published var tab4FontWeight: Font.Weight = .regular
-    @Published var tab4HasNotification = false
-    @Published var tab4NotificationValue = ""
-    
-    @Published var tab5Label = "Search"
-    @Published var tab5Icon = "magnifyingglass"
-    @Published var tab5Weight = ".regular"
-    @Published var tab5FontWeight: Font.Weight = .regular
-    @Published var tab5HasNotification = false
-    @Published var tab5NotificationValue = ""
-    
-    @Published var tabItemColor = Color.primary
-    @Published var tabTintColor = Color.pink
-    @Published var tabBarMinimizeBehavior = TabBarMinimizeBehaviorOption.onScrollDown
-    @Published var hasSearchRole = true
-    @Published var hasBottomAccessory = true
-    
-
-    func update(location: String, to value: String) {
-        switch location {
-        case "tab1Icon":
-            tab1Icon = value
-        case "tab2Icon":
-            tab2Icon = value
-        case "tab3Icon":
-            tab3Icon = value
-        case "tab4Icon":
-            tab4Icon = value
-        case "tab5Icon":
-            tab5Icon = value
-        default:
-            return
-        }
-    }
-    
-    func updateWeight(location: String, to value: String, font weight: Font.Weight) {
-        switch location {
-        case "tab1Icon":
-            tab1Weight = value
-            tab1FontWeight = weight
-        case "tab2Icon":
-            tab2Weight = value
-            tab2FontWeight = weight
-        case "tab3Icon":
-            tab3Weight = value
-            tab3FontWeight = weight
-        case "tab4Icon":
-            tab4Weight = value
-            tab4FontWeight = weight
-        case "tab5Icon":
-            tab5Weight = value
-            tab5FontWeight = weight
-        default:
-            return
-        }
-    }
-}
-
 struct ContentView: View {
     
     init() {
@@ -118,16 +28,74 @@ struct ContentView: View {
     
     private func calculateTabBarWidth(for tabCount: Int) -> CGFloat {
         switch tabCount {
-        case 1:
-            return 70
         case 2:
             return 135
         case 3:
             return 214
-        case 4, 5:
-            return 282
         default:
             return 282
+        }
+    }
+
+    /// The tab the system lifts out of the capsule into the trailing slot,
+    /// or `nil` when every tab sits in the capsule together.
+    private var detachedIndex: Int? {
+        tabs.detachedIndex.flatMap { $0 < quantity ? $0 : nil }
+    }
+
+    /// Indices rendered inside the glass capsule, in order.
+    private var capsuleIndices: [Int] {
+        (0..<quantity).filter { $0 != detachedIndex }
+    }
+
+    /// The first capsule tab stands in for the selected one.
+    private var selectedIndex: Int? { capsuleIndices.first }
+
+    @ViewBuilder
+    private func capsuleItem(at index: Int) -> some View {
+        let config = tabs.tabs[index]
+        let isSelected = index == selectedIndex
+        SFTabBar.tabItem(
+            icon: config.icon,
+            label: config.label,
+            color: isSelected ? tabs.tabTintColor : tabs.tabItemColor,
+            weight: config.fontWeight,
+            isSelected: isSelected,
+            hasNotification: config.hasNotification,
+            notificationValue: config.notificationValue
+        )
+    }
+
+    /// The trailing item outside the capsule.
+    ///
+    /// Search and prominent get the same clear glass circle -- verified against
+    /// iOS 27.0 RC (24A434), where the prominent treatment *is* the detached
+    /// trailing slot rather than any extra fill or tint. Neither shows a label.
+    @ViewBuilder
+    private func detachedItem(at index: Int) -> some View {
+        let config = tabs.tabs[index]
+
+        ZStack {
+            ZStack {}
+                .frame(width: 50, height: 50)
+                .glassEffect(.clear)
+            Image(systemName: config.icon)
+                .font(.system(size: 20, weight: config.fontWeight))
+                .frame(width: 44, height: 44)
+                .foregroundColor(Color.primary)
+        }
+        // Pinned to the circle's own 50pt box, so the badge lands on the
+        // top-right arc instead of a bounding-box corner out in empty space.
+        .frame(width: 50, height: 50)
+        .overlay(alignment: .topTrailing) {
+            if config.canShowBadge && config.hasNotification {
+                Text(config.badgeText)
+                    .font(Font.system(size: 11))
+                    .foregroundStyle(Color(.white))
+                    .padding(.horizontal, 5)
+                    .frame(minWidth: 18, minHeight: 18)
+                    .background(Color(.red), in: Capsule())
+            }
         }
     }
     
@@ -192,10 +160,9 @@ struct ContentView: View {
                                             Text("Minimize Behavior")
                                             Spacer()
                                             Picker("", selection: $tabs.tabBarMinimizeBehavior) {
-                                                Text("On Scroll Down").tag(TabBarMinimizeBehaviorOption.onScrollDown)
-                                                Text("On Scroll Up").tag(TabBarMinimizeBehaviorOption.onScrollUp)
-                                                Text("Automatic").tag(TabBarMinimizeBehaviorOption.automatic)
-                                                Text("Never").tag(TabBarMinimizeBehaviorOption.never)
+                                                ForEach(TabBarMinimizeBehaviorOption.allCases, id: \.self) { option in
+                                                    Text(option.displayName).tag(option)
+                                                }
                                             }
                                             .pickerStyle(MenuPickerStyle())
                                             .frame(width: 170, alignment: .trailing)
@@ -229,29 +196,8 @@ struct ContentView: View {
                                     }
                                     .clipShape(RoundedRectangle(cornerRadius: 10))
                                 }
-                                // Tab 1 Section
-                                if quantity >= 1 {
-                                    TabConfigurationView(tabNumber: 1, quantity: quantity, tabs: tabs)
-                                }
-                                
-                                // Tab 2 Section
-                                if quantity >= 2 {
-                                    TabConfigurationView(tabNumber: 2, quantity: quantity, tabs: tabs)
-                                }
-                                
-                                // Tab 3 Section
-                                if quantity >= 3 {
-                                    TabConfigurationView(tabNumber: 3, quantity: quantity, tabs: tabs)
-                                }
-                                
-                                // Tab 4 Section
-                                if quantity >= 4 {
-                                    TabConfigurationView(tabNumber: 4, quantity: quantity, tabs: tabs)
-                                }
-                                
-                                // Tab 5 Section
-                                if quantity >= 5 {
-                                    TabConfigurationView(tabNumber: 5, quantity: quantity, tabs: tabs)
+                                ForEach(0..<quantity, id: \.self) { index in
+                                    TabConfigurationView(tabIndex: index, tabs: tabs)
                                 }
                             }
                             .padding(.horizontal, 16)
@@ -284,7 +230,9 @@ struct ContentView: View {
                                 .offset(y: tabs.hasBottomAccessory ? -36.0 : 20.0)
                                 .opacity(tabs.hasBottomAccessory ? 1.0 : 0.0)
                                 ZStack {
-                                    if tabs.hasSearchRole {
+                                    if let detached = detachedIndex {
+                                        // A search or prominent tab is lifted out
+                                        // of the capsule into its own trailing slot.
                                         HStack(alignment: .top, spacing: 0) {
                                             ZStack {
                                                 HStack(alignment: .top, spacing: 0) {}
@@ -293,17 +241,8 @@ struct ContentView: View {
                                                 .padding(.vertical, 4)
                                                 .glassEffect(.clear)
                                                 HStack(alignment: .top, spacing: 0) {
-                                                    if quantity >= 1 {
-                                                        SFTabBar.tabItem(icon: tabs.tab1Icon, label: tabs.tab1Label, color: tabs.tabTintColor, weight: tabs.tab1FontWeight, isSelected: true, hasNotification: tabs.tab1HasNotification, notificationValue: tabs.tab1NotificationValue)
-                                                    }
-                                                    if quantity >= 2 && quantity > 2 {
-                                                        SFTabBar.tabItem(icon: tabs.tab2Icon, label: tabs.tab2Label, color: tabs.tabItemColor, weight: tabs.tab2FontWeight, isSelected: false, hasNotification: tabs.tab2HasNotification, notificationValue: tabs.tab2NotificationValue)
-                                                    }
-                                                    if quantity >= 3 && quantity > 3 {
-                                                        SFTabBar.tabItem(icon: tabs.tab3Icon, label: tabs.tab3Label, color: tabs.tabItemColor, weight: tabs.tab3FontWeight, isSelected: false, hasNotification: tabs.tab3HasNotification, notificationValue: tabs.tab3NotificationValue)
-                                                    }
-                                                    if quantity >= 4 && quantity > 4 {
-                                                        SFTabBar.tabItem(icon: tabs.tab4Icon, label: tabs.tab4Label, color: tabs.tabItemColor, weight: tabs.tab4FontWeight, isSelected: false, hasNotification: tabs.tab4HasNotification, notificationValue: tabs.tab4NotificationValue)
+                                                    ForEach(capsuleIndices, id: \.self) { index in
+                                                        capsuleItem(at: index)
                                                     }
                                                 }
                                                 .frame(width: calculateTabBarWidth(for: quantity) - (quantity == 5 ? 68 : 62))
@@ -311,24 +250,7 @@ struct ContentView: View {
                                                 .padding(.vertical, 4)
                                             }
                                             Spacer()
-                                            if quantity >= 1 {
-                                                let searchTabIcon = quantity == 1 ? tabs.tab1Icon : 
-                                                                   quantity == 2 ? tabs.tab2Icon :
-                                                                   quantity == 3 ? tabs.tab3Icon :
-                                                                   quantity == 4 ? tabs.tab4Icon : tabs.tab5Icon
-                                                ZStack{
-                                                    ZStack {
-                                                    }
-                                                    .frame(width: 50, height: 50)
-                                                    .glassEffect(.clear)
-                                                    Image(systemName: searchTabIcon)
-                                                        .font(.system(size: 20))
-                                                        .frame(width: 44, height: 44)
-                                                        .foregroundColor(Color.primary)
-                                                        .padding(.horizontal, 4)
-                                                        .padding(.vertical, 4)
-                                                }
-                                            }
+                                            detachedItem(at: detached)
                                         }
                                         .frame(width: 290)
                                     } else {
@@ -339,20 +261,8 @@ struct ContentView: View {
                                             .padding(.vertical, 4)
                                             .glassEffect(.clear)
                                             HStack(alignment: .top, spacing: 0) {
-                                                if quantity >= 1 {
-                                                    SFTabBar.tabItem(icon: tabs.tab1Icon, label: tabs.tab1Label, color: tabs.tabTintColor, weight: tabs.tab1FontWeight, isSelected: true, hasNotification: tabs.tab1HasNotification, notificationValue: tabs.tab1NotificationValue)
-                                                }
-                                                if quantity >= 2 {
-                                                    SFTabBar.tabItem(icon: tabs.tab2Icon, label: tabs.tab2Label, color: tabs.tabItemColor, weight: tabs.tab2FontWeight, isSelected: false, hasNotification: tabs.tab2HasNotification, notificationValue: tabs.tab2NotificationValue)
-                                                }
-                                                if quantity >= 3 {
-                                                    SFTabBar.tabItem(icon: tabs.tab3Icon, label: tabs.tab3Label, color: tabs.tabItemColor, weight: tabs.tab3FontWeight, isSelected: false, hasNotification: tabs.tab3HasNotification, notificationValue: tabs.tab3NotificationValue)
-                                                }
-                                                if quantity >= 4 {
-                                                    SFTabBar.tabItem(icon: tabs.tab4Icon, label: tabs.tab4Label, color: tabs.tabItemColor, weight: tabs.tab4FontWeight, isSelected: false, hasNotification: tabs.tab4HasNotification, notificationValue: tabs.tab4NotificationValue)
-                                                }
-                                                if quantity >= 5 {
-                                                    SFTabBar.tabItem(icon: tabs.tab5Icon, label: tabs.tab5Label, color: tabs.tabItemColor, weight: tabs.tab5FontWeight, isSelected: false, hasNotification: tabs.tab5HasNotification, notificationValue: tabs.tab5NotificationValue)
+                                                ForEach(capsuleIndices, id: \.self) { index in
+                                                    capsuleItem(at: index)
                                                 }
                                             }
                                             .frame(width: calculateTabBarWidth(for: quantity) - (quantity == 5 ? 8 : 2))
