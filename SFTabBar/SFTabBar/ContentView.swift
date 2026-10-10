@@ -24,6 +24,7 @@ struct ContentView: View {
     
     @ObservedObject var tabs = TabsViewModel()
     
+    @Environment(\.horizontalSizeClass) private var hSize
     let generator = UINotificationFeedbackGenerator()
     
     // iOS 27's floating tab bar uses a constant capsule width for 2-5 tabs
@@ -54,7 +55,7 @@ struct ContentView: View {
         SFTabBar.tabItem(
             icon: config.icon,
             label: config.label,
-            color: isSelected ? tabs.tabTintColor : tabs.tabItemColor,
+            color: isSelected ? tabs.tabTintColor : Color.primary,
             weight: config.fontWeight,
             isSelected: isSelected,
             hasNotification: config.hasNotification,
@@ -97,7 +98,11 @@ struct ContentView: View {
     
         
     var body: some View {
-        NavigationView {
+        // NavigationStack, not NavigationView: on the regular-width iPhone Duo
+        // inner display the deprecated NavigationView resolves to a two-column
+        // split, pinning content to a narrow left column with an empty detail
+        // pane. This app is single-column, so a stack uses the full width.
+        NavigationStack {
             contentView
         }
         .accentColor(.pink)
@@ -109,245 +114,269 @@ struct ContentView: View {
     
     @ViewBuilder
     private var contentView: some View {
-                ScrollView {
-                    LazyVStack(alignment: .leading, spacing: 0, pinnedViews: [.sectionHeaders]) {
-                        Section {
-                            LazyVStack(spacing: 20) {
-                                VStack(alignment: .leading, spacing: 0) {
-                                    HStack {
-                                        Text("The Tab Bar above is a non-interactive preview. Tap the \(Image(systemName: "play")) button to see it in action.")
-                                        .font(.footnote)
-                                        .foregroundColor(Color.secondary)
-                                    }
-                                    .padding(.horizontal, 16)
-                                    .padding(.bottom, 18.0)
-                                    Text("Tab Bar Setting")
-                                        .font(.footnote)
-                                        .foregroundColor(.secondary)
-                                        .textCase(.uppercase)
-                                        .padding(.horizontal, 16)
-                                        .padding(.bottom, 8)
-                                    VStack(spacing: 0) {
-                                        HStack {
-                                            Text("Label Color")
-                                            Spacer()
-                                            ColorPicker("", selection: $tabs.tabItemColor, supportsOpacity: false)
-                                                .frame(width: 40, alignment: .center)
-                                        }
-                                        .padding(.horizontal, 16)
-                                        .padding(.vertical, 12)
-                                        .background(Color(.secondarySystemGroupedBackground))
-                                        
-                                        Divider()
-                                            .padding(.leading, 16)
-                                        HStack {
-                                            Text("Tint Color")
-                                            Spacer()
-                                            ColorPicker("", selection: $tabs.tabTintColor, supportsOpacity: false)
-                                                .frame(width: 40, alignment: .center)
-                                        }
-                                        .padding(.horizontal, 16)
-                                        .padding(.vertical, 12)
-                                        .background(Color(.secondarySystemGroupedBackground))
-                                        
-                                        Divider()
-                                            .padding(.leading, 16)
-                                        HStack {
-                                            Text("Minimize Behavior")
-                                            Spacer()
-                                            Picker("", selection: $tabs.tabBarMinimizeBehavior) {
-                                                ForEach(TabBarMinimizeBehaviorOption.allCases, id: \.self) { option in
-                                                    Text(option.displayName).tag(option)
-                                                }
-                                            }
-                                            .pickerStyle(MenuPickerStyle())
-                                            .frame(width: 170, alignment: .trailing)
-                                        }
-                                        .padding(.horizontal, 16)
-                                        .padding(.vertical, 12)
-                                        .background(Color(.secondarySystemGroupedBackground))
-                                        Divider()
-                                            .padding(.leading, 16)
-                                        HStack {
-                                            Text("Bottom Accessory")
-                                            Spacer()
-                                            Toggle("", isOn: $tabs.hasBottomAccessory.animation(.spring(response: 0.6, dampingFraction: 0.8)))
-                                        }
-                                        .padding(.leading, 16)
-                                        .padding(.trailing, 8)
-                                        .padding(.vertical, 12)
-                                        .background(Color(.secondarySystemGroupedBackground))
-                                        
-                                        Divider()
-                                            .padding(.leading, 16)
-                                        HStack {
-                                            Text("Display \(quantity) Tabs")
-                                            Spacer()
-                                            //Stepper("", value: $quantity, in: 2...5)
-                                            Stepper("", value: $quantity.animation(.spring(response: 0.5, dampingFraction: 0.7)), in: 2...5)
-                                        }
-                                        .padding(.horizontal, 16)
-                                        .padding(.vertical, 12)
-                                        .background(Color(.secondarySystemGroupedBackground))
-                                    }
-                                    .clipShape(RoundedRectangle(cornerRadius: 10))
-                                }
-                                ForEach(0..<quantity, id: \.self) { index in
-                                    TabConfigurationView(tabIndex: index, tabs: tabs)
-                                }
-                            }
-                            .padding(.horizontal, 16)
-                            .padding(.bottom, 20)
-                        } header: {
-                            ZStack {
-                                Color(.systemGroupedBackground)
-                                    .background(Color(.systemGroupedBackground))
-                                    .frame(width: 330, height: 155)
-                                    .offset(y: -12)
-                                ZStack {
-                                    Color(.white.opacity(0.1))
-                                        .glassEffect(.regular)
-                                        .cornerRadius(.infinity)
-                                    HStack(alignment: .top, spacing: 0) {
-                                        Image(systemName: "play.fill")
-                                            .padding(EdgeInsets(top: 0, leading: 4, bottom: 0, trailing: 8))
-                                        Text("Call to Action")
-                                            .font(.caption)
-                                            .foregroundColor(Color.primary)
-                                        Spacer()
-                                        Text("Action")
-                                            .font(.caption)
-                                            .foregroundColor(Color.primary)
-                                            .padding(.trailing, 4)
-                                    }
-                                    .padding(.horizontal, 8)
-                                }
-                                .frame(width: 290, height: 40)
-                                .offset(y: tabs.hasBottomAccessory ? -36.0 : 20.0)
-                                .opacity(tabs.hasBottomAccessory ? 1.0 : 0.0)
-                                ZStack {
-                                    if let detached = detachedIndex {
-                                        // A search or prominent tab is lifted out
-                                        // of the capsule into its own trailing slot.
-                                        HStack(alignment: .top, spacing: 0) {
-                                            ZStack {
-                                                HStack(alignment: .top, spacing: 0) {}
-                                                .frame(width: calculateTabBarWidth(for: quantity) - 60, height: 44)
-                                                .padding(.horizontal, 4)
-                                                .padding(.vertical, 4)
-                                                .glassEffect(.clear)
-                                                HStack(alignment: .top, spacing: 0) {
-                                                    ForEach(capsuleIndices, id: \.self) { index in
-                                                        capsuleItem(at: index)
-                                                    }
-                                                }
-                                                .frame(width: calculateTabBarWidth(for: quantity) - 68)
-                                                .padding(.horizontal, 4)
-                                                .padding(.vertical, 4)
-                                            }
-                                            Spacer()
-                                            detachedItem(at: detached)
-                                        }
-                                        .frame(width: 290)
-                                    } else {
-                                        ZStack {
-                                            HStack(alignment: .top, spacing: 0) {}
-                                            .frame(width: calculateTabBarWidth(for: quantity), height: 44)
-                                            .padding(.horizontal, 4)
-                                            .padding(.vertical, 4)
-                                            .glassEffect(.clear)
-                                            HStack(alignment: .top, spacing: 0) {
-                                                ForEach(capsuleIndices, id: \.self) { index in
-                                                    capsuleItem(at: index)
-                                                }
-                                            }
-                                            .frame(width: calculateTabBarWidth(for: quantity) - 8)
-                                            .padding(.horizontal, 4)
-                                            .padding(.vertical, 4)
-                                            //.glassEffect()
-                                        }
-                                    }
-                                    Image("img_homeIndicator_black")
-                                        .offset(y: 37.0)
-                                }
-                                .frame(width: calculateTabBarWidth(for: quantity), height: 74)
-                                .offset(y: 18.0)
-                                ZStack {
-                                    VRule()
-                                        .stroke(style: StrokeStyle(lineWidth: 1, dash: [5]))
-                                        .frame(height: 1)
-                                        .offset(x: 0, y: -105.0)
-                                        .opacity(0.5)
-                                    VRule()
-                                        .stroke(style: StrokeStyle(lineWidth: 1, dash: [5]))
-                                        .frame(height: 1)
-                                        .offset(x: 290, y: -105.0)
-                                        .opacity(0.5)
-                                }
-                                .frame(width: 290)
-                                Image("device_iphone11")
-                                    //.offset(y: -10.0)
-                                HRule()
-                                    .stroke(style: StrokeStyle(lineWidth: 1, dash: [5]))
-                                    .frame(height: 1)
-                                    .offset(y: -8)
-                                    .opacity(0.5)
-                                HRule()
-                                    .stroke(style: StrokeStyle(lineWidth: 1, dash: [5]))
-                                    .frame(height: 1)
-                                    .offset(y: -89.0)
-                                    .opacity(0.5)
-                                
-                            }
-                            .clipped()
-                            .padding(.bottom)
-                            //.offset(y: 4.0)
-                            //.background(Color(.systemGroupedBackground))
-                        }
-                    }
+        Group {
+            if hSize == .regular {
+                // Inner display (book / open): mocks pinned left, form scrolls right.
+                HStack(alignment: .top, spacing: 0) {
+                    mocksColumn
+                        .frame(width: 360)
+                        .padding(.horizontal, 10)
+                    Divider()
+                    ScrollView { formContent.padding(.top, 12) }
                 }
-                .background(Color(.systemGroupedBackground))
-                .navigationTitle("SF TabBar")
-                .navigationBarTitleDisplayMode(.large)
-                .toolbar {
-                    ToolbarItemGroup(placement: .topBarTrailing) {
-                        NavigationLink(destination: NewPlayView(tabCount: quantity, tabs: tabs)) {
-                            Image(systemName: "play")
-                        }
-                        NavigationLink(destination: Export(tabCount: quantity, tabs: tabs)) {
-                            Image(systemName: "square.and.arrow.up")
-                        }
-                    }
-                    ToolbarSpacer(placement: .topBarTrailing)
-                    ToolbarItemGroup(placement: .topBarTrailing) {
-                        Menu {
-                            Section("Appearance Mode") {
-                                Button(action: { colorScheme = nil }) {
-                                    Label("System", systemImage: "gear")
-                                }
-                                Button(action: { colorScheme = .light }) {
-                                    Label("Light Mode", systemImage: "sun.max")
-                                }
-                                Button(action: { colorScheme = .dark }) {
-                                    Label("Dark Mode", systemImage: "moon")
-                                }
-                            }
-                        } label: {
-                            Image(systemName: "circle.lefthalf.filled.inverse")
-                        }
-                    }
-                    ToolbarSpacer(placement: .topBarTrailing)
-                    ToolbarItemGroup(placement: .topBarTrailing) {
-                        NavigationLink(destination: DocumentionView()) {
-                            Image(systemName: "book.pages")
-                        }
+            } else {
+                // Standard iPhone / Duo passport (compact): iPhone mock above the form.
+                ScrollView {
+                    VStack(spacing: 0) {
+                        iPhoneMockView.padding(.vertical, 16)
+                        formContent
                     }
                 }
             }
-            
-    
-}
+        }
+        .background(Color(.systemGroupedBackground))
+        .navigationTitle("SF TabBar")
+        .navigationBarTitleDisplayMode(.large)
+        .toolbar {
+            ToolbarItemGroup(placement: .topBarTrailing) {
+                NavigationLink(destination: NewPlayView(tabCount: quantity, tabs: tabs)) {
+                    Image(systemName: "play")
+                }
+                NavigationLink(destination: Export(tabCount: quantity, tabs: tabs)) {
+                    Image(systemName: "square.and.arrow.up")
+                }
+            }
+            ToolbarSpacer(placement: .topBarTrailing)
+            ToolbarItemGroup(placement: .topBarTrailing) {
+                Menu {
+                    Section("Appearance Mode") {
+                        Button(action: { colorScheme = nil }) { Label("System", systemImage: "gear") }
+                        Button(action: { colorScheme = .light }) { Label("Light Mode", systemImage: "sun.max") }
+                        Button(action: { colorScheme = .dark }) { Label("Dark Mode", systemImage: "moon") }
+                    }
+                } label: {
+                    Image(systemName: "circle.lefthalf.filled.inverse")
+                }
+            }
+            ToolbarSpacer(placement: .topBarTrailing)
+            ToolbarItemGroup(placement: .topBarTrailing) {
+                NavigationLink(destination: DocumentionView()) {
+                    Image(systemName: "book.pages")
+                }
+            }
+        }
+    }
 
+    // MARK: - Form
+
+    @ViewBuilder
+    private var formContent: some View {
+        LazyVStack(spacing: 20) {
+            VStack(alignment: .leading, spacing: 0) {
+                HStack {
+                    Text("The Tab Bar is a non-interactive preview. Tap the \(Image(systemName: "play")) button to see it in action.")
+                        .font(.footnote).foregroundColor(Color.secondary)
+                }
+                .padding(.horizontal, 16).padding(.bottom, 18.0)
+                Text("Tab Bar Setting")
+                    .font(.footnote).foregroundColor(.secondary).textCase(.uppercase)
+                    .padding(.horizontal, 16).padding(.bottom, 8)
+                VStack(spacing: 0) {
+                    // Label Color removed: iOS 27 owns the unselected item color under
+                    // Liquid Glass, so exposing it would promise something the bar can't do.
+                    HStack {
+                        Text("Tint Color"); Spacer()
+                        ColorPicker("", selection: $tabs.tabTintColor, supportsOpacity: false)
+                            .frame(width: 40, alignment: .center)
+                    }
+                    .padding(.horizontal, 16).padding(.vertical, 12)
+                    .background(Color(.secondarySystemGroupedBackground))
+                    Divider().padding(.leading, 16)
+                    HStack {
+                        Text("Minimize Behavior"); Spacer()
+                        Picker("", selection: $tabs.tabBarMinimizeBehavior) {
+                            ForEach(TabBarMinimizeBehaviorOption.allCases, id: \.self) { option in
+                                Text(option.displayName).tag(option)
+                            }
+                        }
+                        .pickerStyle(MenuPickerStyle()).frame(width: 170, alignment: .trailing)
+                    }
+                    .padding(.horizontal, 16).padding(.vertical, 12)
+                    .background(Color(.secondarySystemGroupedBackground))
+                    Divider().padding(.leading, 16)
+                    HStack {
+                        Text("Bottom Accessory"); Spacer()
+                        Toggle("", isOn: $tabs.hasBottomAccessory.animation(.spring(response: 0.6, dampingFraction: 0.8)))
+                    }
+                    .padding(.leading, 16).padding(.trailing, 8).padding(.vertical, 12)
+                    .background(Color(.secondarySystemGroupedBackground))
+                    Divider().padding(.leading, 16)
+                    HStack {
+                        Text("Display \(quantity) Tabs"); Spacer()
+                        Stepper("", value: $quantity.animation(.spring(response: 0.5, dampingFraction: 0.7)), in: 2...5)
+                    }
+                    .padding(.horizontal, 16).padding(.vertical, 12)
+                    .background(Color(.secondarySystemGroupedBackground))
+                }
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+            }
+            ForEach(0..<quantity, id: \.self) { index in
+                TabConfigurationView(tabIndex: index, tabs: tabs)
+            }
+        }
+        .padding(.horizontal, 16)
+        .padding(.bottom, 20)
+    }
+
+    // MARK: - Device mocks (image frames + live bars)
+
+    private var mocksColumn: some View {
+        let contentW: CGFloat = 342          // both mocks share this width
+        let contentH: CGFloat = 183 + 20 + 299
+        return GeometryReader { geo in
+            let scale = min(geo.size.width / contentW, geo.size.height / contentH, 1)
+            VStack(spacing: 20) {
+                iPhoneMockView
+                duoPassportMockView
+            }
+            .scaleEffect(scale, anchor: .top)
+            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+        }
+    }
+
+    // iPhone: device_iphone11 bezel with the horizontal bar composited beneath it.
+    private var iPhoneMockView: some View {
+        ZStack {
+            ZStack {
+                Color(.white.opacity(0.1)).glassEffect(.regular).cornerRadius(.infinity)
+                HStack(alignment: .top, spacing: 0) {
+                    Image(systemName: "play.fill").padding(EdgeInsets(top: 0, leading: 4, bottom: 0, trailing: 8))
+                    Text("Call to Action").font(.caption).foregroundColor(Color.primary)
+                    Spacer()
+                    Text("Action").font(.caption).foregroundColor(Color.primary).padding(.trailing, 4)
+                }
+                .padding(.horizontal, 8)
+            }
+            .frame(width: 290, height: 40)
+            .offset(y: tabs.hasBottomAccessory ? -24.0 : 32.0)
+            .opacity(tabs.hasBottomAccessory ? 1.0 : 0.0)
+            ZStack {
+                if let detached = detachedIndex {
+                    HStack(alignment: .top, spacing: 0) {
+                        ZStack {
+                            HStack(alignment: .top, spacing: 0) {}
+                                .frame(width: calculateTabBarWidth(for: quantity) - 60, height: 44)
+                                .padding(.horizontal, 4).padding(.vertical, 4).glassEffect(.clear)
+                            HStack(alignment: .top, spacing: 0) {
+                                ForEach(capsuleIndices, id: \.self) { index in capsuleItem(at: index) }
+                            }
+                            .frame(width: calculateTabBarWidth(for: quantity) - 68)
+                            .padding(.horizontal, 4).padding(.vertical, 4)
+                        }
+                        Spacer()
+                        detachedItem(at: detached)
+                    }
+                    .frame(width: 290)
+                } else {
+                    ZStack {
+                        HStack(alignment: .top, spacing: 0) {}
+                            .frame(width: calculateTabBarWidth(for: quantity), height: 44)
+                            .padding(.horizontal, 4).padding(.vertical, 4).glassEffect(.clear)
+                        HStack(alignment: .top, spacing: 0) {
+                            ForEach(capsuleIndices, id: \.self) { index in capsuleItem(at: index) }
+                        }
+                        .frame(width: calculateTabBarWidth(for: quantity) - 8)
+                        .padding(.horizontal, 4).padding(.vertical, 4)
+                    }
+                }
+                Image("img_homeIndicator_black").offset(y: 37.0)
+            }
+            .frame(width: calculateTabBarWidth(for: quantity), height: 74)
+            .offset(y: 30.0)
+            Image("device_iPhoneAir")
+        }
+        .frame(width: 342, height: 183)
+    }
+
+    // Duo closed/passport: device_iPhoneDuo frame with the vertical rail on the
+    // right -- bottom-aligned, small, with a neutral glass pill behind the
+    // selected item (not a tint fill), and the accessory floating in content.
+    // Matches the real passport PlayView rendering.
+    private var duoPassportMockView: some View {
+        let w: CGFloat = 342
+        let h: CGFloat = w * (299.0 / 342.0)
+        return Image("device_iPhoneDuo")
+            .resizable()
+            .scaledToFit()
+            .frame(width: w, height: h)
+            .overlay(alignment: .bottomTrailing) {
+                VStack(spacing: 5) {
+                    VStack(spacing: 2) {
+                        ForEach(capsuleIndices, id: \.self) { index in
+                            duoRailIcon(at: index)
+                        }
+                    }
+                    .padding(.vertical, 4)
+                    .padding(.horizontal, 3)
+                    .glassEffect(.clear, in: Capsule())
+                    if let detached = detachedIndex {
+                        detachedItem(at: detached).scaleEffect(0.72)
+                    }
+                }
+                .padding(.trailing, w * 0.045)
+                .padding(.bottom, h * 0.14)
+            }
+            .overlay(alignment: .bottom) {
+                if tabs.hasBottomAccessory {
+                    // Centered in the content area (left of the rail), not leading-
+                    // aligned -- matches the real passport. Shift left of true center
+                    // by ~half the rail's width so it sits mid-content.
+                    duoAccessoryPill
+                        .frame(width: w * 0.58)
+                        .offset(x: -w * 0.09)
+                        .padding(.bottom, h * 0.14)
+                }
+            }
+    }
+
+    private var duoAccessoryPill: some View {
+        ZStack {
+            Color(.white.opacity(0.1)).glassEffect(.regular).cornerRadius(.infinity)
+            HStack(spacing: 0) {
+                Image(systemName: "play.fill").font(.caption2)
+                    .padding(EdgeInsets(top: 0, leading: 4, bottom: 0, trailing: 5))
+                Text("Call to Action").font(.caption2).foregroundColor(.primary)
+                Spacer()
+                Text("Action").font(.caption2).foregroundColor(.primary).padding(.trailing, 4)
+            }
+            .padding(.horizontal, 6)
+        }
+        .frame(height: 30)
+    }
+
+    // One rail item: small, with a neutral glass pill behind the selected one
+    // (not a pink fill). The icon takes the tint colour when selected, matching
+    // the horizontal bar's selected treatment.
+    @ViewBuilder
+    private func duoRailIcon(at index: Int) -> some View {
+        let config = tabs.tabs[index]
+        let isSelected = index == selectedIndex
+        Image(systemName: config.icon)
+            .font(.system(size: 15, weight: config.fontWeight))
+            .foregroundStyle(isSelected ? tabs.tabTintColor : .primary)
+            .frame(width: 32, height: isSelected ? 44 : 34)
+            .background {
+                if isSelected {
+                    Capsule().glassEffect(.regular.interactive(), in: Capsule()).opacity(0.6)
+                }
+            }
+            .overlay(alignment: .topTrailing) {
+                if config.canShowBadge && config.hasNotification {
+                    Circle().fill(.red).frame(width: 6, height: 6).offset(x: 0, y: 1)
+                }
+            }
+    }
+}
 
 struct SFTabBar {
     static func tabItem(icon: String, label: String, color: Color, weight: Font.Weight, isSelected: Bool = false, hasNotification: Bool = false, notificationValue: String = "") -> some View {
@@ -439,4 +468,5 @@ struct ContentView_Previews: PreviewProvider {
             //.environment(\.colorScheme, .dark)
     }
 }
+
 

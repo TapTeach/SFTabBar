@@ -61,19 +61,13 @@ struct NewPlayView: View {
             }
         }
         .accentColor(tabs.tabTintColor)
-        .onAppear {
-            let appearance = UITabBarAppearance()
-            appearance.configureWithOpaqueBackground()
-
-            let normalItemAppearance = UITabBarItemAppearance()
-            normalItemAppearance.normal.iconColor = UIColor(tabs.tabItemColor)
-            normalItemAppearance.normal.titleTextAttributes = [.foregroundColor: UIColor(tabs.tabItemColor)] // Unselected text color
-            appearance.stackedLayoutAppearance = normalItemAppearance
-            appearance.inlineLayoutAppearance = normalItemAppearance
-            appearance.compactInlineLayoutAppearance = normalItemAppearance
-            UITabBar.appearance().standardAppearance = appearance
-            UITabBar.appearance().scrollEdgeAppearance = appearance
-        }
+        // No UITabBarAppearance override. configureWithOpaqueBackground() forced
+        // an opaque bar that fights iOS 27 Liquid Glass — wrong for a preview
+        // tool — and UITabBar.appearance() is a process-wide mutation that leaked
+        // to every tab bar and was never reset. On iOS 27 the system owns the
+        // unselected-item color under Liquid Glass, so the live preview now shows
+        // the true system rendering. (Label Color still drives the static mock,
+        // where we control the drawing.)
         .tabViewStyle(.sidebarAdaptable)
         .tabBarMinimizeBehavior(convertToSwiftUIMinimizeBehavior(tabs.tabBarMinimizeBehavior))
         .tabViewSearchActivation(.searchTabSelection)
