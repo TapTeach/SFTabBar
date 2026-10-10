@@ -114,23 +114,39 @@ struct ContentView: View {
     
     @ViewBuilder
     private var contentView: some View {
-        Group {
-            if hSize == .regular {
-                // Inner display (book / open): mocks pinned left, form scrolls right.
-                HStack(alignment: .top, spacing: 0) {
-                    mocksColumn
-                        .frame(width: 360)
-                        .padding(.horizontal, 10)
-                    Divider()
-                    ScrollView { formContent.padding(.top, 12) }
-                }
-            } else {
-                // Standard iPhone / Duo passport (compact): iPhone mock above the form.
-                ScrollView {
-                    VStack(spacing: 0) {
-                        iPhoneMockView.padding(.vertical, 16)
-                        formContent
+        // Duo is regular-width in both orientations, so size class can't tell
+        // portrait from landscape -- compare width vs height to pick the layout.
+        GeometryReader { geo in
+            Group {
+                if hSize != .regular {
+                    // Compact (standard iPhone / Duo passport): canvas is a fixed top
+                    // safe-area inset; the form scrolls beneath and drives the title
+                    // collapse, so scrolling reclaims space.
+                    ScrollView {
+                        formContent.padding(.top, 10)
                     }
+                    .safeAreaInset(edge: .top, spacing: 0) {
+                        iPhoneMockView
+                            .padding(.top, 2)
+                            .padding(.bottom, 14)
+                            .frame(maxWidth: .infinity)
+                            .background(DotGridBackground(tint: tabs.tabTintColor))
+                    }
+                } else if geo.size.width >= geo.size.height {
+                    // Inner display, landscape: mocks pinned left, form scrolls right.
+                    HStack(alignment: .top, spacing: 0) {
+                        mocksColumn
+                            .frame(width: 360)
+                            .padding(.horizontal, 10)
+                            .frame(maxHeight: .infinity)
+                            .background(DotGridBackground(tint: tabs.tabTintColor))
+                        Divider()
+                        ScrollView { formContent.padding(.top, 12) }
+                    }
+                } else {
+                    // Inner display, portrait: canvas spans the top with the two mocks
+                    // side by side (iPhone left, Duo right); form scrolls beneath.
+                    portraitRegularLayout(width: geo.size.width)
                 }
             }
         }
@@ -230,6 +246,20 @@ struct ContentView: View {
 
     // MARK: - Device mocks (image frames + live bars)
 
+    private func portraitRegularLayout(width: CGFloat) -> some View {
+        // Two columns, but weighted the opposite way from landscape: the form
+        // takes the larger share and the mocks sit in a narrower column.
+        HStack(alignment: .top, spacing: 0) {
+            mocksColumn
+                .frame(width: width * 0.42)
+                .padding(.horizontal, 8)
+                .frame(maxHeight: .infinity)
+                .background(DotGridBackground(tint: tabs.tabTintColor))
+            Divider()
+            ScrollView { formContent.padding(.top, 12) }
+        }
+    }
+
     private var mocksColumn: some View {
         let contentW: CGFloat = 342          // both mocks share this width
         let contentH: CGFloat = 183 + 20 + 299
@@ -239,7 +269,12 @@ struct ContentView: View {
                 iPhoneMockView
                 duoPassportMockView
             }
-            .scaleEffect(scale, anchor: .top)
+            // Natural size -> scale -> reframe to the scaled size, so the layout
+            // bounds shrink with the content and it fits a narrow column instead
+            // of overflowing and clipping.
+            .frame(width: contentW, height: contentH, alignment: .topLeading)
+            .scaleEffect(scale, anchor: .topLeading)
+            .frame(width: contentW * scale, height: contentH * scale, alignment: .topLeading)
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         }
     }
@@ -375,6 +410,36 @@ struct ContentView: View {
                     Circle().fill(.red).frame(width: 6, height: 6).offset(x: 0, y: 1)
                 }
             }
+    }
+}
+
+// Dot-grid "paper" backdrop for the mock area. Tinted with the user's selected
+// tint colour at a very light opacity (dots a stronger version of the same), so
+// the canvas echoes their choice. Layered over systemBackground, so it adapts
+// to light/dark automatically.
+struct DotGridBackground: View {
+    var tint: Color
+    private let spacing: CGFloat = 16
+    private let dotSize: CGFloat = 2
+
+    var body: some View {
+        Canvas { context, size in
+            var y = spacing / 2
+            while y < size.height {
+                var x = spacing / 2
+                while x < size.width {
+                    context.fill(
+                        Path(ellipseIn: CGRect(x: x - dotSize / 2, y: y - dotSize / 2,
+                                               width: dotSize, height: dotSize)),
+                        with: .color(tint.opacity(0.16))
+                    )
+                    x += spacing
+                }
+                y += spacing
+            }
+        }
+        .background(tint.opacity(0.05))
+        .background(Color(.systemBackground))
     }
 }
 
