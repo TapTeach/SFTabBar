@@ -162,20 +162,24 @@ struct ContentView: View {
                     // (mocks over form) in portrait, where the hinge runs across the
                     // middle so the division lands on the fold. The ratio gives the
                     // form the larger share.
+                    // The fold is a division reserved region: present only while
+                    // the device is partially folded (book pose). Cap the canvas
+                    // height in open portrait to pull the form up under the short
+                    // mocks, but drop the cap when folded -- forcing a height fights
+                    // the fold region and collapses the form. Landscape is uncapped.
+                    let folded = !geo.reservedRegions(kind: .division).isEmpty
+                    let capPortrait = geo.size.height > geo.size.width && !folded
                     ArrangementView {
                         mocksColumn
                             .padding(.horizontal, 10)
                             .padding(.bottom, 24)
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
                             .background(DotGridBackground(tint: tabs.tabTintColor))
+                            .splitArrangementLayoutSize(maxHeight: capPortrait ? 200 : nil)
                     } secondary: {
                         ScrollView { formContent.padding(.top, 12) }
                     }
                     .arrangementViewStyle(.split)
-                    // Let the container own the split. Forcing the canvas height
-                    // (a pinned ratio or a hard size cap) fought the fold's reserved
-                    // region in the book pose and collapsed the form, so we take the
-                    // system's split and accept some slack under the short mocks.
                     .splitArrangementLayoutRatio(0.42)
                 }
             }
