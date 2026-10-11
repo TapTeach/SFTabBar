@@ -119,18 +119,34 @@ struct ContentView: View {
         GeometryReader { geo in
             Group {
                 if hSize != .regular {
-                    // Compact (standard iPhone / Duo passport): canvas is a fixed top
-                    // safe-area inset; the form scrolls beneath and drives the title
-                    // collapse, so scrolling reclaims space.
-                    ScrollView {
-                        formContent.padding(.top, 10)
-                    }
-                    .safeAreaInset(edge: .top, spacing: 0) {
-                        iPhoneMockView
-                            .padding(.top, 2)
-                            .padding(.bottom, 14)
-                            .frame(maxWidth: .infinity)
-                            .background(DotGridBackground(tint: tabs.tabTintColor))
+                    // Compact, but the top region differs by pose:
+                    //  - iPhone: an opaque nav bar covers the top strip, so the
+                    //    canvas is a pinned section header -- the large title
+                    //    renders above it and collapses on scroll, and anything
+                    //    that scrolls past the top is hidden behind the bar's blur.
+                    //  - Duo passport: the title sits in the side rail and content
+                    //    runs edge-to-edge under a transparent top, so a pinned
+                    //    header leaves a gap the form shows through. A top
+                    //    safe-area inset pins the canvas flush instead.
+                    // A large horizontal safe-area inset means a vertical side bar
+                    // is present, i.e. the Duo passport.
+                    if max(geo.safeAreaInsets.leading, geo.safeAreaInsets.trailing) > 20 {
+                        ScrollView {
+                            formContent.padding(.top, 10)
+                        }
+                        .safeAreaInset(edge: .top, spacing: 0) {
+                            compactCanvas
+                        }
+                    } else {
+                        ScrollView {
+                            LazyVStack(spacing: 0, pinnedViews: [.sectionHeaders]) {
+                                Section {
+                                    formContent.padding(.top, 10)
+                                } header: {
+                                    compactCanvas
+                                }
+                            }
+                        }
                     }
                 } else if geo.size.width >= geo.size.height {
                     // Inner display, landscape: mocks pinned left, form scrolls right.
@@ -181,6 +197,18 @@ struct ContentView: View {
                 }
             }
         }
+    }
+
+    // MARK: - Compact canvas
+
+    /// The iPhone mock sitting on the dot-grid paper, shared by both compact
+    /// layouts (pinned section header on iPhone, top safe-area inset on Duo).
+    private var compactCanvas: some View {
+        iPhoneMockView
+            .padding(.top, 2)
+            .padding(.bottom, 14)
+            .frame(maxWidth: .infinity)
+            .background(DotGridBackground(tint: tabs.tabTintColor))
     }
 
     // MARK: - Form
@@ -324,10 +352,9 @@ struct ContentView: View {
                         .padding(.horizontal, 4).padding(.vertical, 4)
                     }
                 }
-                Image("img_homeIndicator_black").offset(y: 37.0)
             }
             .frame(width: calculateTabBarWidth(for: quantity), height: 74)
-            .offset(y: 30.0)
+            .offset(y: 34.0)
             Image("device_iPhoneAir")
         }
         .frame(width: 342, height: 183)
@@ -359,7 +386,7 @@ struct ContentView: View {
                     }
                 }
                 .padding(.trailing, w * 0.045)
-                .padding(.bottom, h * 0.14)
+                .padding(.bottom, h * 0.14 - 4)
             }
             .overlay(alignment: .bottom) {
                 if tabs.hasBottomAccessory {
