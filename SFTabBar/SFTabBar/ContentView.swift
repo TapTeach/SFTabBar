@@ -175,7 +175,7 @@ struct ContentView: View {
                             .padding(.bottom, 24)
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
                             .background(DotGridBackground(tint: tabs.tabTintColor))
-                            .splitArrangementLayoutSize(maxHeight: capPortrait ? 200 : nil)
+                            .splitArrangementLayoutSize(maxHeight: capPortrait ? 250 : nil)
                     } secondary: {
                         ScrollView { formContent.padding(.top, 12) }
                     }
