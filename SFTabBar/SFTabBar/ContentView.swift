@@ -153,21 +153,26 @@ struct ContentView: View {
                             }
                         }
                     }
-                } else if geo.size.width >= geo.size.height {
-                    // Inner display, landscape: mocks pinned left, form scrolls right.
-                    HStack(alignment: .top, spacing: 0) {
+                } else {
+                    // Inner display (regular width): an ArrangementView split. The
+                    // system divides the space and -- unlike our hand-rolled HStack
+                    // -- keeps each pane inside its fold-defined region instead of
+                    // letting content fall across the hinge. The split picks its
+                    // axis by orientation: side-by-side in landscape, stacked
+                    // (mocks over form) in portrait, where the hinge runs across the
+                    // middle so the division lands on the fold. The ratio gives the
+                    // form the larger share.
+                    ArrangementView {
                         mocksColumn
-                            .frame(width: 360)
                             .padding(.horizontal, 10)
-                            .frame(maxHeight: .infinity)
+                            .padding(.bottom, 24)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
                             .background(DotGridBackground(tint: tabs.tabTintColor))
-                        Divider()
+                    } secondary: {
                         ScrollView { formContent.padding(.top, 12) }
                     }
-                } else {
-                    // Inner display, portrait: canvas spans the top with the two mocks
-                    // side by side (iPhone left, Duo right); form scrolls beneath.
-                    portraitRegularLayout(width: geo.size.width)
+                    .arrangementViewStyle(.split)
+                    .splitArrangementLayoutRatio(0.42)
                 }
             }
         }
@@ -304,36 +309,38 @@ struct ContentView: View {
 
     // MARK: - Device mocks (image frames + live bars)
 
-    private func portraitRegularLayout(width: CGFloat) -> some View {
-        // Two columns, but weighted the opposite way from landscape: the form
-        // takes the larger share and the mocks sit in a narrower column.
-        HStack(alignment: .top, spacing: 0) {
-            mocksColumn
-                .frame(width: width * 0.42)
-                .padding(.horizontal, 8)
-                .frame(maxHeight: .infinity)
-                .background(DotGridBackground(tint: tabs.tabTintColor))
-            Divider()
-            ScrollView { formContent.padding(.top, 12) }
+    private var mocksColumn: some View {
+        GeometryReader { geo in
+            // Arrange the two mocks along the pane's long axis: side by side when
+            // the pane is wider than tall (portrait's top canvas), stacked when
+            // taller than wide (landscape's left column).
+            let sideBySide = geo.size.width >= geo.size.height
+            let contentW: CGFloat = sideBySide ? (342 + 20 + 342) : 342
+            let contentH: CGFloat = sideBySide ? 299 : (183 + 20 + 299)
+            let scale = min(geo.size.width / contentW, geo.size.height / contentH, 1)
+            mocks(sideBySide: sideBySide)
+                // Natural size -> scale -> reframe to the scaled size, so the
+                // layout bounds shrink with the content and it fits the pane
+                // instead of overflowing and clipping.
+                .frame(width: contentW, height: contentH, alignment: .topLeading)
+                .scaleEffect(scale, anchor: .topLeading)
+                .frame(width: contentW * scale, height: contentH * scale, alignment: .topLeading)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: sideBySide ? .center : .top)
         }
     }
 
-    private var mocksColumn: some View {
-        let contentW: CGFloat = 342          // both mocks share this width
-        let contentH: CGFloat = 183 + 20 + 299
-        return GeometryReader { geo in
-            let scale = min(geo.size.width / contentW, geo.size.height / contentH, 1)
+    @ViewBuilder
+    private func mocks(sideBySide: Bool) -> some View {
+        if sideBySide {
+            HStack(alignment: .top, spacing: 20) {
+                iPhoneMockView
+                duoPassportMockView
+            }
+        } else {
             VStack(spacing: 20) {
                 iPhoneMockView
                 duoPassportMockView
             }
-            // Natural size -> scale -> reframe to the scaled size, so the layout
-            // bounds shrink with the content and it fits a narrow column instead
-            // of overflowing and clipping.
-            .frame(width: contentW, height: contentH, alignment: .topLeading)
-            .scaleEffect(scale, anchor: .topLeading)
-            .frame(width: contentW * scale, height: contentH * scale, alignment: .topLeading)
-            .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
         }
     }
 
