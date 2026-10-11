@@ -10,11 +10,11 @@
 		9B0568EC2E61FCCE00691D24 /* ColorDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0568EB2E61FCAE00691D24 /* ColorDemoView.swift */; };
 		9B0568EE2E61FCEE00691D24 /* UploadDemoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0568ED2E61FCE000691D24 /* UploadDemoView.swift */; };
 		9B0568F02E62361D00691D24 /* ColorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0568EF2E6235FF00691D24 /* ColorExtensions.swift */; };
-		9BA1270A2E80000100000001 /* TabConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA127082E80000100000001 /* TabConfig.swift */; };
-		9BA1270B2E80000100000001 /* TabsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA127092E80000100000001 /* TabsViewModel.swift */; };
 		9B0568F22E64627300691D24 /* DocumentationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0568F12E64626600691D24 /* DocumentationView.swift */; };
 		9B0568F82E64C2AD00691D24 /* SFTabBar.icon in Resources */ = {isa = PBXBuildFile; fileRef = 9B0568F72E64C2AD00691D24 /* SFTabBar.icon */; };
 		9B0568FA2E65CAAB00691D24 /* symbols-catalog.json in Resources */ = {isa = PBXBuildFile; fileRef = 9B0568F92E65CAAB00691D24 /* symbols-catalog.json */; };
+		9BA1270A2E80000100000001 /* TabConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA127082E80000100000001 /* TabConfig.swift */; };
+		9BA1270B2E80000100000001 /* TabsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BA127092E80000100000001 /* TabsViewModel.swift */; };
 		9BD886552E5A8D93004BD678 /* iOS27TabViewTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD886542E5A8D93004BD678 /* iOS27TabViewTest.swift */; };
 		9BD886572E5B3671004BD678 /* TabConfigurationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD886562E5B3671004BD678 /* TabConfigurationView.swift */; };
 		9BD886612E61EA38004BD678 /* NovelExcerptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BD886602E61EA38004BD678 /* NovelExcerptView.swift */; };
@@ -115,6 +115,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		9BA127072E80000100000001 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				9BA127082E80000100000001 /* TabConfig.swift */,
+				9BA127092E80000100000001 /* TabsViewModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		FB1D0F062512824600A0B190 = {
 			isa = PBXGroup;
 			children = (
@@ -158,15 +167,6 @@
 				FB1D0F182512824900A0B190 /* Preview Content */,
 			);
 			path = SFTabBar;
-			sourceTree = "<group>";
-		};
-		9BA127072E80000100000001 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				9BA127082E80000100000001 /* TabConfig.swift */,
-				9BA127092E80000100000001 /* TabsViewModel.swift */,
-			);
-			path = Models;
 			sourceTree = "<group>";
 		};
 		FB1D0F182512824900A0B190 /* Preview Content */ = {
@@ -483,7 +483,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 27.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -538,7 +538,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 27.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -561,12 +561,12 @@
 				INFOPLIST_FILE = SFTabBar/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = SFTabBar;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
-				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 27.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.0.0;
+				MARKETING_VERSION = 3.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tapteachapps.SFTabBar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -587,12 +587,12 @@
 				INFOPLIST_FILE = SFTabBar/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = SFTabBar;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.developer-tools";
-				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 27.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 3.0.0;
+				MARKETING_VERSION = 3.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.tapteachapps.SFTabBar;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -608,7 +608,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = GX6GRW776S;
 				INFOPLIST_FILE = SFTabBarTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 27.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -630,7 +630,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = GX6GRW776S;
 				INFOPLIST_FILE = SFTabBarTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 27.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

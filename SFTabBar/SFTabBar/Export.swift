@@ -135,7 +135,6 @@ struct Export: View {
 
         lines.append(CodeLine(text: ""))
         lines.append(CodeLine(text: "        .tint(\(colorLiteral(tabs.tabTintColor)))", color: .orange))
-        lines.append(CodeLine(text: "        .foregroundStyle(\(colorLiteral(tabs.tabItemColor)))", color: .orange))
 
         return lines
     }

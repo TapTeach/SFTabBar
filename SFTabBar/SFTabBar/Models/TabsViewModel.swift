@@ -32,7 +32,6 @@ class TabsViewModel: ObservableObject {
         TabConfig(label: "Search", icon: "magnifyingglass", role: .search),
     ]
 
-    @Published var tabItemColor = Color.primary
     @Published var tabTintColor = Color.pink
     @Published var tabBarMinimizeBehavior = TabBarMinimizeBehaviorOption.onScrollDown
     @Published var hasBottomAccessory = true
