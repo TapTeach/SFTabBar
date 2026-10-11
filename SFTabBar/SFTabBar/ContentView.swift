@@ -172,6 +172,10 @@ struct ContentView: View {
                         ScrollView { formContent.padding(.top, 12) }
                     }
                     .arrangementViewStyle(.split)
+                    // Let the container own the split. Forcing the canvas height
+                    // (a pinned ratio or a hard size cap) fought the fold's reserved
+                    // region in the book pose and collapsed the form, so we take the
+                    // system's split and accept some slack under the short mocks.
                     .splitArrangementLayoutRatio(0.42)
                 }
             }
@@ -309,14 +313,21 @@ struct ContentView: View {
 
     // MARK: - Device mocks (image frames + live bars)
 
+    // Side by side, both frames are normalized to the Duo's height (299) so the
+    // two tab-bar mocks read at the same height. The iPhone is the shorter/wider
+    // frame, so matching heights widens it while the Duo keeps its width; the row
+    // is then scaled to fit the pane upstream.
+    private let sideBySideMockHeight: CGFloat = 299
+    private var sideBySideIPhoneWidth: CGFloat { 342 * (sideBySideMockHeight / 183) }
+
     private var mocksColumn: some View {
         GeometryReader { geo in
             // Arrange the two mocks along the pane's long axis: side by side when
             // the pane is wider than tall (portrait's top canvas), stacked when
             // taller than wide (landscape's left column).
             let sideBySide = geo.size.width >= geo.size.height
-            let contentW: CGFloat = sideBySide ? (342 + 20 + 342) : 342
-            let contentH: CGFloat = sideBySide ? 299 : (183 + 20 + 299)
+            let contentW: CGFloat = sideBySide ? (sideBySideIPhoneWidth + 20 + 342) : 342
+            let contentH: CGFloat = sideBySide ? sideBySideMockHeight : (183 + 20 + 299)
             let scale = min(geo.size.width / contentW, geo.size.height / contentH, 1)
             mocks(sideBySide: sideBySide)
                 // Natural size -> scale -> reframe to the scaled size, so the
@@ -334,6 +345,8 @@ struct ContentView: View {
         if sideBySide {
             HStack(alignment: .top, spacing: 20) {
                 iPhoneMockView
+                    .scaleEffect(sideBySideMockHeight / 183, anchor: .topLeading)
+                    .frame(width: sideBySideIPhoneWidth, height: sideBySideMockHeight, alignment: .topLeading)
                 duoPassportMockView
             }
         } else {
