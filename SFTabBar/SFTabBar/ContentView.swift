@@ -8,11 +8,21 @@
 import SwiftUI
 import UIKit
 
+/// Which device frame the compact (single-mock) preview depicts. On a real
+/// device the bottom-bar vs. vertical-rail layout is system-driven; this only
+/// lets the preview show either, and does not change the generated code.
+enum PreviewDevice: String, CaseIterable, Identifiable {
+    case iPhone = "iPhone"
+    case duo = "iPhone Duo"
+    var id: String { rawValue }
+}
+
 struct ContentView: View {
 
     @State private var showingSheet = false
     @State private var colorScheme: ColorScheme? = nil
-        
+    @State private var previewDevice: PreviewDevice = .iPhone
+
     @State var quantity: Int = 5
     
     @State var progress: Float = 4
@@ -196,14 +206,22 @@ struct ContentView: View {
 
     // MARK: - Compact canvas
 
-    /// The iPhone mock sitting on the dot-grid paper, shared by both compact
-    /// layouts (pinned section header on iPhone, top safe-area inset on Duo).
+    /// The selected device mock sitting on the dot-grid paper, shared by both
+    /// compact layouts (pinned section header on iPhone, top safe-area inset on
+    /// Duo). The viewer picks iPhone or Duo via the Preview row.
+    @ViewBuilder
     private var compactCanvas: some View {
-        iPhoneMockView
-            .padding(.top, 2)
-            .padding(.bottom, 14)
-            .frame(maxWidth: .infinity)
-            .background(DotGridBackground(tint: tabs.tabTintColor))
+        Group {
+            if previewDevice == .duo {
+                duoPassportMockView
+            } else {
+                iPhoneMockView
+            }
+        }
+        .padding(.top, 2)
+        .padding(.bottom, 14)
+        .frame(maxWidth: .infinity)
+        .background(DotGridBackground(tint: tabs.tabTintColor))
     }
 
     // MARK: - Form
@@ -221,6 +239,23 @@ struct ContentView: View {
                     .font(.footnote).foregroundColor(.secondary).textCase(.uppercase)
                     .padding(.horizontal, 16).padding(.bottom, 8)
                 VStack(spacing: 0) {
+                    // Compact layouts show a single mock, so let the viewer pick
+                    // which device frame it depicts. Regular-width layouts already
+                    // show both mocks, so the row is hidden there.
+                    if hSize != .regular {
+                        HStack {
+                            Text("Preview"); Spacer()
+                            Picker("", selection: $previewDevice) {
+                                ForEach(PreviewDevice.allCases) { device in
+                                    Text(device.rawValue).tag(device)
+                                }
+                            }
+                            .pickerStyle(MenuPickerStyle()).frame(width: 170, alignment: .trailing)
+                        }
+                        .padding(.horizontal, 16).padding(.vertical, 12)
+                        .background(Color(.secondarySystemGroupedBackground))
+                        Divider().padding(.leading, 16)
+                    }
                     // Label Color removed: iOS 27 owns the unselected item color under
                     // Liquid Glass, so exposing it would promise something the bar can't do.
                     HStack {
