@@ -9,11 +9,6 @@ import SwiftUI
 import UIKit
 
 struct ContentView: View {
-    
-    init() {
-        UINavigationBar.appearance().largeTitleTextAttributes = [.foregroundColor: UIColor.systemPink]
-        UINavigationBar.appearance().titleTextAttributes = [.foregroundColor: UIColor.systemPink]
-        }
 
     @State private var showingSheet = false
     @State private var colorScheme: ColorScheme? = nil
