@@ -91,12 +91,9 @@ struct ContentView: View {
         .frame(width: 50, height: 50)
         .overlay(alignment: .topTrailing) {
             if config.canShowBadge && config.hasNotification {
-                Text(config.badgeText)
-                    .font(Font.system(size: 11))
-                    .foregroundStyle(Color(.white))
-                    .padding(.horizontal, 5)
-                    .frame(minWidth: 18, minHeight: 18)
-                    .background(Color(.red), in: Capsule())
+                // The 50pt box corner already lands the badge on the circle's
+                // top-right arc, so no extra float -- just the shared sizing.
+                MockBadge(text: config.badgeText, iconSize: 20)
             }
         }
     }
@@ -426,7 +423,7 @@ struct ContentView: View {
             .scaledToFit()
             .frame(width: w, height: h)
             .overlay(alignment: .bottomTrailing) {
-                VStack(spacing: 5) {
+                VStack(spacing: detachedIndex == nil ? 0 : 5) {
                     VStack(spacing: 2) {
                         ForEach(capsuleIndices, id: \.self) { index in
                             duoRailIcon(at: index)
@@ -435,9 +432,15 @@ struct ContentView: View {
                     .padding(.vertical, 4)
                     .padding(.horizontal, 3)
                     .glassEffect(.clear, in: Capsule())
-                    if let detached = detachedIndex {
-                        detachedItem(at: detached).scaleEffect(0.72)
-                    }
+                    // The detached (search/prominent) item is wider than the capsule.
+                    // Reserve its WIDTH even when absent -- collapsing only its height
+                    // -- so the rail's footprint doesn't shrink and let the trailing-
+                    // anchored capsule slide right. Vertically the capsule still drops
+                    // to the bottom when there's no search/prominent tab.
+                    detachedItem(at: detachedIndex ?? selectedIndex ?? 0)
+                        .scaleEffect(0.72)
+                        .frame(height: detachedIndex == nil ? 0 : nil)
+                        .opacity(detachedIndex == nil ? 0 : 1)
                 }
                 .padding(.trailing, w * 0.045)
                 .padding(.bottom, h * 0.14 - 4)
@@ -477,8 +480,9 @@ struct ContentView: View {
     private func duoRailIcon(at index: Int) -> some View {
         let config = tabs.tabs[index]
         let isSelected = index == selectedIndex
+        let railIconSize: CGFloat = 15
         Image(systemName: config.icon)
-            .font(.system(size: 15, weight: config.fontWeight))
+            .font(.system(size: railIconSize, weight: config.fontWeight))
             .foregroundStyle(isSelected ? tabs.tabTintColor : .primary)
             .frame(width: 32, height: isSelected ? 44 : 34)
             .background {
@@ -486,9 +490,12 @@ struct ContentView: View {
                     Capsule().glassEffect(.regular.interactive(), in: Capsule()).opacity(0.6)
                 }
             }
+            // Badge sits above its own item, right edge flush with the rail's
+            // right edge (x:+5 reaches the capsule's padded edge from the 32pt frame).
             .overlay(alignment: .topTrailing) {
                 if config.canShowBadge && config.hasNotification {
-                    Circle().fill(.red).frame(width: 6, height: 6).offset(x: 0, y: 1)
+                    MockBadge(text: config.badgeText, iconSize: 19)
+                        .offset(x: 5, y: -3)
                 }
             }
     }
@@ -524,6 +531,40 @@ struct DotGridBackground: View {
     }
 }
 
+/// Red numbered notification badge for the device mocks, matching iOS 27's
+/// tab-bar badge: a small red capsule with the count, sitting on the icon's
+/// top-right corner. The native bar shows the number, not a bare dot.
+///
+/// Sized as a ratio of the icon it sits on (measured ~0.75x off the live
+/// preview), so it adapts to each mock's icon size rather than using fixed
+/// points. Callers place it with `.badgeOffset(iconSize:)` on the icon's
+/// top-trailing corner.
+struct MockBadge: View {
+    let text: String
+    /// Point size of the icon glyph this badge decorates.
+    var iconSize: CGFloat
+
+    private var height: CGFloat { iconSize * 0.75 }
+
+    var body: some View {
+        Text(text.isEmpty ? "1" : text)
+            .font(.system(size: height * 0.64, weight: .semibold))
+            .foregroundStyle(Color(.white))
+            .padding(.horizontal, height * 0.2)
+            .frame(minWidth: height, minHeight: height)
+            .background(Color(.red), in: Capsule())
+    }
+}
+
+extension View {
+    /// Float a top-trailing badge up and out so its lower corner overlaps the
+    /// icon's top-right, matching the native placement. Proportional to the
+    /// icon size so it tracks the badge's own scale.
+    func badgeOffset(iconSize: CGFloat) -> some View {
+        offset(x: iconSize * 0.30, y: -iconSize * 0.30)
+    }
+}
+
 struct SFTabBar {
     static func tabItem(icon: String, label: String, color: Color, weight: Font.Weight, isSelected: Bool = false, hasNotification: Bool = false, notificationValue: String = "") -> some View {
         return TabItemView(icon: icon, label: label, color: color, weight: weight, isSelected: isSelected, hasNotification: hasNotification, notificationValue: notificationValue)
@@ -550,15 +591,10 @@ struct TabItemView: View {
                 .font(.system(size: 16, weight: weight))
                 .overlay(alignment: .topTrailing) {
                     if hasNotification {
-                        Text(notificationValue.isEmpty ? "1" : notificationValue)
-                            .font(Font.system(size: 10))
-                            .foregroundStyle(Color(.white))
-                            .padding(.horizontal, 4)
-                            .frame(minWidth: 16, minHeight: 16)
-                            .background(Color(.red), in: Capsule())
-                            // Sit on the icon's top-right corner, overlapping the
-                            // glyph, matching where iOS 27 draws the badge.
-                            .offset(x: 6, y: -6)
+                        // Sit on the icon's top-right corner, overlapping the
+                        // glyph, matching where iOS 27 draws the badge.
+                        MockBadge(text: notificationValue, iconSize: 16)
+                            .badgeOffset(iconSize: 16)
                             .transition(.scale.combined(with: .opacity))
                     }
                 }
