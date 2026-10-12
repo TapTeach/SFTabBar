@@ -241,7 +241,7 @@ struct ContentView: View {
         LazyVStack(spacing: 20) {
             VStack(alignment: .leading, spacing: 0) {
                 HStack {
-                    Text("The Tab Bar is a non-interactive preview. Tap the \(Image(systemName: "play")) button to see it in action.")
+                    Text("The Tab Bar above is a non-interactive preview. The live iPhone Duo tab bar is only available when run on an iPhone Duo.")
                         .font(.footnote).foregroundColor(Color.secondary)
                 }
                 .padding(.horizontal, 16).padding(.bottom, 18.0)
@@ -470,7 +470,9 @@ struct ContentView: View {
             }
             .padding(.horizontal, 6)
         }
-        .frame(height: 30)
+        // Match the height of a search/prominent (detached) rail item, like the
+        // live passport: that item is a 50pt box shown at the rail's 0.72 scale.
+        .frame(height: 50 * 0.72)
     }
 
     // One rail item: small, with a neutral glass pill behind the selected one
@@ -543,8 +545,11 @@ struct MockBadge: View {
     let text: String
     /// Point size of the icon glyph this badge decorates.
     var iconSize: CGFloat
+    /// Badge height as a fraction of the icon glyph. Measured ~0.80x off the
+    /// live iPhone bar; the Duo rail reads a touch smaller, so it keeps 0.75.
+    var ratio: CGFloat = 0.75
 
-    private var height: CGFloat { iconSize * 0.75 }
+    private var height: CGFloat { iconSize * ratio }
 
     var body: some View {
         Text(text.isEmpty ? "1" : text)
@@ -552,6 +557,10 @@ struct MockBadge: View {
             .foregroundStyle(Color(.white))
             .padding(.horizontal, height * 0.2)
             .frame(minWidth: height, minHeight: height)
+            // Take the ideal width so multi-digit counts ("99", "999") grow the
+            // capsule instead of truncating to an ellipsis when the overlay
+            // proposes only the icon's width.
+            .fixedSize(horizontal: true, vertical: false)
             .background(Color(.red), in: Capsule())
     }
 }
@@ -589,12 +598,19 @@ struct TabItemView: View {
                 .frame(width: 16.0, height: 16.0)
                 .foregroundColor(isSelected ? color : .primary)
                 .font(.system(size: 16, weight: weight))
-                .overlay(alignment: .topTrailing) {
+                .overlay(alignment: .topLeading) {
                     if hasNotification {
-                        // Sit on the icon's top-right corner, overlapping the
-                        // glyph, matching where iOS 27 draws the badge.
-                        MockBadge(text: notificationValue, iconSize: 16)
-                            .badgeOffset(iconSize: 16)
+                        // Native placement, measured off the live iPhone bar:
+                        // the badge's LEFT edge sits ~at the glyph's right edge
+                        // (a hair of corner overlap) and it grows rightward, so
+                        // two/three digits hang off the corner instead of
+                        // covering the icon. Its vertical centre rides the
+                        // glyph's top edge. Anchored top-leading and offset by
+                        // the icon width so it tracks any digit count (overlay
+                        // alignment-guide remaps don't take here).
+                        let badgeRatio: CGFloat = 0.90
+                        MockBadge(text: notificationValue, iconSize: 16, ratio: badgeRatio)
+                            .offset(x: 14, y: -16 * badgeRatio / 2)
                             .transition(.scale.combined(with: .opacity))
                     }
                 }
