@@ -16,7 +16,7 @@ struct DocumentionView: View {
     var body: some View {
         List {
             Section(header: Text("Tab Bar Resources")) {
-                Link("Apple HIG Tab Bars", destination: URL(string: "https://developer.apple.com/design/human-interface-guidelines/ios/bars/tab-bars/")!)
+                Link("Apple HIG Tab Bars", destination: URL(string: "https://developer.apple.com/design/human-interface-guidelines/tab-bars")!)
                 Link("TabView", destination: URL(string: "https://developer.apple.com/documentation/swiftui/tabview")!)
                 Link("TabSearchActivation", destination: URL(string: "https://developer.apple.com/documentation/swiftui/tabsearchactivation")!)
                 Link("TabBarMinimizeBehavior", destination: URL(string: "https://developer.apple.com/documentation/swiftui/tabbarminimizebehavior")!)
